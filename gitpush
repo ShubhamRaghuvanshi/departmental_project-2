@@ -1,6 +1,7 @@
 
 cd ~/Downloads
 file=project2_localrepo 
+
 if [ ! -d "$file" ]
 then    
   git init "$file"
@@ -13,7 +14,9 @@ fi
 cd $project2folder
 cp Analyser.cc Analyser.h particleproperty.cc ./p2report/p2Report.tex ../main136.cc ~/Downloads/project2_localrepo
 cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc zpttEventAnalysis.cc ~/Downloads/project2_localrepo
-cd ~/Downloads/project2_localrepo 
+
+cd ~/Downloads
+cd "$file" 
 git add -A
 git status
 git diff

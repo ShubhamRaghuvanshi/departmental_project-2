@@ -1,16 +1,15 @@
 
 cd ~/Downloads
-if [ ! -d "$file" ]
+file=project2_localrepo
+if [ -d "$file" ]
 then
-  rm -rf project2_localrepo
+  rm -rf "$file"
 fi
 
-git init project2_localrepo
-cd project2_localrepo
+git init "$file"
+cd "$file"
 git remote add origin "git@github.com:ShubhamRaghuvanshi/departmental_project-2.git"
 git pull origin master  
-
-cd project2_localrepo
 
 cp Analyser.cc Analyser.h particleproperty.cc $project2folder
 cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc zpttEventAnalysis.cc $project2folder
