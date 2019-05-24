@@ -1,0 +1,225 @@
+\documentclass[12pt,a4paper]{article}		% Necessary line
+\usepackage{graphicx}	
+\usepackage{grffile}	% Necessary line
+\usepackage{mathtools}
+\usepackage{breqn}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+
+\usepackage[margin=.6in,footskip=0.25in]{geometry}
+
+
+\title{\textbf { Study of production of leptophobic $Z^\prime$ boson in assosiation with top pair in pp collisions at 14 TeV.} }
+ 
+ 
+\author{Shubham P. Raghuvanshi\\Department of High Energy Physics, TIFR, Mumbai.}
+
+% Start the document
+\begin{document}		% Necessary line: starts the document
+\maketitle
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+\thispagestyle{empty}
+\listoffigures
+\newpage
+\section{Introduction}
+
+
+The hypothetical $Z^\prime$ boson is required by many extensions of the Standard Model \cite{paul,zpdg}, simplest of these models are U(1) extension of SM which require an additional massive vector boson which couples to standard model fermions. It is electrically-neutral, color singlet spin 1 particle. The mass of $Z^\prime$ in principle depends upon it's coupling to various SM and BSM particles, which are model dependant. Therefore apart from discovering $Z^\prime$ is also to be identified with the correct model.
+
+In this work we analyse events in which $Z^\prime$ is produced in pp collision at $\sqrt{s} = 14$ TeV in assosiation with top anti-top pair \ref{fynnmann}. We chose B-L model \cite{bl} for this study since it is one of the simplest U(1) extensions of the SM. However the methods used for analysis are fairly general. Using MSTW2008lo68cl\_nf3 \cite{pdfsets} parton distribution functions(PDF), with $M_{Z^\prime} = 1$ TeV and $M_t = 172$ GeV, $ \text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} provides the cross section for this process to be $ \sigma_{B-L}( p p \to Z^\prime t \bar{t}) = 0.000183 \pm 1.3905 \times 10^{-6}$(stat) pb. In this analysis we will be interested mainly in the $Z^\prime \to t \bar{t}$ decay channel, the final state therefore contains 4 top quarks with the BL cross section of $ \sigma_{B-L}(pp \to Z^\prime t \bar{t} \to t \bar{t}t \bar{t}) = 9.877 \times 10^{-8} \pm  1.5 \times 10^{-10}$ pb. The most dominant background for this is 4 top QCD background with the SM cross section of $\sigma_{SM}(pp \to t \bar{t}t \bar{t}) = 0.01182 \pm 3.19 \times 10^{-5}$ pb. 
+
+	\begin{figure}[h] 	 		
+		\begin{centering}	
+			\includegraphics[scale=0.2]{./gg2ztt0.png}				\includegraphics[scale=0.2]{./gg2ztt1.png}
+			\includegraphics[scale=0.2]{./gg2ztt0.png} \\ 			
+			\includegraphics[scale=0.2]{./ss2ztt0.png} 
+			\includegraphics[scale=0.2]{./ss2ztt1.png}
+			\caption{ LO Fynnman diagrams for the parton level processes $gg \to Z^\prime t \bar{t}$, $qq \to Z^\prime t \bar{t}$. }
+			\label{fynnmann}
+			\centering
+		\end{centering}
+	\end{figure}   
+
+\newpage 
+
+\section{ $Z^\prime$ phenomenonology and current mass constraints }
+
+
+ $Z^\prime$ boson is predicted in many extensions of the Standard Model (SM). Each with different coupling to the SM fermions. In general generation-dependant couplings of $Z^\prime$ to the SM fermions is given by 
+ 
+ \begin{equation}
+	 Z_\mu^\prime \left[ \sum_{i=1,j=1}^{i=3,j=3} \left(g_f^L \right)_{ij} \bar{f}_L^i \gamma^\mu f_L^j + \left(g_f^R \right)_{ij} \bar{f}_R^i \gamma^\mu f_R^j	  \right]
+ \end{equation} 
+ 
+ where the indices i and j run over all three generations and f = (u, d, e, $\nu$). The coefficients $\left(g_f^L \right)_{ij}$ and $\left(g_f^R \right)_{ij}$ are real dimentionless parameters, and analogous to the weak hypercharge of elecro-weak interations the gauge charges $z_{fi}^L$, $z_{fi}^R$ determine all the couplings and mass and decay width of $Z^\prime$ \cite{zphysics,zpheno2}. 
+    
+    
+ \begin{itemize}
+ 	\item Simple U(1) extensions of the standard model, also known as Sequential Standard Model(SSM) \cite{zpheno1}, which assumes $Z^\prime$ couplings to SM fermions to be the same as $Z^0$ but with a polemass of the order of TeV. These theories have the conserved gauge charges (as in column 1) proportional to the baryon number minus $x$ times the lepton number $(B - x L)$, and are in general known as $U(1)_{B-xL}$ extensions of the standard model \cite{zpdg}.
+ 	
+ 	\begin{figure}[h]
+ 		\begin{centering}	
+ 			\includegraphics[scale=0.5]{./zpcharges.png} 
+ 			\caption{ Examples of generation-independant U(1) gauge charges for quarks and leptons, here $x$ is any rational number.}
+ 			\label{U1charges}
+ 			\centering
+ 		\end{centering} 		
+ 	\end{figure}   
+ 	   
+ 	$Z^\prime$ is leptophobic for $x=0$, i.e. it only decays to quarks and the interactions preserve baryon number, for $x>>1$ it is quark-phobic. The latter possibilitiy is being ruled out by various collider physics experiments. The case where $x=1$ is particularly important, it gives $U(1)_{B-L}$,  the only anomaly-free global symmetry of the Standard Model, easily promoted to a local symmetry by introducing three right-handed neutrinos, which automatically make neutrinos massive. $B-L$ symmetry remains the only unbroken symmetry of the SM so far \cite{bl}.   	  
+ 	   
+	\item The second column shows charges for $U(1)_{10+x5}$, these symmetry groups are part of $E_6$ Grand Unified Theories(GUT) \cite{zpheno4}. This set leads to $	Z - Z^\prime$ mass mixing close to electroweak scale. Under the third set,$U(1)_{d−xu}$, the weak-doublet quarks are neutral, and the ratio of $u_R$ and $d_R$ charges is $−x$.  For $x= 1$ this is the “right-handed” group $U(1)_R$. 	
+ \end{itemize} 
+   
+   The existance of this $U(1)^\prime$ symmetry will have profound implications of for particle physics and cosmology. The most important implications include an extended Higgs sector, extended neutralino sector, and solution to the $\mu$ problem in supersymmetry, exotic fermions needed for anomaly cancellation, possible flavor changing neutral current effects, neutrino mass, possible $Z^\prime$ mediation of supersymmetry breaking, and cosmological implications for cold dark matter and electroweak baryogenesis \cite{paul}.     
+   
+\newpage  
+
+	In general $Z^\prime$ couples to all the SM and some of the BSM particles, however the current analysis at LHC are motivated by pure SM contribution in which $Z^\prime$, couples to all the SM fermions, namely the minimal U(1) extensions of the SM. Along these lines, the ATLAS and CMS collaborations have searched for $Z^\prime$ bosons by investigating dilepton and dijet final state in detail. By using dilepton data at 13 TeV, the ATLAS collaboration \cite{atlas} set the mass exclusion limits $M_{Z^\prime}>4.5$ TeV(SSM) and $M_{Z^\prime}′>3.8-4.1 $ TeV (GUT-inspired models), whereas CMS obtained $M_{Z^\prime}>4.0 $ TeV(SSM) and $M_{Z^\prime}>3.5$ TeV (GUT-inspired models) \cite{cms}.  For dijets,  the limits are much milder and read $M_{Z^\prime} > 2.1-2.9$ TeV (ATLAS) \cite{atlasjet} and $M_{Z^\prime} >2.7$ TeV (CMS) \cite{cmsjet}.
+	
+	The U(1) supersymmetric models however by including supersymmetric decay modes lowers the branching ratios into SM final states and impact the $Z^\prime$ mass limits by $200-300$ GeV \cite{zsusy}. 
+
+\newpage
+
+\section{Top quark reconstruction}
+
+The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state, one of which is b-tagged and other two are W-tagged. If the parent top has low $p_T$ then in the event we can find three jets which are well separated from each other in $(y,\phi)$ plane, and on the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear, and instead of having three separate AK4 jets in final state we may get only one AK10 FatJet, this situation is depicted in fig:\ref{boost}    
+
+ 	\begin{figure}[h]
+ 		\begin{centering}	
+ 			\includegraphics[scale=0.4]{./topboost.png} 
+ 			\caption{}
+ 			\label{boost}
+ 			\centering
+ 		\end{centering} 		
+ 	\end{figure}   
+
+To quantify things lets consider the angular separations between partons in the process $ t \to w b \to q \bar{q} b$ as a function of the $p_T^{top}$ fig:\ref{rwbt}. A falling trend in the angular separation $ \left( \Delta R = \sqrt{\Delta y^2 + \Delta \phi^2}\right)$ as we go to higher $p_T^{top}$  is apparent. Rougly speaking $\Delta R_{wb}^{avg}< 1.5$, and $\Delta R_{qq}^{avg}< 0.8 $ for $p_T^{top} > 200$ GeV. Therefore the top tagging algorithms that are aimed at reconstructing low $p_T$ top work on the assumption that it would show up in an event as one b-tag and two distinct W-tag jets, this assumption grows weaker as $p_T$ of the top increases, and the effeciencies of such algorithms is also expected to be going downhill, for our analysis however we will be looking at the tops in the decays $Z^\prime \to t \bar{t}$, which in general may be quite boosted depending upon the mass of the $Z^\prime$ fig:\ref{toppt}.   
+
+
+ 	\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/partons/top_pT.png} 
+		\caption{ $p_T$ of the top quarks in the decay $ Z^\prime \to t \bar{t}$. The histograms show a Lorentzian peak around $\frac{M_{Z^\prime}}{2}$ , for three values of $M_{Z^\prime} = (0.5,1.0 ,2.0)$ TeV}
+		\label{toppt}
+		\centering
+	\end{centering} 		
+\end{figure}   
+
+
+\newpage
+ 	\begin{figure}[h]
+ 		\begin{centering}	
+ 			\includegraphics[scale=0.15]{./rwbt.png} 
+ 			\includegraphics[scale=0.15]{./rqqw.png}
+ 			\includegraphics[scale=0.15]{./rqqt.png}
+ 			\caption{Scatter plot between angular separation between two sister particles in $(y,\phi)$ plane $\Delta R = \sqrt{\Delta y^2 + \Delta \phi^2} $ , and the $p_T$ of the mother particle in the processes $t \to w b $(left), $w \to q \bar{q}$(right). A falling trend in $\Delta R$ is apparant as you go to high $p_T$ of the parent particle.}
+ 			\label{rwbt}
+ 			\centering
+ 		\end{centering} 		
+ 	\end{figure}   
+ 
+ 
+\subsection{Reconstruction of low $p_T$ top jets}
+
+Low $p_T$ top 
+
+
+\subsection{QCD background}
+
+\newpage
+
+\section{Event Selection}
+\newpage
+\section{4 Top QCD background}
+\newpage
+\section{Results}
+\newpage
+\section{Conclusion}
+\newpage
+\section{Aknowledgement}	 
+	\newpage 
+
+   Top jets are Jet reconstruction techniques are used in order to reconstruct the properties of the top     
+
+We also look at dominant background for this process, which is QCD.  Current LHC energy $\sqrt{s} = 14$ is assumed. 
+
+
+Out of which one top anti-top quark pair( which came from $Z^\prime$ decay ) is expected to be boosted more than the other  
+
+
+ 
+expected to be greater than 209 GeV .
+
+
+  All currentZ′analyses at the LHC are however guided by non-supersymmetric considerations in whichtheZ′boson only decays into SM particles  
+
+Z′bosons with couplings to quarks maybe produced at hadron colliders in the s-channel and would show up as resonances in the invariant mass distribution of the decay product
+ 
+
+with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the order of TeV).     
+
+\newpage
+\begin{thebibliography}{}
+	\bibitem{paul} Langacker P., \href{https://arxiv.org/abs/0801.1345v3}{The Physics of Heavy $Z^\prime$ Gauge Bosons}, arXiv:0801.1345, 7-16
+	
+	\bibitem{zpdg}  B.A. Dobrescu (Fermilab) and S. Willocq(Univ. of Massachusetts), \href{http://pdg.lbl.gov/2017/reviews/rpp2017-rev-zprime-searches.pdf}{$Z^\prime$-Boson Searches}, September 2017.
+	
+	\bibitem{atlas} The ATLAS Collaboration, \href{https://arxiv.org/pdf/1707.02424.pdf}{Search for new high-mass phenomena in the dilepton final state using 36 $fb^{−1}$ of proton–protoncollision data at $\sqrt{s}=13$ TeV with the ATLAS detector.}, arXiv:1707.02424v2  [hep-ex]  15 Nov 2017.
+	
+	\bibitem{cms} CMS Physics Analysis Summary, \href{http://inspirehep.net/record/1479666/files/EXO-16-031-pas.pdf?version=1}{Search for a high-mass resonance decaying into a dilepton final state in 13 $fb^{−1}$ of pp collisions at $\sqrt{s}=13$ TeV.}, 2016/08/05
+	  
+	\bibitem{atlasjet} ATLAS Collaboration, \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.96.052004 }{Search for new phenomena in dijet events using $37fb^{-1}$ of pp collision data collected at $\sqrt{s}=13$ TeV with the ATLAS detector.}, 28 March 2017.  
+	
+	\bibitem{cmsjet} The CMS Collaboration, \href{https://www.sciencedirect.com/science/article/pii/S0370269317301028?via%3Dihub}{Search for dijet resonances in proton–proton collisions at and constraints on dark matter and other models},14 February 2017 
+		
+	\bibitem{zpheno1} R. Foot(a),X.-G. He1(b),H. Lew2(c)and R. R. Volkas3(d), \href{https://arxiv.org/pdf/hep-ph/9401250.pdf}{Model for a LightZ′Boson}, arXiv:hep-ph/9401250v1, 13 Jan 1994	
+	
+	\bibitem{zphysics} F. DEL AGUILA,  \href{https://arxiv.org/pdf/hep-ph/9404323.pdf}{The Physics of $Z^\prime$ bosons},Departamento de F ́ısica Te ́orica y del Cosmos, Universidadde GranadaGranada, 18071, Spain, arXiv:hep-ph/9404323v1  22 Apr 1994
+	
+	\bibitem{zpheno2} Thomas G. Rizzo, \href{https://arxiv.org/pdf/hep-ph/0610104.pdf}{$Z^\prime$ Phenomenology and the LHC},  Stanford Linear Accelerator Center,2575 Sand Hill Rd., Menlo Park, CA, 94025, arXiv:hep-ph/0610104v1,  9 Oct 2006
+	
+	\bibitem{zpheno3} Joseph D. Lykken, \href{https://arxiv.org/pdf/hep-ph/9610218.pdf}{$Z^\prime$ Bosons and Supersymmetry} , Theoretical Physics Dept., MS106Fermi National Accelerator Laboratory, arXiv:hep-ph/9610218v3  25 Oct 1996
+	
+	\bibitem{zpheno4} David London, Jonathan L.Rosne \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.34.1530}{Extra gauge bosons in $E_6$}, 01/09/1986
+	
+	\bibitem{bl} Julian Heeck, \href{https://arxiv.org/pdf/1408.6845.pdf}{Unbroken B − L Symmetry}, arXiv:1408.6845v2 10 Nov 2014, Phys. Lett. B739, 256–262 (2014) 
+	
+	\bibitem{loophole} Jack Y. Araza, Gennaro Corcellab, Mariana Frankaand Benjamin Fuksc,d,e , \href{https://arxiv.org/pdf/1711.06302.pdf}{Loopholes in $Z^\prime$ searches at the LHC:exploring supersymmetric and leptophobic scenarios}, arXiv:1711.06302v2, 16 Feb 2018 
+	
+	\bibitem{zsusy} Gennaro Corcella, \href{https://arxiv.org/pdf/1307.1040.pdf}{Searching for supersymmetry in $Z^\prime$ decays}, arXiv:1307.1040v2, 5 Jul 2013
+	
+	\bibitem{pdfsets} \href{https://lhapdf.hepforge.org/pdfsets}{LHAPDF 6.2.3}
+	
+	\bibitem{blref1} \href{https://arxiv.org/abs/1811.11452}{arXiv:1811.11452}
+	
+	\bibitem{blref2} \href{https://arxiv.org/abs/1804.04075}{arXiv:1804.04075}
+	
+	\bibitem{blref3} \href{https://arxiv.org/abs/0812.4313}{Phenomenology of the minimal B-L extension of the Standard model: Z' and neutrinos}, arXiv:0812.4313
+	
+	\bibitem{mad1} \href{https://arxiv.org/abs/1405.0301}{arXiv:1405.0301}
+	
+	\bibitem{mad2}
+	\href{https://arxiv.org/abs/hep-ph/0204244}{arXiv:hep-ph/0204244}
+	
+\end{thebibliography} 
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
