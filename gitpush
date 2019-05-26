@@ -1,0 +1,32 @@
+
+cd ~/Downloads
+file=project2_localrepo 
+filelocation=~/Downloads/"$file"
+
+if [ ! -d "$file" ]
+then    
+  git init "$file"
+  cd "$file"
+  git config --global user.name "Shubham Raghuvanshi"
+  git config --global user.email "raghuvanshi135@gmail.com"
+  git config --list  
+  git remote add origin "git@github.com:ShubhamRaghuvanshi/departmental_project-2.git"
+  git pull origin master --allow-unrelated-historie
+fi  
+     
+cd $project2folder
+cp Analyser.cc Analyser.h particleproperty.cc ./p2report/p2Report.tex ../main136.cc "$filelocation"
+cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc zpttEventAnalysis.cc "$filelocation"
+
+cd ~/Downloads
+cp gitpull gitpush "$filelocation"
+
+cd "$filelocation" 
+
+git add -A
+git status
+git diff
+git commit -m "$1"
+git push origin master
+
+

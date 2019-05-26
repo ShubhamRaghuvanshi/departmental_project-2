@@ -1,0 +1,30 @@
+
+cd ~/Downloads
+file=project2_localrepo
+projectname=departmental_project-2
+projectlink=git@github.com:ShubhamRaghuvanshi/"$projectname".git
+
+if [ ! -d "$file" ]
+then    
+  git init "$file"
+  cd "$file"
+  git config --global user.name "Shubham Raghuvanshi"
+  git config --global user.email "raghuvanshi135@gmail.com"
+  git config --list  
+  git clone "$projectlink"
+fi  
+
+
+cd "$file"
+rm -rf "$projectname"
+git clone "$projectlink"
+cd ../
+rm -rf "$projectname"
+cd "$file"
+mv "$projectname" ../
+
+#cp Analyser.cc Analyser.h particleproperty.cc $project2folder
+#cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc #zpttEventAnalysis.cc $project2folder
+#cp main136.cc $project2folder/../ 
+#cp p2Report.tex $project2folder/p2report
+
