@@ -21,7 +21,7 @@ int main() {
   vector<double> Px_hadrons, Py_hadrons, Pz_hadrons, E_hadrons;
  
  
-  int zmi=0;
+  int zmi=2;
  // for(zmi=0; zmi<3; zmi++){ 
  
    TTree *tree = new TTree("partons","partons");  
@@ -55,7 +55,7 @@ int main() {
     pythia.init();
 
     int nEvent=10, nFill=0; 
-    nEvent=500000;
+    nEvent=50000;
     
     for (int iEvent = 0;iEvent<nEvent; ++iEvent) {  
     

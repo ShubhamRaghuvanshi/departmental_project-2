@@ -37,10 +37,10 @@
       tops.push_back(parton[1]);
       cout<<"total partons read :"<<parton.size()<<endl;
       
-//      Draw1Histograms(parton[0],  foldername); 
-//      DrawdelRvspT( parton[1], parton[3], parton[4] ,foldername);
-//      DrawdelRvspT( parton[3], parton[7], parton[8] ,foldername);
-//      DrawdelRvspT( parton[1], parton[7], parton[8] ,foldername);
+      Draw1Histograms(parton[0],  foldername); 
+      DrawdelRvspT( parton[1], parton[3], parton[4] ,foldername);
+      DrawdelRvspT( parton[3], parton[7], parton[8] ,foldername);
+      DrawdelRvspT( parton[1], parton[7], parton[8] ,foldername);
 
       for(int i=0; i<parton.size(); i++){
       	parton[i].clear_properties();
