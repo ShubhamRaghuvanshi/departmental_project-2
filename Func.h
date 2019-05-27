@@ -32,25 +32,22 @@
   const double sigma_w = 2.0;
   const double sigma_top = 1.5;
 
+  const double delta_mw = 15.0;
+  const double delta_mtop = 10.0;
 
   double delR( TLorentzVector v1, TLorentzVector v2 );
   
-  int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B,ParticleProperty *TaggedTop );
+  int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TaggedTop );
   int topjetreco_chi( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B,ParticleProperty *TaggedTop );										
   int topjetreco_hep( vector<PseudoJet> jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *TaggedTop);
   
-  int topjetreco_hepTT( vector<PseudoJet> jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *Zpjet, int &t1,int &t2);
-   
+     
   void DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername );
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat);
-void hist_properties(TCanvas *c[], TH1F *h1[], TH1F *h2[], THStack *stack1[], THStack *stack2[], TLegend *leg1[], TLegend *leg2[], int mass_index, float coneradius );
-void hist_properties(TCanvas *c[], TH1F *h1[], THStack *stack1[], TLegend *leg1[], int mass_index, float coneradius,int n_hadronictop,int n_tagged  );
-  void HistAngularDistance(ParticleProperty part1, ParticleProperty part2, TCanvas *canvas_dist, TH1F *hist_dist[], THStack *stack[], TLegend *leg[], int mass_index, float coneradius );
-	void Draw1Histograms(ParticleProperty particle,  string foldername);
-  int DrawHistOnTop(vector<ParticleProperty> p, vector<string> histlabel,  string foldername  );	
-  void Draw4Histograms(vector<ParticleProperty> particle,  string foldername);
-  void DrawDividedHistograms(ParticleProperty particle1, ParticleProperty particle2,  string foldername);
-  void DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername);
+  int DrawHistograms(vector<ParticleProperty> particle, int drawoption, int mass_index,  string foldername);
+   
+
+//  void DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername);
   
 #endif
 

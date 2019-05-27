@@ -3,11 +3,7 @@
 #include "particleproperty.h"
 
 using namespace std;
-const int n_prop =10;
 
-ParticleProperty::ParticleProperty(){} 
-
-ParticleProperty::~ParticleProperty(){}
 
 ParticleProperty::ParticleProperty(vector<double> &px, vector<double> &py, vector<double> &pz, vector<double> &e, string name, string append){
 
@@ -31,6 +27,7 @@ ParticleProperty::ParticleProperty(vector<double> &px, vector<double> &py, vecto
     prop[9].push_back(v.Theta());
   } 
 }
+
 
 void ParticleProperty::push_back_momenta( TLorentzVector v){
     prop[0].push_back(v.Px());            
@@ -63,6 +60,22 @@ int ParticleProperty::push_back_momenta(vector<double> px, vector<double> py, ve
   return 0;              
 }
     
+void ParticleProperty::push_back_momenta(double px, double py, double pz, double e){
+
+    prop[0].push_back(px);            
+    prop[1].push_back(py);            
+    prop[2].push_back(pz);            
+    prop[3].push_back(e);
+                
+}
+    
+void ParticleProperty::clear_properties(){
+
+  for(int iprop=0; iprop<n_prop; iprop++ )
+    prop[iprop].clear();
+}    
+    
+    
 // constructs all properties given 4 momenta vectors
 void ParticleProperty::make_properties(){
 
@@ -89,6 +102,7 @@ void ParticleProperty::make_properties(){
 void ParticleProperty::setnames( string name, string append ){
   particle_name = name;
   particle_surname = append;
+  
 }
 
 
@@ -146,59 +160,60 @@ void ParticleProperty::PrintEntry(int n){
     cout<<setw(15)<<prop[i][n]  ;
   cout<<endl;
 } 
+
  
-//iprop is property index: iprop<nprop
-TH1F* HistProp(int iprop, int particle_id){
+TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
 
- float  prop_low[n_prop]  =   {-1500.0,  -1500.0,  -2500.0,  0.0,    0.0,    0.0 ,  -10.0, -10.0, -8.0,   0 };
- float  prop_high[n_prop]  =  { 1500.0,   1500.0,   2500.0,  2500.0, 100.0,  1500.0,  10.0 , 10.0,  8.0, 6.0 };
+  double  prop_low[n_prop]  ;
+  double  prop_high[n_prop]  ;
+
+  for(int iprop=0; iprop< n_prop; iprop++){
+    double temp_high = -9999999, temp_low = 9999999; 
+    for(int i=0; i < prop[iprop].size(); i++){
+      
+      if(temp_high <  prop[iprop][i] )     
+        temp_high = prop[iprop][i] ;
+    
+      if(temp_low >  prop[iprop][i] )     
+        temp_low = prop[iprop][i] ;   
+    }
+    prop_low[iprop] = temp_low;
+    prop_high[iprop] = temp_high;
+//cout<<"my prooooooooooooooooooooooooppertyyyyyyy :"<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<endl;
+  }
+    
+  if(particle_id == 0 ){
+
+        prop_low[0] = -2000.0;   prop_high[0] = 2000.0;
+        prop_low[1] = -2000.0;   prop_high[1] = 2000.0;
+        prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
+        prop_low[3] = 0.0;       prop_high[3] = 2500.0;
+        prop_low[4] = 400.0;     prop_high[4] = 2100.0;
+        prop_low[5] = 0.0;       prop_high[5] = 600.0;
+        prop_low[6] = -10.0;     prop_high[6] = 10.0;
+        prop_low[7] = -10.0;     prop_high[7] = 10.0;
+        prop_low[8] = -3.2;      prop_high[8] = 3.2;
+        prop_low[9] = 0.0;       prop_high[9] = 3.2;         
+  }
+  if(particle_id == 1 ){
+
+        prop_low[0] = -2000.0;   prop_high[0] = 2000.0;
+        prop_low[1] = -2000.0;   prop_high[1] = 2000.0;
+        prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
+        prop_low[3] = 0.0;       prop_high[3] = 2500.0;
+        prop_low[4] = 100.0;       prop_high[4] = 240.0;
+        prop_low[5] = 0.0;       prop_high[5] = 600.0;
+        prop_low[6] = -10.0;     prop_high[6] = 10.0;
+        prop_low[7] = -10.0;     prop_high[7] = 10.0;
+        prop_low[8] = -3.2;      prop_high[8] = 3.2;
+        prop_low[9] = 0.0;       prop_high[9] = 3.2;         
+  }
+
+
   
-//z
-if(particle_id == 0 ){
-      prop_low[4] = 450.0;   prop_high[4] = 2500.0;
-      prop_low[3] = 300.0;   prop_high[3] = 4500.0;
-      prop_low[5] = 0.0;     prop_high[5] = 600.0;
-      prop_low[2] = -4500.0; prop_high[2] = 4500.0;          
-}
-//top
-else if(particle_id == 1 ){
-    prop_low[4] = 150.0;   prop_high[4] = 200.0;
-}
-//w
-else if(particle_id == 2 ){
-   prop_low[4] = 20.0;   prop_high[4] = 140.0; 
-}
- //b 
-else if(particle_id == 3 ){
-  prop_low[4] = 0.0;   prop_high[4] = 150.0; 
-}
-
-else if(particle_id == 4 ){
-  prop_low[4] = 100.0;   prop_high[4] = 250.0; 
-}
-// hadron
-else if(particle_id == 5 ){
-  prop_low[0] = -100.0;   prop_high[0] = 100.0; 
-  prop_low[1] = -100.0;   prop_high[1] = 100.0;
-  prop_low[2] = -500.0;   prop_high[2] = 500.0;
-  prop_low[3] = 0.0;      prop_high[3] = 300.0;
-  prop_low[4] = 0.0;      prop_high[4] = 20.0;
-  prop_low[5] = 0.0;      prop_high[5] = 50.0;
-}
-else if(particle_id == 6 ){
-  prop_low[0] = -2500.0;   prop_high[0] = 2500.0; 
-  prop_low[1] = -2500.0;   prop_high[1] = 2500.0;
-  prop_low[2] = 0.0;   prop_high[2] = 2500.0;
-  prop_low[3] = 0.0;      prop_high[3] = 2500.0;
-  prop_low[4] = 0.0;      prop_high[4] = 20.0;
-  prop_low[5] = 0.0;      prop_high[5] = 1500.0;
-}
-
-else{cout<<"new particle "<<endl;}
-
   int prop_bin[n_prop]  =  {100,  100,  100, 100, 100, 100 , 100, 100, 50, 50 };
 
-  char name[50];
+  char name[100];
   sprintf(name,"%s_%s%s",particle_name.c_str(), property[iprop].c_str(), particle_surname.c_str());  
   TH1F *hist  = new TH1F(name,name, prop_bin[iprop], prop_low[iprop], prop_high[iprop] );
 
@@ -206,7 +221,10 @@ else{cout<<"new particle "<<endl;}
     hist->Fill( prop[iprop][i] ) ;
   }
 
-//cout<<hist->GetName()<<setw(20)<<particle_name[iprop]<<setw(20)<<property[iprop]<<setw(20)<<name<<endl;
+  sprintf( name, "%s^{%s}", propXaxis[iprop].c_str() , particle_name.c_str() );   
+  
+  hist->GetXaxis()->SetTitle(name);
+  
   return hist;
 }
 
@@ -215,8 +233,23 @@ string ParticleProperty::GetPropName(int iprop){ return property[iprop]; }
 string ParticleProperty::GetPartName(){ return particle_name; }
 string ParticleProperty::GetPartSurname(){ return particle_surname; }
 
+TLorentzVector ParticleProperty::GetLorentzVector(int i){
+  TLorentzVector v;
+  v.SetPxPyPzE( prop[0][i], prop[1][i], prop[2][i], prop[3][i]);
+  return v;
+}
 
+vector<TLorentzVector> ParticleProperty::GetLorentzVector(){
 
+  vector<TLorentzVector> v_vec;
+  TLorentzVector v;
+  
+  for(int i=0; i<prop[0].size(); i++){
+    v.SetPxPyPzE( prop[0][i], prop[1][i], prop[2][i], prop[3][i]);
+    v_vec.push_back(v);
+  }
+  return v_vec;
+}
 
 
 

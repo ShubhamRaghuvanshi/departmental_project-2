@@ -43,14 +43,12 @@ class ParticleProperty{
     void push_back_momenta( TLorentzVector v);
 	
 		void push_back_momenta(double px, double py, double pz, double e);
-
     void push_back_momenta( vector<TLorentzVector> v);
 
     TLorentzVector GetLorentzVector(int i);
     vector<TLorentzVector> GetLorentzVector();
 
     int push_back_momenta(vector<double> px, vector<double> py, vector<double> pz, vector<double> e);
-        
         
     void add_momenta(ParticleProperty p1, ParticleProperty p2);    
     void make_properties();

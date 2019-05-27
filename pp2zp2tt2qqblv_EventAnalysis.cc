@@ -2,52 +2,55 @@
   #include "particleproperty.h"
   #include "Analyser.h"
   #include "Func.h" 
+  #include <time.h>
 
   using namespace std;
   using namespace fastjet;
 
   int main(){
-  
+    clock_t t;
     //######################################## Initialize Analyser object #####################
 
-    vector<ParticleProperty> parton, tops;
-       
-    string partonnames[9] = {"z", "top", "topbar", "wp", "b", "wm", "bm", "q", "qb"};
+    vector<ParticleProperty> parton, tops, top1;
+      
+    string partonnames[9] = {" Z'", "Top", "Topbar", "W+", "b", "W-", "bm", "q", "qb"};
     int z_mass[3] = {500, 1000, 2000};
     Analyser analyser[3];
-    char filename[100],foldername[200], histname[100];
+    char filename[100],foldername[200];
     
-    vector<string> histlabel;
         
     for(int iFile=0; iFile<3; iFile++){
     
       sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[iFile] );
-      sprintf(histname, " M_{Z'} = %d GeV", z_mass[iFile] );
-      histlabel.push_back(histname);
       
       analyser[iFile].SetFile(filename);
       sprintf(foldername, "./%s/partons", analyser[iFile].FolderName().c_str());
       analyser[iFile].ReadPartons(&parton);
  
       for(int i=0; i<parton.size(); i++){
-       parton[i].setnames(partonnames[i].c_str(), "");
+        parton[i].setnames(partonnames[i].c_str(), "");
       }
     
-     
       tops.push_back(parton[1]);
-      cout<<"total partons read :"<<parton.size()<<endl;
+      top1.push_back(parton[1]);
       
-      Draw1Histograms(parton[0],  foldername); 
-      DrawdelRvspT( parton[1], parton[3], parton[4] ,foldername);
-      DrawdelRvspT( parton[3], parton[7], parton[8] ,foldername);
-      DrawdelRvspT( parton[1], parton[7], parton[8] ,foldername);
+      cout<<"total partons read :"<<parton.size()<<endl<<endl;
+     
+      DrawHistograms(top1, 0, iFile , foldername);    top1.clear(); 
+//      DrawdelRvspT( parton[1], parton[3], parton[4] ,foldername);
+//      DrawdelRvspT( parton[3], parton[7], parton[8] ,foldername);
+//      DrawdelRvspT( parton[1], parton[7], parton[8] ,foldername);
 
       for(int i=0; i<parton.size(); i++){
       	parton[i].clear_properties();
       }
       parton.clear();    
-    }
-    DrawHistOnTop(tops, histlabel, foldername );
+    }//files
+    
+    DrawHistograms(tops, 3, -1, foldername);    tops.clear() ;
+
+
+//    DrawHistOnTop(tops, histlabel, foldername );
 	
 	//##########################################  Jet reconstruction ########################3
 
@@ -77,7 +80,8 @@
     
     cout<<"top size : "<<analyser.Top.prop[0].size()<<endl;
 */
-
+    t = clock() - t;
+    cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;
     return 0;
   }
   
