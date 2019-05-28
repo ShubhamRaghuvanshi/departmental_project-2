@@ -150,39 +150,49 @@ float w_mass = 80;
 
       char name[100];
       sprintf(name, "nJets20");  
-      TH1F *njets20 = new TH1F(name, name, 20 , 0, 7);
+      TH1F *njets20 = new TH1F(name, name, 20 , 0, 20);
       njets20->GetXaxis()->SetTitle("N_{jets}(p_{T} > 20 GeV)");
       FormatHist(njets20, 1, 2, false );
 
       sprintf(name, " nJets200");  
-      TH1F *njets200 = new TH1F(name, name, 20 , 0, 7);
+      TH1F *njets200 = new TH1F(name, name, 7 , 0, 7);
       njets200->GetXaxis()->SetTitle("N_{jets}(p_{T} > 200 GeV)");
       FormatHist(njets200, 1, 2, false );
 
       sprintf(name, "nTaggedkin");      
-      TH1F *histTagged_kin = new TH1F(name, name, 20 , 0, 7);
+      TH1F *histTagged_kin = new TH1F(name, name, 7 , 0, 7);
       histTagged_kin->GetXaxis()->SetTitle("nTagged_kin");
       FormatHist(histTagged_kin, 1, 2, false );
 
       sprintf(name, "nTaggedchi");      
-      TH1F *histTagged_chi = new TH1F(name, name, 20 , 0, 7);
+      TH1F *histTagged_chi = new TH1F(name, name, 7 , 0, 7);
       histTagged_chi->GetXaxis()->SetTitle("nTagged_{#chi^{2}}");
       FormatHist(histTagged_chi, 1, 2, false );
 
       sprintf(name, "nTaggedhep");      
-      TH1F *histTagged_hep = new TH1F(name, name, 20 , 0, 7);
+      TH1F *histTagged_hep = new TH1F(name, name, 7 , 0, 7);
       histTagged_hep->GetXaxis()->SetTitle("nTagged_HepTT");
       FormatHist(histTagged_hep, 1, 2, false );
 
+
       vector<PseudoJet> particles, jets, fatjets; 
       int nEvent = bpx->GetEntries()-1;
-      nEvent = 100;
+      nEvent = 100000;
           
+      cout<<"TOTAL ENTRIES : "<<bpx->GetEntries()-1<<endl;    
+      if(nEvent > bpx->GetEntries()){
+        cout<<"More than you can handle. "<<endl;
+        return -777;
+      }
+                
+      int nJet=0, nFatjet=0;    
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
 
         int iTagged_kin=0, iTagged_chi=0, iTagged_hep=0; 
 
         bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  btop->GetEntry(iEvent);
+        
+        Top.push_back_momenta(*top);
         
         if(px->size() != py->size() || px->size() != pz->size() || px->size() != e->size()  ) return -666;
       
@@ -197,19 +207,26 @@ float w_mass = 80;
         
         jets    = sorted_by_pt(cs_jet.inclusive_jets(20));           
         fatjets = sorted_by_pt(cs_hep.inclusive_jets(200));
+        
   
         if( jets.size() !=0)
           njets20->Fill(jets.size() );
         if( fatjets.size() !=0)
           njets200->Fill(fatjets.size());
 
+        if(jets.size() > 2)  
+         nJet+=jets.size();
+
+        if(fatjets.size() > 0)  
+         nFatjet+=fatjets.size();
+         
         int lastsize_kin = TopkinTagged.prop[0].size();
         int lastsize_chi = TopchiTagged.prop[0].size();
         int lastsize_hep = TophepTagged.prop[0].size();
                         
         iTagged_kin =topjetreco_kin(jets, &Topkin, &Wkin, &Bkin, &TopkinTagged);
         iTagged_chi =topjetreco_chi(jets, &Topchi, &Wchi, &Bchi, &TopchiTagged);
-        iTagged_hep =topjetreco_hep(jets, &Tophep, &Whep, &Bhep, &TophepTagged);
+        iTagged_hep =topjetreco_hep(fatjets, &Tophep, &Whep, &Bhep, &TophepTagged);
           
         if(match){      
           iTagged_kin=0; iTagged_chi=0; iTagged_hep=0;  
@@ -234,7 +251,7 @@ float w_mass = 80;
             if( delR(*top, TophepTagged.GetLorentzVector(i) ) < match_dist ){
               TophepMatched.push_back_momenta( TophepTagged.GetLorentzVector(i) );          
               TophepMatch.push_back_momenta(*top);
-              iTagged_hep=0;     
+              iTagged_hep++;     
             }                   
           }
         
@@ -254,6 +271,8 @@ float w_mass = 80;
       } //loop over all events 
       cout<<endl;
 
+      Top.make_properties();
+  
       Topkin.make_properties();
       Topchi.make_properties();
       Tophep.make_properties();
@@ -303,26 +322,28 @@ float w_mass = 80;
       canvas2->cd(3);
       histTagged_hep->Draw("hist");
 
-	    sprintf(name, "./%s/jets/nJets.png", filename.c_str());
+	    sprintf(name, "./%s/jets/nJets.png", FolderName().c_str());
 	    canvas->SaveAs(name);
-      sprintf(name, "./%s/jets/nTaggedJets.png",filename.c_str());
+      sprintf(name, "./%s/jets/nTaggedJets.png", FolderName().c_str());
 	    canvas2->SaveAs(name);
 	    
       cout<<"############################ Analysis Summary #############################"<<endl;
 
-      cout<<"Number of events analysed : "<<nEvent<<endl;	    
+      cout<<"Number of events analysed : "<<nEvent<<endl;
+      cout<<"Number of Input Jets : "<<nJet<<endl;
+      cout<<"Number of Input fATJets : "<<nFatjet<<endl;	    
       cout<<"Number of Tagged top-jets :"<<endl;
-      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<endl;	    
-	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<endl;
-	    cout<<"    hep : "<<TophepTagged.prop[0].size()<<endl;
+      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<3.0*float(TopkinTagged.prop[0].size())/nJet<<endl;	    
+	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<3.0*float(TopchiTagged.prop[0].size())/nJet<<endl;
+	    cout<<"    hep : "<<TophepTagged.prop[0].size()<<"   ,  recoeff_hep : "<<float(TophepTagged.prop[0].size())/nFatjet<<endl;
 	    
 	    if(match){
         cout<<"Number of Matched top-jets :"<<endl;
-        cout<<"    kin : "<<TopkinTagged.prop[0].size()<<endl;	    
-	      cout<<"    chi : "<<TopchiTagged.prop[0].size()<<endl;
-	      cout<<"    hep : "<<TophepTagged.prop[0].size()<<endl;
+        cout<<setw(20)<<"    kin : "<<setw(20)<<TopkinMatched.prop[0].size()<<setw(20)<<", recoeff_kin : "<<3.0*float(TopkinMatched.prop[0].size())/nJet<<endl;	    
+	      cout<<setw(20)<<"    chi : "<<setw(20)<<TopchiMatched.prop[0].size()<<setw(20)<<", recoeff_chi : "<<3.0*float(TopchiMatched.prop[0].size())/nJet<<endl;
+	      cout<<setw(20)<<"    hep : "<<setw(20)<<TophepMatched.prop[0].size()<<setw(20)<<", recoeff_hep : "<<float(TophepMatched.prop[0].size())/nFatjet<<endl;
 	    }
-	    
+	
 	    delete canvas;
 	    delete canvas2;
 	    delete njets20;
