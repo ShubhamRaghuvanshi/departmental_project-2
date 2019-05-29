@@ -1,5 +1,6 @@
 
 #include "Analyser.h"
+#include "Func.h"
 
 using namespace std;
 using namespace fastjet;
@@ -78,12 +79,82 @@ float w_mass = 80;
       file_name.erase( remove(file_name.begin(), file_name.end(), '.'), file_name.end());
       return file_name;
     }
+    
+    
+    int Analyser::givehadrons(int iEvent, vector<TLorentzVector> *particles){
+      TFile *f = new TFile(filename.c_str(), "READ");    
+      TTree *tree;
+      
+      f->GetObject("hadrons",tree);          
+                   
+      int nPartons = tree->GetNbranches();
+      
+      vector<double>  *px=0, *py=0, *pz=0, *e=0;
+      TBranch  *bpx=0, *bpy=0, *bpz=0, *be=0;
+    
+      tree->SetBranchAddress("px",&px,&bpx);
+      tree->SetBranchAddress("py",&py,&bpy);
+      tree->SetBranchAddress("pz",&pz,&bpz);
+      tree->SetBranchAddress("e",&e ,&be);   
+
+      Long64_t tentry  = tree->LoadTree(0);
+      bpx->GetEntry(tentry);       bpy->GetEntry(tentry);       bpz->GetEntry(tentry);   be->GetEntry(tentry);
+    
+      if(px->size() != py->size() || px->size() != pz->size() || px->size() != e->size()  ) return -666;
+         
+        bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  
+        
+        for(int i=0; i< px->size() ; i++)
+		    	particles->push_back(  TLorentzVector(px->at(i), py->at(i), pz->at(i), e->at(i))  );
+        
+        return 0;
+      }
+ 	    
+    
+
+    int Analyser::ReadHadrons( vector<vector<TLorentzVector>> *h){
+
+      TFile *f = new TFile(filename.c_str(), "READ");    
+      TTree *tree;
+      
+      f->GetObject("hadrons",tree);          
+                   
+      int nPartons = tree->GetNbranches();
+      
+      vector<double>  *px=0, *py=0, *pz=0, *e=0;
+      TBranch  *bpx=0, *bpy=0, *bpz=0, *be=0;
+    
+      tree->SetBranchAddress("px",&px,&bpx);
+      tree->SetBranchAddress("py",&py,&bpy);
+      tree->SetBranchAddress("pz",&pz,&bpz);
+      tree->SetBranchAddress("e",&e ,&be);   
+
+      Long64_t tentry  = tree->LoadTree(0);
+      bpx->GetEntry(tentry);       bpy->GetEntry(tentry);       bpz->GetEntry(tentry);   be->GetEntry(tentry);
+    
+      if(px->size() != py->size() || px->size() != pz->size() || px->size() != e->size()  ) return -666;
+      
+      vector<TLorentzVector> particles;
+      
+     int nEvent = bpx->GetEntries()-1;
+   //  nEvent =10000;
+      for(int iEvent =0; iEvent < nEvent ; iEvent++){
+        bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  
+        
+        
+        for(int i=0; i< px->size() ; i++)
+		    	particles.push_back(  TLorentzVector(px->at(i), py->at(i), pz->at(i), e->at(i))  );
+        h->push_back(particles);
+        particles.clear();
+      }
+ 		 
+    }
 
     int Analyser::ReadPartons( vector<ParticleProperty> *pp){
 
-      TFile f(filename.c_str(), "READ");    
-      TTree* tree;
-      f.GetObject("partons",tree);
+      TFile *f = new TFile(filename.c_str(), "READ");    
+      TTree *tree, *tree2;
+      f->GetObject("partons",tree);
                 
       TBranch *PartonBranch = 0;
       TLorentzVector *PartonVector=0;    
@@ -92,13 +163,13 @@ float w_mass = 80;
       char PartonBranchName[20];
       
       int nPartons = tree->GetNbranches();
-          
+                    
       cout<<"expected number of partons : "<<nPartons<<endl;    
           
       if(nPartons < 1 || nPartons > 100)  return -1;
      
       for(int part=0; part< nPartons; part++){
-      
+  cout<<"Reading parton : "<<part<<endl;    
         ParticleProperty pp_temp;      
         sprintf(PartonBranchName, "parton[%d]", part);
         tree->SetBranchAddress(PartonBranchName, &PartonVector, &PartonBranch);
@@ -106,19 +177,22 @@ float w_mass = 80;
         Long64_t tentry  = tree->LoadTree(0);
         PartonBranch->GetEntry(tentry); 
         int nEvent = PartonBranch->GetEntries()-1;
+       // nEvent = 10000;
   
         if(part ==0 )
           cout<<"Number of Events in the file : "<<nEvent<<endl;
   
         for(int iEvent=0; iEvent<nEvent; iEvent++ ){
           PartonBranch->GetEntry(iEvent);
-          pp_temp.push_back_momenta(*PartonVector);        
-     //     cout<<"loading events......"<< 100.0*float(iEvent + part*nEvent +1)/float( nEvent*nPartons +1 ) <<" % "<<"\r"; 
+          pp_temp.push_back_momenta(*PartonVector); 
+        //  cout<<"loading events......"<< 100.0*float(iEvent + part*nEvent +1)/float( nEvent*nPartons +1 ) <<" % "<<"\r"; 
         }
+      //  cout<<"out"<<endl;
         pp_temp.make_properties(); 
         pp->push_back(pp_temp);
       } // for all partons
      // cout<<endl;
+     
       return 0;  
     } //read partons
 
@@ -177,7 +251,7 @@ float w_mass = 80;
 
       vector<PseudoJet> particles, jets, fatjets; 
       int nEvent = bpx->GetEntries()-1;
-      nEvent = 100000;
+    //  nEvent = 100;
           
       cout<<"TOTAL ENTRIES : "<<bpx->GetEntries()-1<<endl;    
       if(nEvent > bpx->GetEntries()){
@@ -185,12 +259,16 @@ float w_mass = 80;
         return -777;
       }
                 
+              
       int nJet=0, nFatjet=0;    
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
 
         int iTagged_kin=0, iTagged_chi=0, iTagged_hep=0; 
 
         bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  btop->GetEntry(iEvent);
+        
+       // cout<<"hadorns "<<px->size()<<endl;
+        
         
         Top.push_back_momenta(*top);
         
@@ -232,25 +310,28 @@ float w_mass = 80;
           iTagged_kin=0; iTagged_chi=0; iTagged_hep=0;  
 
           for(int i = lastsize_kin ; i< TopkinTagged.prop[0].size(); i++){          
+            TopkinMatch.push_back_momenta(*top);
+            
             if( delR(*top, TopkinTagged.GetLorentzVector(i) ) < match_dist ){
-              TopkinMatched.push_back_momenta( TopkinTagged.GetLorentzVector(i) );          
-              TopkinMatch.push_back_momenta(*top);
+              TopkinMatched.push_back_momenta( TopkinTagged.GetLorentzVector(i) );         
               iTagged_kin++;     
             }                   
+
+
           }
           
           for(int i = lastsize_chi ; i< TopchiTagged.prop[0].size(); i++){          
+            TopchiMatch.push_back_momenta(*top);
             if( delR(*top, TopchiTagged.GetLorentzVector(i) ) < match_dist ){
               TopchiMatched.push_back_momenta( TopchiTagged.GetLorentzVector(i) );          
-              TopchiMatch.push_back_momenta(*top);
               iTagged_chi++;    
             }                   
           }
           
           for(int i = lastsize_hep ; i< TophepTagged.prop[0].size(); i++){          
+            TophepMatch.push_back_momenta(*top);
             if( delR(*top, TophepTagged.GetLorentzVector(i) ) < match_dist ){
               TophepMatched.push_back_momenta( TophepTagged.GetLorentzVector(i) );          
-              TophepMatch.push_back_momenta(*top);
               iTagged_hep++;     
             }                   
           }
@@ -267,11 +348,12 @@ float w_mass = 80;
         particles.clear();
         jets.clear();
         fatjets.clear(); 
-        cout<<"Processing data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 
+        cout<<"Processing data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 	
       } //loop over all events 
       cout<<endl;
 
       Top.make_properties();
+      
   
       Topkin.make_properties();
       Topchi.make_properties();
@@ -356,7 +438,7 @@ float w_mass = 80;
 	    return 0;    
     } //jetreco  
   
-
+    
 
 
 

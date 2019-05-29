@@ -20,17 +20,17 @@
 using namespace std;
   
 
-const int n_prop =10;
+const int n_prop =11;
 class ParticleProperty{
 
   private:
     string particle_name, particle_surname; 
     
-    string property[n_prop] = { "px",   "py",   "pz",  "E", "M",  "pT", "eta", "y", "phi", "theta"};
+    string property[n_prop] = { "px",   "py",   "pz",  "E", "M",  "pT", "eta", "y", "phi", "theta", "jetsize"};
     
   public:
     
-    string propXaxis[n_prop] = { "P_{x}", "P_{y}", "P_{z}", "E", "M_{0}",  "p_{T}", "#eta", "y", "#phi", "#theta"};
+    string propXaxis[n_prop] = { "P_{x}", "P_{y}", "P_{z}", "E", "M_{0}",  "p_{T}", "#eta", "y", "#phi", "#theta", "jetsize" };
      
     vector<double> prop[n_prop];
     
@@ -53,6 +53,7 @@ class ParticleProperty{
     void add_momenta(ParticleProperty p1, ParticleProperty p2);    
     void make_properties();
     void clear_properties();
+    void push_property(int iprop, float val);
 
     void setnames( string name, string append );
 
@@ -64,7 +65,7 @@ class ParticleProperty{
      
     //iprop is property index: iprop<nprop
     TH1F* HistProp(int iprop, int def);
-
+    
     string GetPropName(int iprop); 
     string GetPartName(); 
     string GetPartSurname();

@@ -10,6 +10,7 @@
   #include "TFile.h"
   #include "TH1.h"
   #include "TH2.h"
+  #include "TLine.h"
   #include "TCanvas.h"
   #include "TStyle.h"
   #include "TGaxis.h"
@@ -42,12 +43,14 @@
   int topjetreco_hep( vector<PseudoJet> jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *TaggedTop);
   
      
-  void DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername );
+  int DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername );
+  int DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername );
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat);
   int DrawHistograms(vector<ParticleProperty> particle, int drawoption, int mass_index,  string foldername);
-   
-
-//  void DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername);
+  
+  float sizeofjet( TLorentzVector parent, vector<TLorentzVector> h );
+  void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername);
+  void Drawone( ParticleProperty p, int iprop , string foldername);
   
 #endif
 

@@ -15,17 +15,6 @@ ParticleProperty::ParticleProperty(vector<double> &px, vector<double> &py, vecto
   prop[2] = pz;
   prop[3]  = e; 
 
-  TLorentzVector v;
-
-  for(int i=0;i<prop[0].size();i++){
-    v.SetPxPyPzE( px[i],py[i],pz[i],e[i] );
-    prop[4].push_back(v.M());            
-    prop[5].push_back(v.Perp());
-    prop[6].push_back(v.Eta());
-    prop[7].push_back(v.Rapidity());    
-    prop[8].push_back(v.Phi());
-    prop[9].push_back(v.Theta());
-  } 
 }
 
 
@@ -74,11 +63,14 @@ void ParticleProperty::clear_properties(){
   for(int iprop=0; iprop<n_prop; iprop++ )
     prop[iprop].clear();
 }    
-    
+
+void ParticleProperty::push_property(int iprop, float val){
+
+  prop[iprop].push_back(val);
+}    
     
 // constructs all properties given 4 momenta vectors
 void ParticleProperty::make_properties(){
-
   vector<double> px,py,pz,e;
   px = prop[0];
   py = prop[1];
@@ -95,9 +87,11 @@ void ParticleProperty::make_properties(){
     prop[7].push_back(v.Rapidity());    
     prop[8].push_back(v.Phi());
     prop[9].push_back(v.Theta());
+    
   } 
-//cout<<"properies made for : "<<particle_name<<endl;
 }
+
+
 
 void ParticleProperty::setnames( string name, string append ){
   particle_name = name;
@@ -178,7 +172,8 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
     }
     prop_low[iprop] = temp_low;
     prop_high[iprop] = temp_high;
-//cout<<setw(20)<<prop[iprop].size()<<setw(20)<<"      my proooooooooo :"<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<setw(20)<<prop[iprop].size()<<endl;
+    
+cout<<setw(20)<<prop[iprop].size()<<setw(20)<<"      my proooooooooo :"<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<setw(20)<<prop[iprop].size()<<endl;
     
   if(particle_id == 0 ){
 
@@ -187,11 +182,11 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
         prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
         prop_low[3] = 0.0;       prop_high[3] = 2500.0;
         prop_low[4] = 400.0;     prop_high[4] = 2100.0;
-        prop_low[5] = 0.0;       prop_high[5] = 600.0;
-        prop_low[6] = -10.0;     prop_high[6] = 10.0;
-        prop_low[7] = -10.0;     prop_high[7] = 10.0;
-        prop_low[8] = -3.2;      prop_high[8] = 3.2;
-        prop_low[9] = 0.0;       prop_high[9] = 3.2;         
+        prop_low[5] = 0.0;       prop_high[5] = 1500.0;
+        prop_low[6] = -6.0;     prop_high[6] = 6.0;
+        prop_low[7] = -6.0;     prop_high[7] = 6.0;
+        prop_low[8] = -6.0;      prop_high[8] = 6.0;
+        prop_low[9] = 0.0;       prop_high[9] = 6.0;         
   }
   if(particle_id == 1 ){
 
@@ -200,16 +195,16 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
         prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
         prop_low[3] = 0.0;       prop_high[3] = 2500.0;
         prop_low[4] = 160.0;       prop_high[4] = 185.0;
-        prop_low[5] = 0.0;       prop_high[5] = 1300.0;
-        prop_low[6] = -10.0;     prop_high[6] = 10.0;
-        prop_low[7] = -10.0;     prop_high[7] = 10.0;
-        prop_low[8] = -3.2;      prop_high[8] = 3.2;
-        prop_low[9] = 0.0;       prop_high[9] = 3.2;         
+        prop_low[5] = 0.0;       prop_high[5] = 1200.0;
+        prop_low[6] = -6.0;     prop_high[6] = 6.0;
+        prop_low[7] = -6.0;     prop_high[7] = 6.0;
+        prop_low[8] = -6.0;      prop_high[8] = 6.0;
+        prop_low[9] = 0.0;       prop_high[9] = 6.0;         
   }
 
 
   
-  int prop_bin[n_prop]  =  {100,  100,  100, 100, 100, 100 , 100, 100, 50, 50 };
+  int prop_bin[n_prop]  =  {100,  100,  100, 100, 100, 100 , 100, 100, 50, 50, 50 };
 
   char name[100];
   sprintf(name,"%s_%s%s",particle_name.c_str(), property[iprop].c_str(), particle_surname.c_str());  
@@ -219,8 +214,8 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
     hist->Fill( prop[iprop][i] ) ;
   }
 
-  sprintf( name, "%s^{%s}", propXaxis[iprop].c_str() , particle_name.c_str() );   
-  
+  //sprintf( name, "%s", propXaxis[iprop].c_str() );   
+  sprintf( name, "%s^{%s}", propXaxis[iprop].c_str(), particle_name.c_str() ); 
   hist->GetXaxis()->SetTitle(name);
   
   return hist;

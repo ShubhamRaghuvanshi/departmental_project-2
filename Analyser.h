@@ -47,7 +47,7 @@ class Analyser{
     Analyser(){
       
       Zphep.setnames("Zphep","");
-      Top.setnames("Top","");;
+      Top.setnames("top","");
       
       Topkin.setnames("Topkin","");
       Wkin.setnames("Wkin","");
@@ -61,17 +61,17 @@ class Analyser{
       Whep.setnames("Whep","");
       Bhep.setnames("Bhep","");
 
-      TopkinTagged.setnames("TopkinTagged","");  
-      TopchiTagged.setnames("TopchiTagged","");    
-      TophepTagged.setnames("TophepTagged","");  
+      TopkinTagged.setnames("top_{kin}","");  
+      TopchiTagged.setnames("top_{chi}","");    
+      TophepTagged.setnames("top_{hepTT}","");  
 
-      TopkinMatched.setnames("MatchedTopJet_kin","");  
-      TopchiMatched.setnames("MatchedTopJet_chi","");    
-      TophepMatched.setnames("MatchedTopJet_hep","");  
+      TopkinMatched.setnames("top_{reco}^{kin}","");  
+      TopchiMatched.setnames("top_{reco}^{chi}","");    
+      TophepMatched.setnames("top_{reco}^{hepTT}","");  
 
-      TopkinMatch.setnames("MatchedTop_kin","");  
-      TopchiMatch.setnames("MatchedTop_chi","");    
-      TophepMatch.setnames("MatchedTop_hep","");  
+      TopkinMatch.setnames("top_{parton}","");  
+      TopchiMatch.setnames("top_{parton}","");    
+      TophepMatch.setnames("top_{parton}","");  
         
     };
     ~Analyser(){};
@@ -82,7 +82,10 @@ class Analyser{
 
     int ReadPartons( vector<ParticleProperty> *pp);
    // int RecoJetsztt( );
+    int ReadHadrons( vector<vector<TLorentzVector>> *h);
     int RecoJets(float R, float fatR, bool match);
+    int givehadrons(int iEvent, vector<TLorentzVector> *particles) ;
+    
     string FolderName();
 };  //analyser class
 

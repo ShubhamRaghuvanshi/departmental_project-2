@@ -11,48 +11,76 @@
     clock_t t;
     //######################################## Initialize Analyser object #####################
 
+
+    vector<vector<TLorentzVector>> hadrons;
     vector<ParticleProperty> parton, tops, zps, top1;
-      
-    string partonnames[9] = {" Z'", "Top", "Topbar", "W+", "b", "W-", "bm", "q", "qb"};
+    TLorentzVector v_temp;  
+    string partonnames[9] = {" Z'", "Top", "Topbar", "w", "b", "W-", "bm", "q", "qb"};
     int z_mass[3] = {500, 1000, 2000};
     Analyser analyser[3];
     char filename[100],foldername[200];
     
- /*       
-    for(int iFile=0; iFile<3; iFile++){
-    
+//    for(int iFile=0; iFile<3; iFile++){
+      int iFile = 1;  
       sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[iFile] );
       
       analyser[iFile].SetFile(filename);
+      
       sprintf(foldername, "./%s/partons", analyser[iFile].FolderName().c_str());
+      
+      
       analyser[iFile].ReadPartons(&parton);
+     
+      
+      analyser[iFile].ReadHadrons(&hadrons);
+      cout<<"size : "<<parton[1].prop[0].size()<<setw(20)<<hadrons.size()<<setw(20)<<parton[1].prop[10].size()<<endl;
  
       for(int i=0; i<parton.size(); i++){
         parton[i].setnames(partonnames[i].c_str(), "");
       }
 
-      zps.push_back(parton[0]);    
-      tops.push_back(parton[1]);      
-      top1.push_back(parton[1]);
+      for(int i=0; i< parton[1].prop[0].size(); i++){
+        v_temp.SetPxPyPzE(parton[1].prop[0][i], parton[1].prop[1][i], parton[1].prop[2][i], parton[1].prop[3][i] );
+        parton[1].prop[10].push_back( sizeofjet(v_temp, hadrons[i]) );  
+        cout<<"for the watch......"<<100.0*float(i+1)/float(parton[1].prop[0].size()+1)<<" % "<<"\r"; 
+      } cout<<endl;
+      hadrons.clear();
+      
+      cout<<"size : "<<parton[1].prop[0].size()<<setw(20)<<hadrons.size()<<setw(20)<<parton[1].prop[10].size()<<endl;
+      Drawone(parton[1], 10, foldername);
+      Draw1v2(parton[1], parton[1], 5, 10, foldername);
+      DrawdelRvspT( parton[1], parton[3], parton[4], foldername );
+      DrawdelRvspT( parton[3], parton[7], parton[8], foldername );
+
+      
+
+  //    zps.push_back(parton[0]);    
+  //    tops.push_back(parton[1]);      
+  //    top1.push_back(parton[1]);
+      
+      
       
       cout<<"total partons read :"<<parton.size()<<endl<<endl;
      
-      DrawHistograms(top1, 0, iFile , foldername);    top1.clear(); 
+  //    DrawHistograms(top1, 0, iFile , foldername);    top1.clear(); 
 
       for(int i=0; i<parton.size(); i++){
       	parton[i].clear_properties();
       }
       parton.clear();    
-    }//files
+ //   }//files
     
-    DrawHistograms(tops, 3, -1, foldername);    tops.clear() ;
-    DrawHistograms(zps, 3, -1, foldername);     zps.clear() ;
-*/
+    //  
+    
+   // DrawHistograms(top1, 0, -1, foldername);    tops.clear() ;
+//    DrawHistograms(zps, 3, -1, foldername);     zps.clear() ;
 	
+	
+/*	
 	//##########################################  Jet reconstruction ########################3
 
 	
-	   int mass_index=2; 
+	   int mass_index=0; 
      sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[mass_index] );
      analyser[mass_index].SetFile(filename);
 
@@ -61,7 +89,7 @@
 
      cout<<"top size : "<<setw(20)<<analyser[mass_index].Top.prop[0].size()<<setw(20)<<analyser[mass_index].Top.prop[1].size()<<setw(20)<<analyser[mass_index].Top.prop[3].size()<<endl;
 
-/*
+
 
      vector<ParticleProperty> recoeff, recoeff_kin, recoeff_chi, recoeff_hep ;   
      vector<ParticleProperty> rawtop;
@@ -82,16 +110,18 @@
      recoeff_chi.push_back(analyser[mass_index].Top);
      recoeff_hep.push_back(analyser[mass_index].Top); 
      
-     DrawHistograms(rawtop, 0 , mass_index, foldername);   rawtop.clear();   
-     DrawHistograms(recoeff_kin, 1 , mass_index, foldername);   recoeff_kin.clear(); 
-     DrawHistograms(recoeff_chi, 1 , mass_index, foldername);   recoeff_chi.clear();
-     DrawHistograms(recoeff_hep, 1 , mass_index, foldername);   recoeff_hep.clear(); 
-     DrawHistograms(recoeff, 2 , mass_index, foldername);    recoeff.clear() ;
- */
-      
-     for(int i=0; i< analyser[mass_index].Top.prop[5].size(); i++)
-      cout<<setw(20)<<i<<setw(20)<<analyser[mass_index].Top.prop[5][i]<<endl;
-     
+//     DrawHistograms(rawtop, 0 , mass_index, foldername);   rawtop.clear();   
+//     DrawHistograms(recoeff_kin, 1 , mass_index, foldername);   recoeff_kin.clear(); 
+//     DrawHistograms(recoeff_chi, 1 , mass_index, foldername);   recoeff_chi.clear();
+//     DrawHistograms(recoeff_hep, 1 , mass_index, foldername);   recoeff_hep.clear(); 
+ 
+   
+     DrawHistograms(recoeff, 1 , mass_index, foldername);     // this draws all 4 together    
+     DrawHistograms(recoeff, 2 , mass_index, foldername);     //this gives reconstruction efficiencies
+     recoeff.clear() ;
+     DrawdelR( analyser[mass_index].TopkinTagged, analyser[mass_index].TopkinMatch, foldername );     
+ 
+*/     
      
     t = clock() - t;
     cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;

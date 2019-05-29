@@ -133,13 +133,21 @@ using namespace fastjet;
 
 // histogram draw methods
 
-  void DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername ){
+  int DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername ){
 
     char canvasname[200],pngname[200];
     TH1F *hist;
+    TLine *line;         
           
-    sprintf(canvasname, "#Delta R_{%s_%s}", p1.GetPartName().c_str(), p2.GetPartName().c_str() );
+    if(p1.prop[7].size() != p2.prop[7].size()) {
+      cout<<"Tumse na ho paega beta, Tumhare lachhan hame bilkul thik nhi lag rhe beta tumse na ho paega. "<<endl;
+      cout<<"sizes : "<<p1.prop[7].size()<<setw(20)<<p2.prop[7].size()<<endl;
+      return -666;
+    }      
+          
+    sprintf(canvasname, "Delta_R_%s_%s", p1.GetPartName().c_str(), p2.GetPartName().c_str() );
     hist  = new TH1F(canvasname, canvasname, 50, 0, 6);
+    sprintf(canvasname, "#DeltaR(%s, %s)", p1.GetPartName().c_str(), p2.GetPartName().c_str() );
     hist->GetXaxis()->SetTitle(canvasname);
     FormatHist(hist, 2, 3, false);
     
@@ -157,11 +165,22 @@ using namespace fastjet;
     sprintf(pngname,"./%s/delR_%s_%s.png", foldername.c_str(), p1.GetPartName().c_str(), p2.GetPartName().c_str() );
     
     canvas->cd();
+ 
+    
+    cout<<"fgdgfg   "<< canvas->GetUymax()<<endl;
+
+    
     hist->Draw("e1");
     hist->Draw("hist same");
-    
+    canvas->Update();
+    line = new TLine(0.3,0,0.3 , canvas->GetUymax());
+    line->SetLineColor(kBlack);
+    line->SetLineWidth(2);
+    line->Draw();
+    canvas->SaveAs(pngname);
     delete hist;
     delete canvas;
+    return 0;
   }
 
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat){
@@ -179,11 +198,12 @@ using namespace fastjet;
     }
     else{
       hist->GetYaxis()->SetTitle("Number of events");
-      hist->SetStats(false);
-                     
+      hist->SetStats(false);                     
     } 
+    
     hist->SetName("");
-   // hist->GetXaxis()->SetTitleSize(.2);
+    hist->GetYaxis()->SetTitleSize(.01); 
+    hist->GetXaxis()->SetTitleSize(.04);
     hist->SetTitle("");
   }
 
@@ -192,18 +212,9 @@ using namespace fastjet;
     char canvasname[200],pngname[200];
               
     int xdiv, ydiv;
-    float x1=0.60, y1 = 0.7, x2=0.9, y2=0.9;
+    float x1=0.60, y1 = 0.7, x2=0.85, y2=0.85;
     string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1 TeV", "M_{Z'} = 2 TeV"};
     string algoentry[3] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT"};
-
-    if( particle.size() % 2 ==0){
-      xdiv = particle.size()/2;
-      ydiv = 1+ particle.size()/2;      
-    }  
-    else{
-      ydiv = (particle.size() +1) /2;
-      xdiv = ydiv;
-    }
 
     TCanvas *canvas;
     THStack *stack;
@@ -229,7 +240,8 @@ using namespace fastjet;
           canvas->cd();
 
           hist->Draw("e1");
-          hist->Draw("hist same");  
+          hist->Draw("hist same"); 
+          
           sprintf(pngname,"./%s/%s.png", foldername.c_str(), canvasname);          
           canvas->SaveAs(pngname);    
                       
@@ -239,56 +251,69 @@ using namespace fastjet;
         }     
       } // 0 : draw on separate canvas
 
-      if(drawoption ==1 ) {
+      else if(drawoption ==1 ) {
+      
+        if(particle.size() == 2 ){
+          xdiv = 2;
+          ydiv = 1;
+        }  
+        else if(particle.size() == 3 ){
+          xdiv = 3;
+          ydiv = 1;
+        }  
+        else if(particle.size() == 4 ){
+          xdiv = 2;
+          ydiv = 2;
+        }  
+        else{ cout<<"define new canvas divisions (xdiv, ydiv)"<<endl;    return -888; }
         
-        TCanvas *canvas;    
-        sprintf(canvasname, "%s_%s_%lu", particle[0].GetPartName().c_str(), particle[0].GetPropName(iprop).c_str(), particle.size() );
-        canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
-        canvas->Divide(xdiv, ydiv);
-                
-        for(int ipart=0; ipart < particle.size(); ipart++){     
-           
-          TH1F *hist;           
-          hist = particle[ipart].HistProp(iprop, 1); 
-          FormatHist(hist, 1, 4, false);          
+        TCanvas *canvas;
             
+ sprintf(canvasname, "reco_%s_%s_%lu", particle[particle.size()-1].GetPartName().c_str(), particle[particle.size()-1].GetPropName(iprop).c_str(), particle.size() );
+        canvas = new TCanvas(canvasname, canvasname, 1600, 1200);
+        canvas->Divide(xdiv, ydiv);
+        TH1F *hist1;                         
+        for(int ipart=0; ipart < particle.size(); ipart++){     
+          legend =  new TLegend(x1+ 0.05,y1,x2,y2);   
+          legend->SetBorderSize(0);
+          hist1 = particle[ipart].HistProp(iprop, 1); 
+          FormatHist(hist1, ipart+1, 2, false);   
+          legend->AddEntry(hist1, particle[ipart].GetPartName().c_str(), "l");  
           canvas->cd(ipart+1);          
-          hist->Draw("e1");
-          hist->Draw("hist same");  
-         // delete hist;                      
+          hist1->Draw("e1");
+          hist1->Draw("hist same");  
+          legend->Draw();
+  //        delete hist;                      
         } 
         
         sprintf(pngname,"./%s/%s.png", foldername.c_str(), canvasname );         
         canvas->SaveAs(pngname);      
-        
+        delete hist1;    
         delete canvas;    
       } // 1 : draw on divided canvas
       
-      if(drawoption == 2){
+      else if(drawoption == 2){
       
         stack  = new THStack("stack","");
         legend =  new TLegend(x1,y1,x2,y2);    
-
+        legend->SetBorderSize(0);  
         TH1F *hist2;
         hist2 = particle[particle.size()-1].HistProp(iprop, 1);
 
         sprintf(canvasname, " %s_%s_DIV_%s_%s", particle[0].GetPartName().c_str(), particle[0].GetPropName(iprop).c_str(), 
         particle[particle.size()-1].GetPartName().c_str(), particle[particle.size()-1].GetPropName(iprop).c_str() );
          
-         canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
-         canvas->cd();     
-
+       canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
+       canvas->cd();     
         
         for(int ipart=0; ipart< particle.size()-1 ; ipart = ipart+1){
           TH1F *hist1;
           char histname[200];
 
-
-
           hist1 = particle[ipart].HistProp(iprop, 1); 
                           
-          hist1->Divide(hist2);
           hist1->SetLineColor(ipart+1);
+          hist1->Divide(hist2);
           hist1->SetLineWidth(3);
           hist1->SetStats(false);
         //  hist1->Draw("e1 same");
@@ -305,7 +330,7 @@ using namespace fastjet;
             stack->GetYaxis()->SetTitle(histname);        
             legend->Draw("same");                  
      
-         sprintf(pngname,"./%s/Recoeff%lu%s_%s.png", foldername.c_str(), particle.size(), 
+         sprintf(pngname,"./%s/Recoeff%lu_%s_%s.png", foldername.c_str(), particle.size(), 
            particle[particle.size()-1].GetPartName().c_str(),particle[particle.size()-1].GetPropName(iprop).c_str() );               
             canvas->SaveAs(pngname);  
             
@@ -319,7 +344,7 @@ using namespace fastjet;
       } // 2: draw the ratio of two 
      
      
-      if(drawoption == 3 ) {
+      else if(drawoption == 3 ) {
       
         stack  = new THStack("stack","");
         legend =  new TLegend(x1,y1,x2,y2);    
@@ -340,7 +365,8 @@ using namespace fastjet;
           
           if(ipart == particle.size()-1){
             stack->Draw("hist nostack");            
-            stack->GetXaxis()->SetTitle(hist->GetXaxis()->GetTitle());          
+            stack->GetXaxis()->SetTitle(hist->GetXaxis()->GetTitle());
+            stack->GetYaxis()->SetTitle(hist->GetYaxis()->GetTitle());          
             legend->Draw("same");
             sprintf(pngname,"./%s/%s_stack.png", foldername.c_str(), canvasname);          
             canvas->SaveAs(pngname);      
@@ -353,15 +379,173 @@ using namespace fastjet;
        // delete hist;     
       } //3 : draw on top
 
-     
+     else{}
      
      
       } //prop
   return 0;         
   }
   
+   float sizeofjet( TLorentzVector parent, vector<TLorentzVector> h ){
   
+    float R;
+    TLorentzVector jetmomenta, hadronmomenta;  
+   
+    
+    for(R=0; R < 100.0; R = R+0.01 ){
+      jetmomenta.SetPxPyPzE(0,0,0,0);
+      for(int i=0; i< h.size();  i++){ 
+        hadronmomenta.SetPxPyPzE( h[i].Px(), h[i].Py(), h[i].Pz(), h[i].E() );      
 
+        if(  parent.DeltaR(hadronmomenta) < R ) 
+          jetmomenta = jetmomenta + hadronmomenta;          
+      }
+      if(jetmomenta.M() >= parent.M()) break;
+   }//R loop
+ //  if(parent.Pt() > 200){
+ //  cout<<setw(15)<<"Jet mass : "<<setw(15)<<jetmomenta.M()<<setw(15)<<jetmomenta.Pt()<<setw(15)<<"R = "<<setw(15)<<R<<setw(15)<<parent.M();
+ //  cout<<setw(20)<<h_px->size()<<setw(20)<<parent.Pt()<<endl;}
+   return R;
+ }
+ 
+ void Drawone( ParticleProperty p, int iprop , string foldername){
+
+  TCanvas *canvas;
+  TLegend *legend;    
+  TH1F *hist;
+
+  float x1=0.60, y1 = 0.7, x2=0.85, y2=0.85;
+
+  legend =  new TLegend(x1,y1,x2,y2);    
+  
+  
+  hist = p.HistProp(iprop, -1); 
+ 
+  cout<<"particle size : "<<p.prop[10].size()<<setw(20)<<hist->GetEntries()<<endl;
+  FormatHist(hist, 1, 4, true);          
+
+  char canvasname[100], legentry[100];
+
+  sprintf(canvasname, "%s_%s", p.GetPartName().c_str(), p.GetPropName(iprop).c_str() );
+  canvas = new TCanvas(canvasname, canvasname, 1600, 1000);               
+  sprintf(legentry, "%s", hist->GetTitle() );
+
+  legend->AddEntry(hist,legentry, "l");
+    
+  sprintf(legentry, "./%s/%s_%s.png", foldername.c_str(), p.GetPartName().c_str(), p.GetPropName(iprop).c_str());
+  hist->Draw("hist");
+ // legend->Draw("same");
+  canvas->SaveAs(legentry);
+ delete canvas;
+ delete legend;
+ delete hist;
+ 
+ }
+ 
+ void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername){
+
+  char canvasname[100], legentry[100];
+  
+  TCanvas *canvas;
+  TH2F *hist;
+
+  float x1=0.60, y1 = 0.7, x2=0.85, y2=0.85;
+
+  char xname[50], yname[50];
+  sprintf(xname, "%s^{%s}", p1.propXaxis[iprop1].c_str(), p1.GetPartName().c_str() );
+  sprintf(yname, "%s^{%s}", p2.propXaxis[iprop2].c_str(), p2.GetPartName().c_str() );
+  sprintf(canvasname, "%s vs %s", xname, yname );
+      
+  int propsize;
+  
+  if(p1.prop[iprop1].size() <  p2.prop[iprop2].size() )
+    propsize = p1.prop[iprop1].size();
+  else    
+    propsize = p2.prop[iprop2].size();
+
+  float min1 = 9999999, max1 = -9999999,min2 = 9999999, max2 = -9999999;
+  for(int i=0; i< propsize; i++){
+  
+    if(min1 > p1.prop[iprop1][i]) min1 = p1.prop[iprop1][i];
+    if(max1 < p1.prop[iprop1][i]) max1 = p1.prop[iprop1][i];
+    if(min2 > p2.prop[iprop2][i]) min2 = p2.prop[iprop2][i];
+    if(max2 < p2.prop[iprop2][i]) max2 = p2.prop[iprop2][i]; 
+  }
+  
+  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 3.4 );
+  
+  for(int i=0; i< propsize; i++){
+    hist->Fill(p1.prop[iprop1][i], p2.prop[iprop2][i]);  
+  }
+
+  hist->GetXaxis()->SetTitle(xname);
+  hist->GetYaxis()->SetTitle(yname);
+//  hist->SetTitle("");
+
+  sprintf(canvasname, "%s_%s", p1.GetPartName().c_str(), p1.GetPropName(iprop1).c_str() );
+  canvas = new TCanvas(canvasname, canvasname, 1600, 1000);               
+  
+  gStyle->SetPalette(kRainBow);
+  canvas->cd();
+  sprintf(legentry, "./%s/%s_vs_%s.png", foldername.c_str(), xname, yname);
+  hist->SetStats(false);
+  hist->Draw("COLZ");
+  //legend->Draw("same");
+  canvas->SaveAs(legentry);
+  
+  delete canvas;
+  delete hist;
+ }
+
+ int DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername ){
+ 
+  if(top.prop[5].size() != w.prop[5].size() || top.prop[5].size() != b.prop[5].size()){
+    cout<<"Equal sized particles needed"<<endl;
+    return -999;
+  }
+ 
+  char canvasname[100], legentry[100];
+  
+  TCanvas *canvas;
+  TH2F *hist;
+
+  char xname[50], yname[50];
+  sprintf(xname, "%s^{%s}", top.propXaxis[5].c_str(), top.GetPartName().c_str() );
+  sprintf(yname, " #DeltaR(%s %s)", w.GetPartName().c_str(), b.GetPartName().c_str() );
+  sprintf(canvasname, "%s vs %s", xname, yname );
+      
+  float min1 = 9999999, max1 = -9999999;
+  
+  for(int i=0; i< top.prop[5].size(); i++){  
+    if(min1 > top.prop[5][i]) min1 = top.prop[5][i];
+    if(max1 < top.prop[5][i]) max1 = top.prop[5][i];
+  }
+  
+  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 3.4 );
+  
+  for(int i=0; i< top.prop[5].size(); i++){
+    hist->Fill(  top.prop[5][i], delR(w.GetLorentzVector(i), b.GetLorentzVector(i) )  );  
+  }
+
+  hist->GetXaxis()->SetTitle(xname);
+  hist->GetYaxis()->SetTitle(yname);
+ //  hist->SetTitle("");
+
+ 
+  canvas = new TCanvas(canvasname, canvasname, 1600, 1000);                
+  gStyle->SetPalette(kRainBow);
+  canvas->cd();
+  sprintf(legentry, "./%s/%s_vs_%s.png", foldername.c_str(), xname, yname);
+  hist->SetStats(false);
+  hist->Draw("COLZ");
+  //legend->Draw("same");
+  canvas->SaveAs(legentry);
+  
+  delete canvas;
+  delete hist;
+  
+ 
+ } 
 
 
 

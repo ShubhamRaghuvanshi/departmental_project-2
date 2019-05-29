@@ -21,6 +21,7 @@
 \begin{document}		% Necessary line: starts the document
 \maketitle
 \thispagestyle{empty}
+\newpage
 \tableofcontents
 \newpage
 \thispagestyle{empty}
@@ -88,7 +89,7 @@ In this work we analyse events in which $Z^\prime$ is produced in pp collision a
 
 \section{Top quark reconstruction}
 
-The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state, one of which is b-tagged and other two are W-tagged. If the parent top has low $p_T$ then in the event we can find three jets which are well separated from each other in $(y,\phi)$ plane, and on the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear, and instead of having three separate AK4 jets in final state we may get only one AK10 FatJet, this situation is depicted in fig:\ref{boost}    
+The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state, one of which is supposed to be b-tagged and other two W. If the parent top is at rest then these three jets are well separated from each other in $(y,\phi)$ plane and can in general be identified as thee distinct quark jets in an event. On the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear along the direction of the parent top, and consenquently instead of having three well separated jets in final state we may get only one  fatjet. Substructure of this fatjet gives information of the corresponding decay. \ref{boost}.     
 
  	\begin{figure}[h]
  		\begin{centering}	
@@ -99,12 +100,18 @@ The phenomenology of top quark is driven by it's large mass, which also gives it
  		\end{centering} 		
  	\end{figure}   
 
-To quantify things lets consider the angular separations between partons in the process $ t \to w b \to q \bar{q} b$ as a function of the $p_T^{top}$ fig:\ref{rwbt}. A falling trend in the angular separation $ \left( \Delta R = \sqrt{\Delta y^2 + \Delta \phi^2}\right)$ as we go to higher $p_T^{top}$  is apparent. Rougly speaking $\Delta R_{wb}^{avg}< 1.5$, and $\Delta R_{qq}^{avg}< 0.8 $ for $p_T^{top} > 200$ GeV. Therefore the top tagging algorithms that are aimed at reconstructing low $p_T$ top work on the assumption that it would show up in an event as one b-tag and two distinct W-tag jets, this assumption grows weaker as $p_T$ of the top increases, and the effeciencies of such algorithms is also expected to be going downhill, for our analysis however we will be looking at the tops in the decays $Z^\prime \to t \bar{t}$, which in general may be quite boosted depending upon the mass of the $Z^\prime$ fig:\ref{toppt}.   
+To quantify things lets consider the angular separations between partons in the process $ t \to w b \to q \bar{q} b$ as a function of the $p_T^{top}$ fig:\ref{rwbt}. The angular separation in rapidity-azimuth $(y, \phi)$ plane $\left(  \Delta R = \sqrt{\Delta y^2 + \Delta \phi^2} \right)$ between the decay products  in a two-body depends on the mass and boost of the decaying particle and in the high $p_T$ approzmation it is given by .
 
+\begin{equation}
+ \Delta R \approx \frac{2m}{p_T}
+\end{equation} 
+
+Where m and $p_T$ are the mass and transverse momenta of the decaying particle. For a top $(m = 173)$ GeV \cite{pdg-top} with $p_T = 200$ GeV the separation is $\Delta R = 1.73 $, similarly for a W boson $(m = 80)$ \cite{pdg-w} with same $p_T$ the separation is $\Delta R = 0.8$ . Fig \ref{rwbt} shows the scatter plot between $\Delta R $ and $p_T$ for the two body decays of top and w respectively. A falling trend in the angular separation as we go to higher $p_T^{top}$  is apparent, from the plot one can also see that roughly $\Delta R_{wb}^{avg} < 1.7$, and $\Delta R_{qq}^{avg}< 0.8 $ for $p_T^{top} > 200$ GeV. The top tagging algorithms that are aimed at reconstructing low $p_T$ top work on the assumption that it would show up in an event as one b-tag and two distinct w-tag jets, this assumption grows weaker as $p_T$ of the top increases and the top, instead of corresponding to three quark jets which are well separated from each other.  and tend to be collinear and merge into each oth. The effeciencies of such algorithms is also expected to be going downhill for boostred tops, for our analysis however we will be looking at the tops in the decay $Z^\prime \to t \bar{t}$, which in general may be quite boosted in laboratory frame depending upon the mass of the $Z^\prime$ fig:\ref{toppt}. Jet substructure techniques are required to reoconstruct top in such cases.  
+   
 
  	\begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/partons/top_pT.png} 
+		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/partons/Top_pT_stack.png} 
 		\caption{ $p_T$ of the top quarks in the decay $ Z^\prime \to t \bar{t}$. The histograms show a Lorentzian peak around $\frac{M_{Z^\prime}}{2}$ , for three values of $M_{Z^\prime} = (0.5,1.0 ,2.0)$ TeV}
 		\label{toppt}
 		\centering
@@ -117,15 +124,50 @@ To quantify things lets consider the angular separations between partons in the 
  		\begin{centering}	
  			\includegraphics[scale=0.15]{./rwbt.png} 
  			\includegraphics[scale=0.15]{./rqqw.png}
- 			\includegraphics[scale=0.15]{./rqqt.png}
- 			\caption{Scatter plot between angular separation between two sister particles in $(y,\phi)$ plane $\Delta R = \sqrt{\Delta y^2 + \Delta \phi^2} $ , and the $p_T$ of the mother particle in the processes $t \to w b $(left), $w \to q \bar{q}$(right). A falling trend in $\Delta R$ is apparant as you go to high $p_T$ of the parent particle.}
+ 			\caption{Scatter plot between angular separation between decaying particles of the top and w decay, in $(y,\phi)$ plane, and $p_T$ of top and w respectively.}
  			\label{rwbt}
  			\centering
  		\end{centering} 		
  	\end{figure}   
  
  
-\subsection{Reconstruction of low $p_T$ top jets}
+\subsection{Top tagging algorithms}
+
+	A Jet \footnote{By Jet we mean QCD Jet.}is an artifact of all the high energy collider physics experiments, it's a collimated spray of particles in a given direction which can all be traced back to a common vetrex. These particles result from hadronization of a quark therefore they also share the energy and momenta of the original quark. In the experiments these particles show up as a set of hadrons and photons which are concentrated within some annular region of the detector. There is no universally accepted definition of a jet however the most natural definition is based on a cone radius in pseudorapidity-azimuth plane within which most of these particles are contained. 
+	
+	A jet algorithm operates on the four momenta of the final state particles or some detector quantities like the energy deposits in calorimeters, these quantities are referred to as 'contituents'of the jet. A jet algorithm clusters two consituents i and j into one new constituent if the quantity $\Delta d_{ij}$ which is related to the angular separation $\Delta R_{ij}$ between the  between them, satisfies the condition $d_{ij} < R$, i.e. if they are closer than R in some distance measure. Clustering is done recursively untill there are no clusters left within R distance from one another. For our analysis we use sequantial anti-$k_T$ and Cambridge/Aachen(C/A) algorithms which differ only in the choice of the distance parameter $d_{ij}$ \footnote{ $d_{ij} = \Delta R_{ij}$ for C/A and $d_{ij} = min \left( \frac{1}{p_T^i}, \frac{1}{p_T^j} \right)\times \Delta R_{ij}  $ for anti-$k_T$. The two consituents i,j are clustered together if $d_{ij} < R$.}.  
+	
+	
+	  
+	 
+
+
+ A jet algorithm tries to findthe original parton momentum by iteratively combining the momenta of nearby partons and inthat sense reverse the parton splitting.
+
+	,  	
+
+	Jets are collimated spray of particles which result from the fragmenation of  	
+
+	In this section we brifely describe the jet algorithms used to reconstruct 
+	 
+	used for reconstruction of hadronically decaying top in our analysis. A comparision between then made based on  
+
+
+In this study top reconstruction is performed in the process where a massive Z0 boson decays to two
+boosted top quarks, one of which decays hadronically and the other leptonically. Three cases corre-
+sponding to Z0 mass of 500,1000,2000 GeV are considered, and performances of different top taggin
+algorithms are compared for the three cases. PYTHIA8 is used for event generation, FASTJET3
+package is used for jet reconstruction and ROOT6 for data analysis and visualization.
+
+We have generated 500000 events of the type $Z^\prime \to t \bar{t}$ for the three Z‘ masses mentioned above.
+Top quarks are forced to decay to W boson and b quark. Both the W particles can then decay
+either hadronically or leptonically. We are interested in events in which one of the W particle decays
+hadronically and other leptonically, such that final state contains one lepton and 4 quarks. Events
+with p lepton
+> 20 GeV are stored for analysis. Following plots show some of the kinematic properties
+T
+of the particles in our events of interest.
+
 
 Low $p_T$ top 
 
@@ -206,6 +248,12 @@ with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the orde
 	
 	\bibitem{mad2}
 	\href{https://arxiv.org/abs/hep-ph/0204244}{arXiv:hep-ph/0204244}
+	
+	\bibitem{pdg-top} \href{http://pdg.lbl.gov/2019/tables/rpp2019-sum-quarks.pdf}{Quarks data in PDG 2019}
+	
+	\bibitem{pdg-w} \href{http://pdg.lbl.gov/2019/listings/rpp2019-list-w-boson.pdf}{W boson data in PDG 2019}
+	
+	\bibitem{jet-topography} G. P. Salam, Towards Jetography \href{https://arxiv.org/abs/0906.1833}{arXiv:0906.1833v2} 
 	
 \end{thebibliography} 
 
