@@ -19,6 +19,8 @@
     int z_mass[3] = {500, 1000, 2000};
     Analyser analyser[3];
     char filename[100],foldername[200];
+
+
     
 //    for(int iFile=0; iFile<3; iFile++){
       int iFile = 1;  
@@ -27,28 +29,21 @@
       analyser[iFile].SetFile(filename);
       
       sprintf(foldername, "./%s/partons", analyser[iFile].FolderName().c_str());
-      
-      
-      analyser[iFile].ReadPartons(&parton);
-     
-      
-      analyser[iFile].ReadHadrons(&hadrons);
-      cout<<"size : "<<parton[1].prop[0].size()<<setw(20)<<hadrons.size()<<setw(20)<<parton[1].prop[10].size()<<endl;
- 
+            
+      analyser[iFile].ReadPartons(&parton);      
       for(int i=0; i<parton.size(); i++){
         parton[i].setnames(partonnames[i].c_str(), "");
       }
 
-      for(int i=0; i< parton[1].prop[0].size(); i++){
-        v_temp.SetPxPyPzE(parton[1].prop[0][i], parton[1].prop[1][i], parton[1].prop[2][i], parton[1].prop[3][i] );
-        parton[1].prop[10].push_back( sizeofjet(v_temp, hadrons[i]) );  
-        cout<<"for the watch......"<<100.0*float(i+1)/float(parton[1].prop[0].size()+1)<<" % "<<"\r"; 
-      } cout<<endl;
-      hadrons.clear();
-      
+//
+      analyser[iFile].ReadHadrons(&parton[1]);      
       cout<<"size : "<<parton[1].prop[0].size()<<setw(20)<<hadrons.size()<<setw(20)<<parton[1].prop[10].size()<<endl;
+
       Drawone(parton[1], 10, foldername);
       Draw1v2(parton[1], parton[1], 5, 10, foldername);
+//      
+      
+      
       DrawdelRvspT( parton[1], parton[3], parton[4], foldername );
       DrawdelRvspT( parton[3], parton[7], parton[8], foldername );
 

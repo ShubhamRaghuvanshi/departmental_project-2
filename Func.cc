@@ -386,16 +386,16 @@ using namespace fastjet;
   return 0;         
   }
   
-   float sizeofjet( TLorentzVector parent, vector<TLorentzVector> h ){
+   float sizeofjet( TLorentzVector parent, vector<double> *h_px, vector<double> *h_py, vector<double> *h_pz, vector<double> *h_e  ){
   
     float R;
     TLorentzVector jetmomenta, hadronmomenta;  
    
-    
-    for(R=0; R < 100.0; R = R+0.01 ){
+    for(R=0; R < 10.0; R = R+0.1 ){
       jetmomenta.SetPxPyPzE(0,0,0,0);
-      for(int i=0; i< h.size();  i++){ 
-        hadronmomenta.SetPxPyPzE( h[i].Px(), h[i].Py(), h[i].Pz(), h[i].E() );      
+  
+      for(int i=0; i< h_px->size();  i++){ 
+        hadronmomenta.SetPxPyPzE( h_px->at(i), h_py->at(i), h_pz->at(i), h_e->at(i)  );      
 
         if(  parent.DeltaR(hadronmomenta) < R ) 
           jetmomenta = jetmomenta + hadronmomenta;          
@@ -472,7 +472,7 @@ using namespace fastjet;
     if(max2 < p2.prop[iprop2][i]) max2 = p2.prop[iprop2][i]; 
   }
   
-  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 3.4 );
+  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 5 );
   
   for(int i=0; i< propsize; i++){
     hist->Fill(p1.prop[iprop1][i], p2.prop[iprop2][i]);  
@@ -521,7 +521,7 @@ using namespace fastjet;
     if(max1 < top.prop[5][i]) max1 = top.prop[5][i];
   }
   
-  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 3.4 );
+  hist = new TH2F(canvasname, canvasname, 50, 0, 800, 50, 0, 5 );
   
   for(int i=0; i< top.prop[5].size(); i++){
     hist->Fill(  top.prop[5][i], delR(w.GetLorentzVector(i), b.GetLorentzVector(i) )  );  

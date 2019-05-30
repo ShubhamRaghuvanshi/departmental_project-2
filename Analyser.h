@@ -82,7 +82,7 @@ class Analyser{
 
     int ReadPartons( vector<ParticleProperty> *pp);
    // int RecoJetsztt( );
-    int ReadHadrons( vector<vector<TLorentzVector>> *h);
+    int ReadHadrons(ParticleProperty *p );
     int RecoJets(float R, float fatR, bool match);
     int givehadrons(int iEvent, vector<TLorentzVector> *particles) ;
     

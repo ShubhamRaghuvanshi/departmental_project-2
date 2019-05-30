@@ -48,7 +48,7 @@
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat);
   int DrawHistograms(vector<ParticleProperty> particle, int drawoption, int mass_index,  string foldername);
   
-  float sizeofjet( TLorentzVector parent, vector<TLorentzVector> h );
+  float sizeofjet( TLorentzVector parent, vector<double> *h_px, vector<double> *h_py, vector<double> *h_pz, vector<double> *h_e );
   void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername);
   void Drawone( ParticleProperty p, int iprop , string foldername);
   

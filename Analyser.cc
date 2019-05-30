@@ -112,8 +112,8 @@ float w_mass = 80;
  	    
     
 
-    int Analyser::ReadHadrons( vector<vector<TLorentzVector>> *h){
-
+    int Analyser::ReadHadrons( ParticleProperty *p){
+cout<<"reading hadrons"<<endl;
       TFile *f = new TFile(filename.c_str(), "READ");    
       TTree *tree;
       
@@ -134,19 +134,23 @@ float w_mass = 80;
     
       if(px->size() != py->size() || px->size() != pz->size() || px->size() != e->size()  ) return -666;
       
-      vector<TLorentzVector> particles;
+      vector<TLorentzVector> hadrons;
       
      int nEvent = bpx->GetEntries()-1;
-   //  nEvent =10000;
+   //  nEvent = 50000;
+      if(p->prop[0].size() != nEvent) {cout<<"unequal sizes"<<endl; return -888;}
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
+     // cout<<setw(20)<<iEvent<<setw(20)<<px->size()<<endl;
+      
         bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  
-        
-        
-        for(int i=0; i< px->size() ; i++)
-		    	particles.push_back(  TLorentzVector(px->at(i), py->at(i), pz->at(i), e->at(i))  );
-        h->push_back(particles);
-        particles.clear();
-      }
+
+        cout<<"Processing hadron data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 
+     
+        p->prop[10].push_back( sizeofjet( p->GetLorentzVector(iEvent) , px, py, pz, e ));
+
+       hadrons.clear();
+       
+      } cout<<endl;
  		 
     }
 
@@ -177,7 +181,7 @@ float w_mass = 80;
         Long64_t tentry  = tree->LoadTree(0);
         PartonBranch->GetEntry(tentry); 
         int nEvent = PartonBranch->GetEntries()-1;
-       // nEvent = 10000;
+        //nEvent = 50000;
   
         if(part ==0 )
           cout<<"Number of Events in the file : "<<nEvent<<endl;
