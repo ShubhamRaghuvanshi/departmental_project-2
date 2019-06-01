@@ -60,7 +60,7 @@
   void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername);
   void Drawone( ParticleProperty p, int iprop , string foldername);
   vector<PseudoJet> UseSoftDrop(vector<PseudoJet> jets, double R);
-  vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets);
+  //vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets);
   
 #endif
 

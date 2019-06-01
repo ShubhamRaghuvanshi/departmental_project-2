@@ -61,21 +61,6 @@ using namespace fastjet;
  }
 
 
-  vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets, double R){
-  
-    
-    float r;
-    PseudoJet v_constituent;
-    
-    for(int i=0; i< jets.size() ; i++){
-      cout<<"Number of constituents of the jet : "i<<setw(20)<<jets[i].constituents().size()<<endl;
-      cout<<
-       
-    }  
-      
-  }
-
-
   int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TaggedTop ){
 
     PseudoJet t_temp, w_temp;
@@ -253,7 +238,7 @@ using namespace fastjet;
       float scale = 1.0/(hist->Integral());
       hist->Scale(scale);
       hist->GetYaxis()->SetTitle("Normalised units"); 
-      hist->SetStats(true) ;    
+      hist->SetStats(false) ;    
       //hist->Sumw2();
     }
     else{
@@ -262,9 +247,10 @@ using namespace fastjet;
     } 
     
     hist->SetName("");
-    hist->GetYaxis()->SetTitleSize(.01); 
+    hist->GetYaxis()->SetTitleSize(.04); 
     hist->GetXaxis()->SetTitleSize(.04);
-    hist->SetTitle("");
+   // hist->SetTitleSize(0.02);
+  //  hist->SetTitle("");
   }
 
 
@@ -272,7 +258,7 @@ using namespace fastjet;
     char canvasname[200],pngname[200];
               
     int xdiv, ydiv;
-    float x1=0.60, y1 = 0.7, x2=0.85, y2=0.85;
+    float x1=0.65, y1 = 0.7, x2=0.88, y2=0.88;
     string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1 TeV", "M_{Z'} = 2 TeV"};
     string algoentry[3] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT"};
 
@@ -366,7 +352,7 @@ using namespace fastjet;
        canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
        canvas->cd();     
         
-        for(int ipart=0; ipart< particle.size()-1 ; ipart = ipart+1){
+        for(int ipart= 0; ipart< particle.size()-1 ; ipart = ipart+1){
           TH1F *hist1;
           char histname[200];
 
@@ -413,20 +399,21 @@ using namespace fastjet;
         canvas = new TCanvas(canvasname, canvasname, 1600, 1000);               
               
         canvas->cd();                  
-        for(int ipart=0; ipart < particle.size(); ipart++){      
+        for(int ipart= particle.size()-1; ipart >=0 ; ipart--){      
    
           TH1F *hist;           
           hist = particle[ipart].HistProp(iprop, -1); 
           FormatHist(hist, ipart+1, 4, true);          
-            
-       //   hist->Draw("e1 same"); 
+          hist->SetTitle(hist->GetXaxis()->GetTitle()); 
+          hist->Draw("e1 same"); 
           stack->Add(hist);  
           legend->AddEntry(hist, legentry[ipart].c_str(), "l");
           
-          if(ipart == particle.size()-1){
-            stack->Draw("hist nostack");            
+          if(ipart == 0){
+            stack->Draw("hist nostack same");            
             stack->GetXaxis()->SetTitle(hist->GetXaxis()->GetTitle());
-            stack->GetYaxis()->SetTitle(hist->GetYaxis()->GetTitle());          
+            stack->GetYaxis()->SetTitle(hist->GetYaxis()->GetTitle()); 
+            legend->SetBorderSize(0);         
             legend->Draw("same");
             sprintf(pngname,"./%s/%s_stack.png", foldername.c_str(), canvasname);          
             canvas->SaveAs(pngname);      
@@ -437,7 +424,7 @@ using namespace fastjet;
         delete canvas;
         delete legend;
        // delete hist;     
-      } //3 : draw on top
+      } //3 : draw on same canvas
 
      else{}
      

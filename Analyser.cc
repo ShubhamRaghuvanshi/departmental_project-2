@@ -255,7 +255,7 @@ cout<<"reading hadrons"<<endl;
 
       vector<PseudoJet> particles, jets, fatjets; 
       int nEvent = bpx->GetEntries()-1;
-      nEvent = 10000;
+      nEvent = 1000;
           
       cout<<"TOTAL ENTRIES : "<<bpx->GetEntries()-1<<endl;    
       if(nEvent > bpx->GetEntries()){
@@ -264,7 +264,7 @@ cout<<"reading hadrons"<<endl;
       }
                 
               
-      int nJet=0, nFatjet=0;    
+      int nJet=0, nFatjet=0, nThreeJetEvent=0;    
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
 
         int iTagged_kin=0, iTagged_chi=0, iTagged_hep=0; 
@@ -297,8 +297,10 @@ cout<<"reading hadrons"<<endl;
         if( fatjets.size() !=0)
           njets200->Fill(fatjets.size());
 
-        if(jets.size() > 2)  
-         nJet+=jets.size();
+        if(jets.size() > 2){  
+          nJet+=jets.size();
+          nThreeJetEvent++;
+        }
 
         if(fatjets.size() > 0)  
          nFatjet+=fatjets.size();
@@ -417,6 +419,7 @@ cout<<"reading hadrons"<<endl;
       cout<<"############################ Analysis Summary #############################"<<endl;
 
       cout<<"Number of events analysed : "<<nEvent<<endl;
+      cout<<"Number of three jet events : "<<nThreeJetEvent<<endl;
       cout<<"Number of Input Jets : "<<nJet<<endl;
       cout<<"Number of Input fATJets : "<<nFatjet<<endl;	    
       cout<<"Number of Tagged top-jets :"<<endl;

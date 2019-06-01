@@ -173,7 +173,7 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
     prop_low[iprop] = temp_low;
     prop_high[iprop] = temp_high;
     
-//cout<<setw(20)<<prop[iprop].size()<<setw(20)<<"      my proooooooooo :"<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<setw(20)<<prop[iprop].size()<<endl;
+//cout<<setw(20)<<propXaxis[iprop]<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<endl;
     
   if(particle_id == 0 ){
 
