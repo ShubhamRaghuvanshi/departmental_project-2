@@ -32,14 +32,16 @@
   const double m_w = 80.0;
   const double m_top =172.0;
   //only the rlative weights matter, keep them to be the decay widths. 
-  const double sigma_w = 2.0;
-  const double sigma_top = 1.5;
+  const double Gamma_w = 2.0;
+  const double Gamma_top = 1.5;
 
-//  const double delta_mw = 15.0;
-//  const double delta_mtop = 10.0;
+  const double C = 10.0;
 
-  const double delta_mw = 5.0 * sigma_w;
-  const double delta_mtop = 5.0 * sigma_top  ;
+  const double sigma_w = C * Gamma_w;
+  const double sigma_top = C * Gamma_top;
+
+  const double delta_mw = C * Gamma_w;
+  const double delta_mtop = C * Gamma_w;
 
 // for softdrop algorithm
 

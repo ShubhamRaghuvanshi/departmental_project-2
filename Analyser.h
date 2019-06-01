@@ -66,7 +66,7 @@ class Analyser{
 
       TopkinMatched.setnames("top(kin)","");  
       TopchiMatched.setnames("top(#chi^{2})","");    
-      TophepMatched.setnames("top_{hepTT}","");  
+      TophepMatched.setnames("top(hepTT)","");  
 
       TopkinMatch.setnames("top_{parton}","");  
       TopchiMatch.setnames("top_{parton}","");    

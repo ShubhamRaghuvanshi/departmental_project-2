@@ -81,33 +81,52 @@
 	//##########################################  Jet reconstruction ########################3
 
 	
-	   int mass_index=0; 
-	   vector<ParticleProperty> topkin, topchi, tophep;
-	   
-	   
-	   for(mass_index =0; mass_index<3; mass_index++){
-	   
+	   int mass_index; 
+     vector<ParticleProperty> toprecokin, toprecochi, toprecohep, top	; 
+     vector<ParticleProperty> BigTop;
+     for(mass_index =0; mass_index<3; mass_index++){
+	   	   	   	   
        sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[mass_index] );
        analyser[mass_index].SetFile(filename);
 
 	     analyser[mass_index].RecoJets(0.5, 1.0, true);
-       sprintf(foldername, "./%s/jets", analyser[mass_index].FolderName().c_str()); 
+        
+       toprecokin.push_back(analyser[mass_index].TopkinMatched);
+       
+       toprecochi.push_back(analyser[mass_index].TopchiMatched);
+       toprecohep.push_back(analyser[mass_index].TophepMatched);         
+       top.push_back(analyser[mass_index].Top);       
+ 
+    } 
+     
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(toprecokin[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(toprecochi[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(toprecohep[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(top[mass_index]); 
+    
+    sprintf(foldername, "./%s/jets", analyser[2].FolderName().c_str());     
+    DrawHistograms(BigTop, 1, -1, foldername); 
+     
+    
+    
+    toprecokin.clear();
+    toprecochi.clear();
+    toprecohep.clear();
+    top.clear();
+    BigTop.clear();
 
-       topkin.push_back(analyser[mass_index].TopkinMatched);
-       topchi.push_back(analyser[mass_index].TopchiMatched);  
-      }  // mass index loop
-      
-      DrawHistograms(topkin, 3, -1, foldername);    topkin.clear();
-      DrawHistograms(topchi, 3, -1, foldername);    topchi.clear();
-      
-      
     t = clock() - t;
     cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;
     return 0;
   }
   
   
-  
+  // /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.cc 
+  // /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.cc
   
   
   

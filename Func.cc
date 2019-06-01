@@ -119,7 +119,7 @@ using namespace fastjet;
         for(int j=i+1; j<jets.size(); j++){  
           for(int k=0; k<jets.size(); k++){
       
-            chisq_ijk = pow( (m_top - (jets[i]+jets[j]+jets[k]).m()),2)/sigma_top + pow( (m_w - (jets[i]+jets[j]).m()),2)/sigma_w ;  
+            chisq_ijk = pow( (m_top - (jets[i]+jets[j]+jets[k]).m()),2)/(sigma_top*sigma_top) + pow( (m_w - (jets[i]+jets[j]).m()),2)/(sigma_w*sigma_w) ;  
             if(chisq_ijk < chisq_min && k !=i && k!=j){
               chisq_min = chisq_ijk;  
               w1 = i; w2 = j; b=k;
@@ -135,7 +135,7 @@ using namespace fastjet;
      W->push_back_momenta( w_temp.px(), w_temp.py(), w_temp.pz(), w_temp.e()  );  
      B->push_back_momenta( jets[b].px(), jets[b].py(), jets[b].pz(), jets[b].e()  );
      
-     if( abs( t_temp.m() - m_top ) < delta_mtop && abs( w_temp.m() - m_w) < delta_mw )
+     if( chisq_min < 2 )
         TaggedTop->push_back_momenta( t_temp.px(), t_temp.py(), t_temp.pz(), t_temp.e()  );
         jets.erase(jets.begin() + w1 );
         jets.erase(jets.begin() + w2 );
@@ -260,7 +260,7 @@ using namespace fastjet;
     int xdiv, ydiv;
     float x1=0.65, y1 = 0.7, x2=0.88, y2=0.88;
     string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1 TeV", "M_{Z'} = 2 TeV"};
-    string algoentry[3] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT"};
+    string algoentry[4] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT","Original Top Quark"};
 
     TCanvas *canvas;
     THStack *stack;
@@ -299,6 +299,8 @@ using namespace fastjet;
 
       else if(drawoption ==1 ) {
       
+        int batchsize =3;
+      
         if(particle.size() == 2 ){
           xdiv = 2;
           ydiv = 1;
@@ -311,35 +313,59 @@ using namespace fastjet;
           xdiv = 2;
           ydiv = 2;
         }  
+        
+        else if(particle.size() == 12){
+          xdiv = 2;
+          ydiv = 2;                  
+        }
+        
         else{ cout<<"define new canvas divisions (xdiv, ydiv)"<<endl;    return -888; }
         
-        TCanvas *canvas;
-            
- sprintf(canvasname, "reco_%s_%s_%lu", particle[particle.size()-1].GetPartName().c_str(), particle[particle.size()-1].GetPropName(iprop).c_str(), particle.size() );
-        canvas = new TCanvas(canvasname, canvasname, 1600, 1200);
+        sprintf(canvasname,"%s", particle[0].propXaxis[iprop].c_str());
+        canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
         canvas->Divide(xdiv, ydiv);
-        TH1F *hist1;                         
-        for(int ipart=0; ipart < particle.size(); ipart++){     
-          legend =  new TLegend(x1+ 0.05,y1,x2,y2);   
-          legend->SetBorderSize(0);
-          hist1 = particle[ipart].HistProp(iprop, 1); 
-          FormatHist(hist1, ipart+1, 2, false);   
-          legend->AddEntry(hist1, particle[ipart].GetPartName().c_str(), "l");  
-          canvas->cd(ipart+1);          
-          hist1->Draw("e1");
-          hist1->Draw("hist same");  
-          legend->Draw();
-  //        delete hist;                      
-        } 
-        
+        legend =  new TLegend(x1,y1,x2,y2);
+        TH1F *hist;                         
+                
+        for(int iCanvas=0; iCanvas< xdiv*ydiv; iCanvas++ ){
+          
+          canvas->cd(iCanvas+1);
+          stack  = new THStack("stack","");  
+          
+          for(int iBatch=0; iBatch<batchsize; iBatch++){
+                      
+            hist = particle[ batchsize*iCanvas + iBatch  ].HistProp(iprop, -1);
+
+ cout<<"gagagaga + "<<batchsize*iCanvas + iBatch<<setw(20)<<iCanvas<<setw(20)<<iBatch<<setw(20)<<hist->GetTitle()<<setw(20)<<hist->GetEntries()<<endl;         
+
+
+            FormatHist(hist, iBatch+1, 2, false);
+            stack->Add(hist);
+  
+            if(iCanvas ==0 )
+            legend->AddEntry(hist, legentry[iBatch].c_str(), "l");                       
+
+            hist->Draw("e1 same"); 
+            if(iBatch == batchsize-1){                          
+              sprintf(pngname, "%s", algoentry[iCanvas].c_str() );
+              stack->SetTitle(pngname);
+              stack->Draw("hist nostack same");
+              cout<<stack->GetNhists()<<endl;
+              legend->Draw("same");            
+            }
+         }  //batch          
+        }  //canvas
+
+        sprintf(canvasname, "RecoParticles%lu_%s", particle.size(), particle[0].GetPropName(iprop).c_str());
         sprintf(pngname,"./%s/%s.png", foldername.c_str(), canvasname );         
         canvas->SaveAs(pngname);      
-        delete hist1;    
-        delete canvas;    
+        delete hist;    
+        delete canvas;
+        delete legend;  
+        delete stack;
       } // 1 : draw on divided canvas
       
       else if(drawoption == 2){
-      
         stack  = new THStack("stack","");
         legend =  new TLegend(x1,y1,x2,y2);    
         legend->SetBorderSize(0);  
@@ -357,28 +383,30 @@ using namespace fastjet;
           char histname[200];
 
           hist1 = particle[ipart].HistProp(iprop, 1); 
-                          
-          hist1->SetLineColor(ipart+1);
           hist1->Divide(hist2);
-          hist1->SetLineWidth(3);
-          hist1->SetStats(false);
-        //  hist1->Draw("e1 same");
+          FormatHist(hist1, ipart+1, 3, false);
+
           stack->Add(hist1);
+
           legend->AddEntry(hist1, algoentry[ipart].c_str(), "l");
-          
+                    
           if(ipart == particle.size() -2){
                            
             stack->Draw("hist nostack");                        
 
-            sprintf(histname, " %s^{%s}", particle[particle.size()-1].propXaxis[iprop].c_str(), particle[particle.size()-1].GetPartName().c_str() );       
-            stack->GetXaxis()->SetTitle(histname);
-            sprintf(histname, "#epsilon_{%sreco}", particle[particle.size()-1].GetPartName().c_str() );
-            stack->GetYaxis()->SetTitle(histname);        
+            sprintf(pngname,"top reconstruction efficiency vs %s for %s", particle[particle.size()-1].propXaxis[iprop].c_str(), legentry[mass_index].c_str());
+            stack->SetTitle(pngname);
+            sprintf(pngname,"%s^{%s}", particle[0].propXaxis[iprop].c_str(), particle[particle.size()-1].GetPartName().c_str() );
+            stack->GetXaxis()->SetTitle(pngname);
+            sprintf(pngname, "#epsilon_{%sreco}", particle[particle.size()-1].GetPartName().c_str() );
+            stack->GetYaxis()->SetTitle(pngname);        
+
+
             legend->Draw("same");                  
      
-         sprintf(pngname,"./%s/Recoeff%lu_%s_%s.png", foldername.c_str(), particle.size(), 
-           particle[particle.size()-1].GetPartName().c_str(),particle[particle.size()-1].GetPropName(iprop).c_str() );               
-            canvas->SaveAs(pngname);  
+             sprintf(pngname,"./%s/Recoeff%lu_%s_%s.png", foldername.c_str(), particle.size(), 
+             particle[particle.size()-1].GetPartName().c_str(),particle[particle.size()-1].GetPropName(iprop).c_str() );               
+             canvas->SaveAs(pngname);  
             
             delete canvas;  
             delete hist1;  
@@ -404,15 +432,24 @@ using namespace fastjet;
           TH1F *hist;           
           hist = particle[ipart].HistProp(iprop, -1); 
           FormatHist(hist, ipart+1, 4, true);          
-          hist->SetTitle(hist->GetXaxis()->GetTitle()); 
+
+          if(ipart == particle.size() -1 ){
+            sprintf(pngname,"Reconstructed  %s^{top} for %s ", particle[0].propXaxis[iprop].c_str(), legentry[mass_index].c_str() );
+            hist->SetTitle(pngname);
+            sprintf(pngname,"%s^{top}", particle[0].propXaxis[iprop].c_str() );
+            hist->GetXaxis()->SetTitle(pngname); 
+          }
+ 
           hist->Draw("e1 same"); 
           stack->Add(hist);  
-          legend->AddEntry(hist, legentry[ipart].c_str(), "l");
+          legend->AddEntry(hist, algoentry[ipart].c_str(), "l");
           
           if(ipart == 0){
-            stack->Draw("hist nostack same");            
-            stack->GetXaxis()->SetTitle(hist->GetXaxis()->GetTitle());
-            stack->GetYaxis()->SetTitle(hist->GetYaxis()->GetTitle()); 
+
+            stack->Draw("hist nostack same"); 
+                       
+//            stack->GetXaxis()->SetTitle(pngname);
+//            stack->GetYaxis()->SetTitle(hist->GetYaxis()->GetTitle()); 
             legend->SetBorderSize(0);         
             legend->Draw("same");
             sprintf(pngname,"./%s/%s_stack.png", foldername.c_str(), canvasname);          
