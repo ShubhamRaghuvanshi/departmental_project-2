@@ -16,6 +16,66 @@ using namespace fastjet;
     return sqrt( Yttbar*Yttbar + Phittbar*Phittbar );    
   }
 
+  vector<PseudoJet> UseSoftDrop( vector<PseudoJet> jets, double R){
+  
+    vector<PseudoJet> groomedjets;
+
+    double z_cut = 0.10;
+    double beta = 2.0;
+
+    contrib::SoftDrop sd(beta, z_cut, R);
+    
+    for (unsigned ijet = 0; ijet < jets.size(); ijet++) {
+      // Run SoftDrop and examine the output
+      PseudoJet sd_jet = sd(jets[ijet]);
+    
+      //  cout << "original    jet: " << jets[ijet] << endl;
+      //  cout << "SoftDropped jet: " << sd_jet << endl;
+      groomedjets.push_back(sd_jet);
+      assert(sd_jet != 0); //because soft drop is a groomer (not a tagger), it should always return a soft-dropped jet
+   
+//      cout << " masses before and after grooming "<<setw(20)<<jets[ijet].constituents().size()<<setw(20)<<sd_jet.constituents().size()<<endl;
+//      cout << " masses before and after grooming "<<setw(20)<<jets[ijet].m()<<setw(20)<<sd_jet.m()<<endl;
+    }
+ 
+    return groomedjets;
+  }
+
+   float sizeofjet( TLorentzVector parent, vector<double> *h_px, vector<double> *h_py, vector<double> *h_pz, vector<double> *h_e  ){
+  
+    float R;
+    TLorentzVector jetmomenta, hadronmomenta;  
+   
+    for(R=0; R < 10.0; R = R+0.1 ){
+      jetmomenta.SetPxPyPzE(0,0,0,0);
+  
+      for(int i=0; i< h_px->size();  i++){ 
+        hadronmomenta.SetPxPyPzE( h_px->at(i), h_py->at(i), h_pz->at(i), h_e->at(i)  );      
+
+        if(  parent.DeltaR(hadronmomenta) < R ) 
+          jetmomenta = jetmomenta + hadronmomenta;          
+      }
+      if(jetmomenta.M() >= parent.M()) break;
+   }//R loop
+   return R;
+ }
+
+
+  vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets, double R){
+  
+    
+    float r;
+    PseudoJet v_constituent;
+    
+    for(int i=0; i< jets.size() ; i++){
+      cout<<"Number of constituents of the jet : "i<<setw(20)<<jets[i].constituents().size()<<endl;
+      cout<<
+       
+    }  
+      
+  }
+
+
   int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TaggedTop ){
 
     PseudoJet t_temp, w_temp;
@@ -232,7 +292,7 @@ using namespace fastjet;
           canvas = new TCanvas(canvasname, canvasname, 1600, 1000);               
           
           TH1F *hist;           
-          hist = particle[ipart].HistProp(iprop, -1); 
+          hist = particle[ipart].HistProp(iprop, 1); 
 
                   
           FormatHist(hist, mass_index+1, 4, false);          
@@ -386,27 +446,6 @@ using namespace fastjet;
   return 0;         
   }
   
-   float sizeofjet( TLorentzVector parent, vector<double> *h_px, vector<double> *h_py, vector<double> *h_pz, vector<double> *h_e  ){
-  
-    float R;
-    TLorentzVector jetmomenta, hadronmomenta;  
-   
-    for(R=0; R < 10.0; R = R+0.1 ){
-      jetmomenta.SetPxPyPzE(0,0,0,0);
-  
-      for(int i=0; i< h_px->size();  i++){ 
-        hadronmomenta.SetPxPyPzE( h_px->at(i), h_py->at(i), h_pz->at(i), h_e->at(i)  );      
-
-        if(  parent.DeltaR(hadronmomenta) < R ) 
-          jetmomenta = jetmomenta + hadronmomenta;          
-      }
-      if(jetmomenta.M() >= parent.M()) break;
-   }//R loop
- //  if(parent.Pt() > 200){
- //  cout<<setw(15)<<"Jet mass : "<<setw(15)<<jetmomenta.M()<<setw(15)<<jetmomenta.Pt()<<setw(15)<<"R = "<<setw(15)<<R<<setw(15)<<parent.M();
- //  cout<<setw(20)<<h_px->size()<<setw(20)<<parent.Pt()<<endl;}
-   return R;
- }
  
  void Drawone( ParticleProperty p, int iprop , string foldername){
 

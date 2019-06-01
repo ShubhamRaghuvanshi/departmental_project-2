@@ -255,7 +255,7 @@ cout<<"reading hadrons"<<endl;
 
       vector<PseudoJet> particles, jets, fatjets; 
       int nEvent = bpx->GetEntries()-1;
-    //  nEvent = 100;
+      nEvent = 10000;
           
       cout<<"TOTAL ENTRIES : "<<bpx->GetEntries()-1<<endl;    
       if(nEvent > bpx->GetEntries()){
@@ -289,7 +289,8 @@ cout<<"reading hadrons"<<endl;
         
         jets    = sorted_by_pt(cs_jet.inclusive_jets(20));           
         fatjets = sorted_by_pt(cs_hep.inclusive_jets(200));
-        
+          
+       // jets = UseSoftDrop(jets, R);
   
         if( jets.size() !=0)
           njets20->Fill(jets.size() );
@@ -441,8 +442,8 @@ cout<<"reading hadrons"<<endl;
 	    
 	    return 0;    
     } //jetreco  
-  
     
+  
 
 
 

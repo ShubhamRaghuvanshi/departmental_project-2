@@ -18,6 +18,8 @@
   #include "fastjet/ClusterSequence.hh"
   #include "fastjet/PseudoJet.hh"
   #include "HEPTopTagger.hh"
+  #include "/home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.hh"
+//  #include "/home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.hh"
   #include "particleproperty.h"
   
 
@@ -33,8 +35,14 @@
   const double sigma_w = 2.0;
   const double sigma_top = 1.5;
 
-  const double delta_mw = 15.0;
-  const double delta_mtop = 10.0;
+//  const double delta_mw = 15.0;
+//  const double delta_mtop = 10.0;
+
+  const double delta_mw = 5.0 * sigma_w;
+  const double delta_mtop = 5.0 * sigma_top  ;
+
+// for softdrop algorithm
+
 
   double delR( TLorentzVector v1, TLorentzVector v2 );
   
@@ -51,6 +59,8 @@
   float sizeofjet( TLorentzVector parent, vector<double> *h_px, vector<double> *h_py, vector<double> *h_pz, vector<double> *h_e );
   void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername);
   void Drawone( ParticleProperty p, int iprop , string foldername);
+  vector<PseudoJet> UseSoftDrop(vector<PseudoJet> jets, double R);
+  vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets);
   
 #endif
 

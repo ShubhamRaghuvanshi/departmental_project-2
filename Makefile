@@ -1,7 +1,7 @@
 SOURCES=HEPTopTagger.cc example.cc
 MYSOURCES=HEPTopTagger.cc EventAnalysis.cc   
 MYSOURCES2=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc zpttEventAnalysis.cc 
-MYSOURCES3=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc pp2zp2tt2qqblv_EventAnalysis.cc 
+MYSOURCES3=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc Analyser.h particleproperty.h Func.h /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.cc /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.cc pp2zp2tt2qqblv_EventAnalysis.cc 
 
 
 OBJECTS=$(SOURCES:.cc=.o)

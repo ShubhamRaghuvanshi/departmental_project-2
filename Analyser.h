@@ -18,9 +18,8 @@
 #include "TLegend.h"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/PseudoJet.hh"
-
 #include "particleproperty.h"
-//#include "./HEPTopTagger.hh"
+#include "./HEPTopTagger.hh"
 #include "Func.h"
 
 using namespace std;
@@ -85,7 +84,6 @@ class Analyser{
     int ReadHadrons(ParticleProperty *p );
     int RecoJets(float R, float fatR, bool match);
     int givehadrons(int iEvent, vector<TLorentzVector> *particles) ;
-    
     string FolderName();
 };  //analyser class
 

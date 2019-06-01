@@ -55,69 +55,101 @@ int main() {
     pythia.init();
 
     int nEvent=10, nFill=0; 
-    nEvent=50000;
-    
+    nEvent=50;
+    int nQuark=0, nGluon=0;
+    vector<int> quark_decayvector, gluon_decayvector;
     for (int iEvent = 0;iEvent<nEvent; ++iEvent) {  
-    
+      nQuark=0; nGluon=0;
+      
       if (!pythia.next())  { cout<<"Go away, no time to say hi."<<endl; continue;}    
 
+
+
       for(int i=0; i< pythia.event.size(); i++){
-        if( pythia.event[i].id() == Zp_id ){
+
+      if( pythia.event[i].id() ==21 && !pythia.event[i].isQuark() && pythia.event[i].daughterList().size() >3 ){        
+
+        if(match_found(gluon_decayvector, pythia.event[i].daughterList()) == 0 ){ 
+          nGluon++; 
+          for(int k=pythia.event[i].daughter1()  ; k  <=pythia.event[i].daughter2() ; k++)
+           gluon_decayvector.push_back(k);
+                        
+           cout<<nGluon<<"  gluon jetsize : "<<setw(20)<<pythia.event[pythia.event[i].mother1()].name()<<setw(20)<<pythia.event[i].mother2()<<endl;            
+        }
+      }
+      
+      if( pythia.event[i].isQuark() && pythia.event[i].daughterList().size() > 3 ){        
+
+        if(  match_found(quark_decayvector, pythia.event[i].daughterList())==0  ){ 
+          nQuark++; 
+          //cout<<"new quark "<<pythia.event[i].name()<<setw(20)<<pythia.event[pythia.event[pythia.event[i].daughter1()].mother2()].name()<<endl;
+          for(int k=pythia.event[i].daughter1()  ; k  <=pythia.event[i].daughter2() ; k++)
+           quark_decayvector.push_back(k);             
+          cout<<nQuark<<"  quark jetsize : "<<setw(20)<<pythia.event[pythia.event[i].daughter1()].name()<<setw(20)<<pythia.event[i].daughter2()<<endl; 
+        }
+      }
 
 
-          z  = pythia.event[i];
-          t  = FinalDaughter(&pythia, z, 0);
-          tb = FinalDaughter(&pythia, z, 1);
-          wp = FinalDaughter(&pythia, t, 0);
-          b  = FinalDaughter(&pythia, t, 1);
-          wm = FinalDaughter(&pythia, tb, 0);
-          bm = FinalDaughter(&pythia, tb, 1);
-          q  = FinalDaughter(&pythia, wp, 0);
-          qb = FinalDaughter(&pythia, wp, 1);
+      if( pythia.event[i].id() == Zp_id ){
 
+        z  = pythia.event[i];
+        t  = FinalDaughter(&pythia, z, 0);
+        tb = FinalDaughter(&pythia, z, 1);
+        wp = FinalDaughter(&pythia, t, 0);
+        b  = FinalDaughter(&pythia, t, 1);
+        wm = FinalDaughter(&pythia, tb, 0);
+        bm = FinalDaughter(&pythia, tb, 1);
+        q  = FinalDaughter(&pythia, wp, 0);
+        qb = FinalDaughter(&pythia, wp, 1);
+
+        
+        if( t.id() == top_id && tb.id() == -top_id && wp.id() == w_id && wm.id() == -w_id && b.id() == b_id && bm.id() == -b_id){
+          nFill++;
+          Pz.SetPxPyPzE( z.p().px(), z.p().py(), z.p().pz(), z.p().e()   );
+          Pt.SetPxPyPzE( t.p().px(), t.p().py(), t.p().pz(), t.p().e()   );
+          Ptb.SetPxPyPzE( tb.p().px(), tb.p().py(), tb.p().pz(), tb.p().e()   );
+          Pwp.SetPxPyPzE( wp.p().px(), wp.p().py(), wp.p().pz(), wp.p().e()   );
+          Pb.SetPxPyPzE( b.p().px(), b.p().py(), b.p().pz(), b.p().e()   );
+          Pwm.SetPxPyPzE( wm.p().px(), wm.p().py(), wm.p().pz(), wm.p().e()   );
+          Pbm.SetPxPyPzE( bm.p().px(), bm.p().py(), bm.p().pz(), bm.p().e()   );
+          Pq.SetPxPyPzE( q.p().px(), q.p().py(), q.p().pz(), q.p().e()   );
+          Pqb.SetPxPyPzE( qb.p().px(), qb.p().py(), qb.p().pz(), qb.p().e()   );
+        
+          FillHadrons(&pythia, &Px_hadrons, &Py_hadrons, &Pz_hadrons, &E_hadrons);    
+  
+          b_z->Fill();
+          b_t->Fill();
+          b_tb->Fill();
+          b_wp->Fill();
+          b_b->Fill();
+          b_wm->Fill();
+          b_bm->Fill();
+          b_q->Fill();
+          b_qb->Fill();
           
-          if( t.id() == top_id && tb.id() == -top_id && wp.id() == w_id && wm.id() == -w_id && b.id() == b_id && bm.id() == -b_id){
-            nFill++;
-            Pz.SetPxPyPzE( z.p().px(), z.p().py(), z.p().pz(), z.p().e()   );
-            Pt.SetPxPyPzE( t.p().px(), t.p().py(), t.p().pz(), t.p().e()   );
-            Ptb.SetPxPyPzE( tb.p().px(), tb.p().py(), tb.p().pz(), tb.p().e()   );
-            Pwp.SetPxPyPzE( wp.p().px(), wp.p().py(), wp.p().pz(), wp.p().e()   );
-            Pb.SetPxPyPzE( b.p().px(), b.p().py(), b.p().pz(), b.p().e()   );
-            Pwm.SetPxPyPzE( wm.p().px(), wm.p().py(), wm.p().pz(), wm.p().e()   );
-            Pbm.SetPxPyPzE( bm.p().px(), bm.p().py(), bm.p().pz(), bm.p().e()   );
-            Pq.SetPxPyPzE( q.p().px(), q.p().py(), q.p().pz(), q.p().e()   );
-            Pqb.SetPxPyPzE( qb.p().px(), qb.p().py(), qb.p().pz(), qb.p().e()   );
-          
-            FillHadrons(&pythia, &Px_hadrons, &Py_hadrons, &Pz_hadrons, &E_hadrons);    
-    
-            b_z->Fill();
-            b_t->Fill();
-            b_tb->Fill();
-            b_wp->Fill();
-            b_b->Fill();
-            b_wm->Fill();
-            b_bm->Fill();
-            b_q->Fill();
-            b_qb->Fill();
-            
-            b_hadrons_px->Fill();
-            b_hadrons_py->Fill();
-            b_hadrons_pz->Fill();
-            b_hadrons_e->Fill();
+          b_hadrons_px->Fill();
+          b_hadrons_py->Fill();
+          b_hadrons_pz->Fill();
+          b_hadrons_e->Fill();
 
-            Px_hadrons.clear();
-            Py_hadrons.clear();
-            Pz_hadrons.clear();
-            E_hadrons.clear();
-          } //all particle checked
-          break;
+          Px_hadrons.clear();
+          Py_hadrons.clear();
+          Pz_hadrons.clear();
+          E_hadrons.clear();
+        } //all particle checked
+          //break;
         } //Z dikha    
       }
-      cout<<"Events Loading......"<<100.0*float(iEvent+1)/float(nEvent)<<" % "<<"\r";
+ //     cout<<"Events Loading......"<<100.0*float(iEvent+1)/float(nEvent)<<" % "<<"\r";
+      cout<<iEvent<<setw(20)<<nQuark<<setw(20)<<nGluon<<endl;
+      quark_decayvector.clear(); 
+      gluon_decayvector.clear();
+
     }  //event loop 
     cout<<endl;
     
-    sprintf(filename, "./HEPTopTagger2/pp2zp2tt2qqblv_%d.root", z_mass[zmi]);
+   /* 
+    sprintf(filename, "./pp2zp2tt2qqblv_%d.root", z_mass[zmi]);
     cout<<"number of events : "<<nEvent<<endl;  
     cout<<"creating : " <<filename<<endl;
     cout<<"filling : " <<nFill<<" events"<<endl<<endl;
@@ -125,8 +157,9 @@ int main() {
     tree->Fill();
     tree1->Fill();
     tree->Write();
-    tree1->Write();
+    tree1->Write();    
     f.Close();
+    */
 //  } //files  
    // pythia.stat();
 
