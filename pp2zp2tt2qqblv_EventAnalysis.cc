@@ -18,7 +18,7 @@
 
 
 
-/*
+
     vector<vector<TLorentzVector>> hadrons;
     vector<ParticleProperty> parton, tops, zps, top1;
     TLorentzVector v_temp;  
@@ -26,7 +26,9 @@
 
     
 
-
+/*
+    
+      //######################################## Parton information #####################
     
 //    for(int iFile=0; iFile<3; iFile++){
       int iFile = 1;  
@@ -75,8 +77,8 @@
     
    // DrawHistograms(top1, 0, -1, foldername);    tops.clear() ;
 //    DrawHistograms(zps, 3, -1, foldername);     zps.clear() ;
-*/	
 	
+*/	
 	
 	//##########################################  Jet reconstruction ########################3
 
@@ -96,8 +98,7 @@
        toprecokin.push_back(analyser[mass_index].TopkinMatched);       
        toprecochi.push_back(analyser[mass_index].TopchiMatched);
        toprecohep.push_back(analyser[mass_index].TophepMatched);         
-       top.push_back(analyser[mass_index].Top);
-       
+       top.push_back(analyser[mass_index].Top);       
     } 
      
     for(mass_index=0; mass_index<3; mass_index++) 
@@ -134,17 +135,12 @@
       top.clear();
       topmatch.clear();       
     }
-    
-    
-     
-    
-    
+        
     toprecokin.clear();
     toprecochi.clear();
     toprecohep.clear();
     
     BigTop.clear();
-
     t = clock() - t;
     cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;
     return 0;

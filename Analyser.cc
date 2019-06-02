@@ -253,18 +253,22 @@ cout<<"reading hadrons"<<endl;
       FormatHist(histTagged_hep, 1, 2, false );
 
 
-      vector<PseudoJet> particles, jets, fatjets; 
+      vector<PseudoJet> particles, jets, fatjets, djets; 
       int nEvent = bpx->GetEntries()-1;
-  //    nEvent = 20000;
+      nEvent = 20000;
           
-      cout<<"TOTAL ENTRIES : "<<bpx->GetEntries()-1<<endl;    
+          
+      cout<<"TOTAL EVENTS IN FILE : "<<bpx->GetEntries()-1<<endl;
+      cout<<"TOTAL EVENTS TO READ : "<<nEvent<<endl;
+          
       if(nEvent > bpx->GetEntries()){
         cout<<"More than you can handle. "<<endl;
         return -777;
       }
                 
               
-      int nJet=0, nFatjet=0, nThreeJetEvent=0;    
+      int nJet=0, nFatjet=0, nThreeJetEvent=0; 
+
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
 
         int iTagged_kin=0, iTagged_chi=0, iTagged_hep=0; 
@@ -286,31 +290,34 @@ cout<<"reading hadrons"<<endl;
 		                 
         ClusterSequence cs_jet(particles, jet_def);
         ClusterSequence cs_hep(particles, hep_def);
-        
-        jets    = sorted_by_pt(cs_jet.inclusive_jets(20));           
-        fatjets = sorted_by_pt(cs_hep.inclusive_jets(200));
-          
+                  
        // jets = UseSoftDrop(jets, R);
+                  
+        jets    = sorted_by_pt(cs_jet.inclusive_jets(20)); 
+        for(int i=0; i< jets.size(); i++){        
+          if(abs ( jets[i].eta()  ) < 2.5 )
+            djets.push_back(jets[i]);
+       }
+        
   
-        if( jets.size() !=0)
-          njets20->Fill(jets.size() );
-        if( fatjets.size() !=0)
-          njets200->Fill(fatjets.size());
-
-        if(jets.size() > 2){  
-          nJet+=jets.size();
-          nThreeJetEvent++;
+       if(djets.size() > 2){
+        nThreeJetEvent++;
+        nJet+=djets.size();
+        
+        fatjets = sorted_by_pt(cs_hep.inclusive_jets(200));
+       
+        njets20->Fill(djets.size() );
+        if(fatjets.size() > 0){
+          njets200->Fill(fatjets.size());  
+          nFatjet++;          
         }
-
-        if(fatjets.size() > 0)  
-         nFatjet+=fatjets.size();
-         
+                         
         int lastsize_kin = TopkinTagged.prop[0].size();
         int lastsize_chi = TopchiTagged.prop[0].size();
         int lastsize_hep = TophepTagged.prop[0].size();
                         
-        iTagged_kin =topjetreco_kin(jets, &Topkin, &Wkin, &Bkin, &TopkinTagged);
-        iTagged_chi =topjetreco_chi(jets, &Topchi, &Wchi, &Bchi, &TopchiTagged);
+        iTagged_kin =topjetreco_kin(djets, &Topkin, &Wkin, &Bkin, &TopkinTagged);
+        iTagged_chi =topjetreco_chi(djets, &Topchi, &Wchi, &Bchi, &TopchiTagged);
         iTagged_hep =topjetreco_hep(fatjets, &Tophep, &Whep, &Bhep, &TophepTagged);
           
         if(match){      
@@ -355,6 +362,8 @@ cout<<"reading hadrons"<<endl;
         particles.clear();
         jets.clear();
         fatjets.clear(); 
+        djets.clear(); 
+       } 
         cout<<"Processing data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 	
       } //loop over all events 
       cout<<endl;
@@ -423,15 +432,15 @@ cout<<"reading hadrons"<<endl;
       cout<<"Number of Input Jets : "<<nJet<<endl;
       cout<<"Number of Input fATJets : "<<nFatjet<<endl;	    
       cout<<"Number of Tagged top-jets :"<<endl;
-      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<3.0*float(TopkinTagged.prop[0].size())/nJet<<endl;	    
-	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<3.0*float(TopchiTagged.prop[0].size())/nJet<<endl;
+      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<float(TopkinTagged.prop[0].size())/nThreeJetEvent<<endl;	    
+	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<float(TopchiTagged.prop[0].size())/nThreeJetEvent<<endl;
 	    cout<<"    hep : "<<TophepTagged.prop[0].size()<<"   ,  recoeff_hep : "<<float(TophepTagged.prop[0].size())/nFatjet<<endl;
 	    
 	    if(match){
         cout<<"Number of Matched top-jets :"<<endl;
-        cout<<setw(20)<<"    kin : "<<setw(20)<<TopkinMatched.prop[0].size()<<setw(20)<<", recoeff_kin : "<<3.0*float(TopkinMatched.prop[0].size())/nJet<<endl;	    
-	      cout<<setw(20)<<"    chi : "<<setw(20)<<TopchiMatched.prop[0].size()<<setw(20)<<", recoeff_chi : "<<3.0*float(TopchiMatched.prop[0].size())/nJet<<endl;
-	      cout<<setw(20)<<"    hep : "<<setw(20)<<TophepMatched.prop[0].size()<<setw(20)<<", recoeff_hep : "<<float(TophepMatched.prop[0].size())/nFatjet<<endl;
+    cout<<setw(20)<<"    kin : "<<setw(20)<<TopkinMatched.prop[0].size()<<setw(20)<<", recoeff_kin : "<<float(TopkinMatched.prop[0].size())/nThreeJetEvent<<endl;	    
+	  cout<<setw(20)<<"    chi : "<<setw(20)<<TopchiMatched.prop[0].size()<<setw(20)<<", recoeff_chi : "<<float(TopchiMatched.prop[0].size())/nThreeJetEvent<<endl;
+	  cout<<setw(20)<<"    hep : "<<setw(20)<<TophepMatched.prop[0].size()<<setw(20)<<", recoeff_hep : "<<float(TophepMatched.prop[0].size())/nFatjet<<endl;
 	    }
 	
 	    delete canvas;

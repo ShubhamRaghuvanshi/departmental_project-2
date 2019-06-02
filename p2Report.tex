@@ -89,7 +89,7 @@ In this work we analyse events in which $Z^\prime$ is produced in pp collision a
 
 \section{Top quark reconstruction}
 
-The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state, one of which is supposed to be b-tagged and other two W. If the parent top is at rest then these three jets are well separated from each other in $(y,\phi)$ plane and can in general be identified as thee distinct quark jets in an event. On the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear along the direction of the parent top, and consenquently instead of having three well separated jets in final state we may get only one  fatjet. Substructure of this fatjet gives information of the corresponding decay. \ref{boost}.     
+The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state from the hadronization of the quarks. If the parent top is at rest then these three jets are well separated from each other in $(y,\phi)$ plane and can in general be identified as thee distinct quark jets in an event. On the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear along the direction of the parent top, and consenquently instead of having three well separated jets in final state we may get only one  fatjet. Substructure of this fatjet gives information of the corresponding decay. \ref{boost}.     
 
  	\begin{figure}[h]
  		\begin{centering}	
@@ -108,17 +108,8 @@ To quantify things lets consider the angular separations between partons in the 
 
 Where m and $p_T$ are the mass and transverse momenta of the decaying particle. For a top $(m = 173)$ GeV \cite{pdg-top} with $p_T = 200$ GeV the separation is $\Delta R = 1.73 $, similarly for a W boson $(m = 80)$ \cite{pdg-w} with same $p_T$ the separation is $\Delta R = 0.8$ . Fig \ref{rwbt} shows the relation between $\Delta R $ and $p_T$ for the two body decays of top and w respectively. A falling trend in the angular separation as we go to higher $p_T^{top}$  is apparent, from the plot one can also see that roughly $\Delta R_{wb}^{avg} < 1.7$ for $p_T^{top} > 200$, and $\Delta R_{qq}^{avg}< 0.8 $ for $p_T^{w} > 200$ GeV.   
 
-The top tagging algorithms that are aimed at reconstructing low $p_T$ top work on the assumption that it would show up in an event as one b-tag and two distinct w-tag jets, this assumption grows weaker as $p_T$ of the top increases and the top instead of corresponding to three quark jets which are well separated from each other, corresponds to one fatjet in which all three jets are merged. The substructure of this fatjet contains the information about the undelying decay.  The effeciencies of such algorithms is also expected to be going downhill for boosteed tops. We will be looking at the tops in the decay $Z^\prime \to t \bar{t}$ where one of the top decays hadronically $t \to wb \to q\bar{q}b$ and other semi-leptonically $t \to wb \to l \nu_lb$ with $p_T^{lepton} > 20 $GeV. These tops in general may be quite boosted in laboratory frame depending upon the mass of the $Z^\prime$ fig:\ref{toppt}. Jet substructure techniques are required to reconstruct top in such cases.  
+The top tagging algorithms that are aimed at reconstructing low $p_T$ top work on the assumption that it would show up in an event as one b-tag and two distinct w-tag jets, this assumption grows weaker as $p_T$ of the top increases and the top instead of corresponding to three quark jets which are well separated from each other, corresponds to one fatjet in which all three jets are merged. The substructure of this fatjet contains the information about the undelying decay.  The top reconstruction effeciency of such algorithms is also expected to be going downhill for boosteed tops. We will be looking at the tops in the decay $Z^\prime \to t \bar{t}$. These tops in general may be quite boosted in laboratory frame depending upon the mass of the $Z^\prime$ fig:\ref{toppt} (bottom right). Jet substructure techniques are required to reconstruct top in such cases.  
    
-
- 	\begin{figure}[h]
-	\begin{centering}	
-		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/partons/Top_pT_stack.png} 
-		\caption{ $p_T$ of the top quarks in the decay $ Z^\prime \to t \bar{t}$. The histograms show a Lorentzian peak around $\frac{M_{Z^\prime}}{2}$ , for three values of $M_{Z^\prime} = (0.5,1.0 ,2.0)$ TeV}
-		\label{toppt}
-		\centering
-	\end{centering} 		
-\end{figure}   
 
 
 \newpage
@@ -126,7 +117,7 @@ The top tagging algorithms that are aimed at reconstructing low $p_T$ top work o
  		\begin{centering}	
  			\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_1000root/partons/rtwb.png} 
  			\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_1000root/partons/rwqqb.png}
- 			\caption{A plot between angular separation between decaying particles of the top and w decay, in $(y,\phi)$ plane, and $p_T$ of top and w respectively.}
+ 			\caption{A plot between angular separation between decaying particles of the top and w decay, in $(y,\phi)$ plane,  vs $p_T$ of top and w respectively.}
  			\label{rwbt}
  			\centering
  		\end{centering} 		
@@ -135,10 +126,11 @@ The top tagging algorithms that are aimed at reconstructing low $p_T$ top work o
  
 \subsection{Top tagging algorithms}
 
-	A Jet \footnote{By Jet we mean QCD Jet.}is an artifact of all the high energy collider physics experiments, it's a collimated spray of particles in a given direction which can all be traced back to a common vetrex. These particles result from hadronization of a quark therefore they also share the energy and momenta of the original quark. In the experiments these particles show up as a set of hadrons and photons which are concentrated within some annular region of the detector. There is no universally accepted definition of a jet however the most natural definition is based on a cone radius in pseudorapidity-azimuth plane within which most of the jet particles are contained. We  generated 
+	A Jet \footnote{By Jet we mean QCD Jet.}is an artifact of all the high energy collider physics experiments, it's a collimated spray of particles in a given direction which can all be traced back to a common vetrex. These particles result from hadronization of a quark therefore they also share the energy and momenta of the original quark. In the experiments these particles show up as a set of hadrons and photons which are concentrated within some annular region of the detector. There is no universally accepted definition of a jet however the most natural definition is based on a cone radius in pseudorapidity-azimuth plane within which most of the jet particles are contained.
 	
 	A jet algorithm operates on the four momenta of the final state particles or some detector quantities like the energy deposits in calorimeters, these quantities are referred to as 'constituents'of the jet. A jet algorithm clusters two consituents i and j into one new constituent if the quantity $\Delta d_{ij}$ which is related to the angular separation $\Delta R_{ij}$ between the  between the constituents and their transverse momenta , satisfies the condition $d_{ij} < d_{iB}$, i.e. if they are closer to each other than they are to the beam in some distance measure. Clustering is done recursively untill there are no clusters left within R distance from one another. For our analysis we use sequantial anti-$k_T$ and Cambridge/Aachen(C/A) algorithms which differ only in the choice of the distance parameter $d_{ij}$ \footnote{ $d_{ij} = \frac{\Delta R_{ij}}{R}$ and $d_{iB} = 1 $ for C/A and $d_{ij} = min \left( \frac{1}{p_{\text{T,i}}^2}, \frac{1}{p_{\text{T,j}}^2} \right)\times \frac{ \Delta R_{ij}}{R}$ and $ d_{iB} = \frac{1}{p_{T,i}^2} $ for anti-$k_T$. The two consituents i,j are clustered together if $d_{ij} < d_{iB}$.}. More details on jet finding algorithms can be found here \cite{jet-topography}.
 	
+	\subsubsection{Tagging of low $p_T$ top}
 	The top when produced with low momentum can be reconstructed via three angularly resolved jets. These jets have to satisfy certain properties in order for them to be considered as 'top candidates'. Top tagging algorithms for moderately boosted top are based on this property. We describe two such algorithms which expolit this property of low $p_T$ tops and identify the 3-pronged structure by putting mass constraints on the reconstructed jets. Jets which do not satisfy $p_T^{jet} > 20$ GeV are discarded.   
 	\begin{enumerate}
 		\item Kinematic mass cut
@@ -146,7 +138,7 @@ The top tagging algorithms that are aimed at reconstructing low $p_T$ top work o
 	\end{enumerate}		
 	 	
 	 First algorithms takes reconstructed jets and first identifies a pair of w-tagged jets based on the criterion
-	 $| m_{ij} - m_w | < \Delta_w$, where $m_{ij}$ is the invariant mass of jet i and jet j, $\Delta_w$ is some positive number. If two different pairs of jets satisfy this criteria then pair with invariant mass closest to w mass is chosen, and if two different pairs have same invariant mass till two significant digits then the one with highest $p_T$ is chosen to be w candidate. After identifying two jets(i and j) as w tagged the next step is the identification of the triplet ijk as top tagged if $|m_{ijk} -  m_{top}| < \Delta_{top}$ . Again the triplet which has $m_{ijk}$ closest to top mass is chosen in case two pairs. The process is repeated untill all the jets have been analysed. For this study we take $\Delta_w = 5.0\Gamma_w$ and $\Delta_{top} = 5.0\Gamma_{top}$, where $\Gamma_w = 2.0$ \cite{pdg-w} and $\Gamma_{top} = 1.5$\cite{pdg-top} are the decay widths of w and top respectively. These tagged top jets are then matched with the parton level top quark. Reconstruction efficency is defined to be the fraction of number of parton level top quarks for which a match is found within a cone radius of 0.3. 
+	 $| m_{ij} - m_w | < \Delta_w$, where $m_{ij}$ is the invariant mass of jet i and jet j, $\Delta_w$ is some positive number. If two different pairs of jets satisfy this criteria then pair with invariant mass closest to w mass is chosen, and if two different pairs have same invariant mass till two significant digits then the one with highest $p_T$ is chosen to be w candidate. After identifying two jets(i and j) as w tagged the next step is the identification of the triplet (ijk) as top tagged if $|m_{ijk} -  m_{top}| < \Delta_{top}$ . Again the triplet which has $m_{ijk}$ closest to top mass is chosen in case two pairs satisfying this criteria. The process is repeated untill all the jets have been analysed. For this study we take $\Delta_w = 5.0\Gamma_w$ and $\Delta_{top} = 5.0\Gamma_{top}$, where $\Gamma_w = 2.0$ \cite{pdg-w} and $\Gamma_{top} = 1.5$\cite{pdg-top} are the decay widths of w and top respectively. These tagged top jets are then matched with the parton level top quark. Reconstruction efficency is defined to be the fraction of number of parton level top quarks for which a match with tagged top jets  is found within a cone radius of 0.3. 
 	 
 	 \begin{equation}
 	 \epsilon_{\text{top reco}} = \frac{N(R_{ \text{top-quark,  tagged-topjet}} \le 0.3 )}{N( \text{parton level top})}
@@ -160,20 +152,49 @@ The $\chi^2$ minimization procceds by identifying the triplet (ijk) from the lis
 		\label{chisq}
 	\end{equation}
 
-where $\sigma_w$ and $\sigma_{top}$ are related to the decay widths of w and top respectively. Note that the same combination will give the minimum value for $\chi_{ijk}^2$ if $\sigma_w$ and $\sigma_{top}$ have fixed ratio. For the sake of simplicity we take them to be $\sigma_w = 5.0\Gamma_w$, $\sigma_{top} = 5.0\Gamma_{top}$, and the top tagging criteria becomes $\chi_{ijk}^2 \le 2$. These tagged top jets are again matched with a parton level top and the reocnstruciton effciency is given by equation \ref{recoeff}.
+where $\sigma_w$ and $\sigma_{top}$ are related to the decay widths of w and top respectively. Note that the same combination of jets (ijk)  will give the minimum value for $\chi_{ijk}^2$ if $\sigma_w$ and $\sigma_{top}$ have fixed ratio. For the sake of simplicity we take them to be $\sigma_w = 5.0\Gamma_w$, $\sigma_{top} = 5.0\Gamma_{top}$, and the top tagging criteria becomes $\chi_{ijk}^2 \le 2$. These tagged top jets are again matched with a parton level top and the reocnstruciton effciency is given by equation \ref{recoeff}. 
 
+\subsubsection{Tagging of boosted tops}
 
-     
-\newpage
+Top tagging algorithms for boosted tops make use of the fact that the decay products of top have large fraction on their momenta along the direction of the original top quark and analyse the top decay from geometrically large objects called fatjets. The siz e of this fatjet should be large enough to contain all three decay products of top. Fig \ref{topjetsize} shows the size of the fatjet which can contain the top mass for a given top $p_T$. It's clear that for tagging high $p_T$ tops we should chooose smaller fatjet size. Many algorithms are available for tagging of boosted tops such as mass drop tagger, Jon Hopkins tagger etc. , details about these algorithms can be found here \cite{toptaggin}. For our analysis we use HepTopTagger(Heidelberg-Eugene-Paris) with C/A fatjets of radius $R_{\text{fat}}=1$.   
+
 \begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_2000root/jets/top(kin)_M_stack.png} 
-		\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_2000root/jets/top(kin)_pT_stack.png}
-        \includegraphics[scale=0.15]{../pp2zp2tt2qqblv_2000root/jets/top(chi)_M_stack.png} 
-		\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_2000root/jets/top(chi)_pT_stack.png}
-		
-		\caption{A plot between angular separation between decaying particles of the top and w decay, in $(y,\phi)$ plane, and $p_T$ of top and w respectively.}
-		\label{recolow}
+		\includegraphics[scale=0.15]{../pp2zp2tt2qqblv_1000root/partons/topjetsize.png} 
+		\caption{Size of fatjet around top which can contain the top mass vs $p_T^{top}$.}
+		\label{topjetsize}
+		\centering
+	\end{centering} 		
+\end{figure}    
+
+HepTopTagger algorithms procceds in the following way \cite{heptop}.
+
+\begin{enumerate}
+	\item Reconstruct C/A fatjets with R=1 and $p_T^{jet} > 200$ GeV. 
+	\item Undo the last stage of clustering into jets $j_1$ and $j_2$ with $m_{j_1} > m_{j_2}$. Keep the two jets if they satisfy the mass drop criteria $m_{j_1} < 0.8 m_j$ . Otherwise keep only $j_1$. This declustering is done iteratively untill we have subjets with $m_{j_i} > 30$ GeV.
+	\item Construct exactly three subjets (123) from five hardest subjets. Accept them as top candidates if their invariant masses $(m_{12}, m_{13}, m_{23})$ satisfy one the following criteria. 
+	\begin{eqnarray*}	
+	0.2 < \tan^{-1} \left(\frac{m_{13}}{m_{12}} \right) \text{  and } R_{min} < \frac{m_{23}}{m_{123}} < R_{max} \\
+	R_{min}^2 \left( 1 + \left( \frac{m_{13}}{m_{12}} \right)^2 \right) < 1 - \left(\frac{m_{23}}{m_{123}} \right)^2 < R_{max}^2 \left( 1 + \left( \frac{m_{13}}{m_{12}} \right)^2 \right) \text{  and } \frac{m_{23}}{m_{123}} > 0.35\\
+	R_{min}^2 \left( 1 + \left( \frac{m_{12}}{m_{13}} \right)^2 \right) < 1 - \left(\frac{m_{23}}{m_{123}} \right)^2 < R_{max}^2 \left( 1 + \left( \frac{m_{12}}{m_{13}} \right)^2 \right) \text{  and } \frac{m_{23}}{m_{123}} > 0.35
+	\end{eqnarray*}
+	Where $R_{min} = 0.85 \frac{m_w}{m_{top}}$ and $R_{max} = 1.15 \frac{m_w}{m_{top}}$ 
+	\item Require the resultant $p_T$ of the three subjets to be greater than 200 GeV.
+\end{enumerate}
+
+In order to have a comparision between the three algorithms, we require the fatjets to be top tagged in the mass range $m_{top} \pm \Delta_{top}$ and w-tagged in the mass range $m_{w} \pm \Delta_{w}$. Then as a consistancy check these tagged jets are matched with the corresponding parton level top, and the efficiency is defined same as equation \ref{recoeff}.
+     
+
+\subsection{Single top reconstruction}
+
+In order to compare the top reconstruction efficiencies of the algorithms we generated $5 \times 10^5$ events of the type  $Z^\prime \to t t \to \text{wb wb } \to q_1 \bar{q}_2\text{b }l \nu_l\text{b}$, to Leading Order(LO) using $\text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} for $M_{Z^\prime} = 500,1000,2000$ GeV. PYTHIA8.2 \cite{pythia} is used for further decays and hadronization  of these particles and for evolution of QCD showers. Final state of the signal contains 4 jets and one lepton and missing energy. We select events in which there are atleast three AK5(anti-kT with R=0.5) jets and one lepton with $p_T > 20$ GeV and $|\eta| < 2.5$ .    
+
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/jets/RecoParticles12_pT.png} 
+		\caption{ The plots show the $p_T$ of the reconstructed top in the process $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ for three values of $Z^\prime$ mass 0.5, 1.0, 2.0 TeV respectively. Top right, top left, bottom left plots show reconstructed $p_T^{top}$ for the three algorithms viz kinematic mass cut, $\chi^2$ minimization, hepTT respectively. The bottom right plot shows the $p_T$ of the original top quarks from the $Z^\prime$ decay, these are Lorentzian lineshapes typical in 1 $\to$ 2 processes which peak around $\frac{M_{Z^\prime}}{2}.$ }
+		\label{toppt}
 		\centering
 	\end{centering} 		
 \end{figure}   
@@ -263,6 +284,11 @@ with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the orde
 	
 	\bibitem{anti-kt} Matteo Cacciari, Gavin P. Salam, Gregory Soyez, \href{https://arxiv.org/abs/0802.1189}{The anti-k_t jet clustering algorithm} 
 	
+	\bibitem{toptaggin} Tilman  Plehn1and, Michael Spannowsky \href{https://arxiv.org/pdf/1112.4441.pdf}{Top Tagging}
+	
+	\bibitem{heptop} Tilman Plehn,1Michael Spannowsky,2Michihisa Takeuchi,1and Dirk Zerwas \href{https://arxiv.org/pdf/1006.2833.pdf}{Stop Reconstruction with Tagged Tops}, arXiv:1006.2833v2 [hep-ph] 31 Aug 2010
+	
+	\bibitem{pythia} Present program version: \href{http://home.thep.lu.se/~torbjorn/Pythia.html}{PYTHIA8.2}
 \end{thebibliography} 
 
 

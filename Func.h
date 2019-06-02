@@ -35,7 +35,7 @@
   const double Gamma_w = 2.0;
   const double Gamma_top = 1.5;
 
-  const double C = 10.0;
+  const double C = 5.0;
 
   const double sigma_w = C * Gamma_w;
   const double sigma_top = C * Gamma_top;
