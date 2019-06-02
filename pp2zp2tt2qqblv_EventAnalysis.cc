@@ -83,6 +83,8 @@
 	
 	   int mass_index; 
      vector<ParticleProperty> toprecokin, toprecochi, toprecohep, top	; 
+     vector<ParticleProperty> topmatch; 
+     
      vector<ParticleProperty> BigTop;
      for(mass_index =0; mass_index<3; mass_index++){
 	   	   	   	   
@@ -91,12 +93,11 @@
 
 	     analyser[mass_index].RecoJets(0.5, 1.0, true);
         
-       toprecokin.push_back(analyser[mass_index].TopkinMatched);
-       
+       toprecokin.push_back(analyser[mass_index].TopkinMatched);       
        toprecochi.push_back(analyser[mass_index].TopchiMatched);
        toprecohep.push_back(analyser[mass_index].TophepMatched);         
-       top.push_back(analyser[mass_index].Top);       
- 
+       top.push_back(analyser[mass_index].Top);
+       
     } 
      
     for(mass_index=0; mass_index<3; mass_index++) 
@@ -108,15 +109,40 @@
     for(mass_index=0; mass_index<3; mass_index++) 
       BigTop.push_back(top[mass_index]); 
     
+    
     sprintf(foldername, "./%s/jets", analyser[2].FolderName().c_str());     
     DrawHistograms(BigTop, 1, -1, foldername); 
+    
+    top.clear();
+    
+    for(mass_index=0; mass_index<3; mass_index++){
+
+       topmatch.push_back(analyser[mass_index].TopkinMatch);
+       topmatch.push_back(analyser[mass_index].TopkinTagged);
+       topmatch.push_back(analyser[mass_index].TopchiMatch);
+       topmatch.push_back(analyser[mass_index].TopchiTagged);
+       topmatch.push_back(analyser[mass_index].TophepMatch);
+       topmatch.push_back(analyser[mass_index].TophepTagged);
+ 
+       
+      for(int ipart= mass_index ; ipart<= mass_index + 3*3; ipart = ipart+3 ){             
+        top.push_back(BigTop[ipart]);  
+      }
+      sprintf(foldername, "./%s/jets", analyser[mass_index].FolderName().c_str());     
+      DrawHistograms(top, 2, mass_index, foldername);
+      DrawdelR(topmatch, mass_index, foldername); 
+      top.clear();
+      topmatch.clear();       
+    }
+    
+    
      
     
     
     toprecokin.clear();
     toprecochi.clear();
     toprecohep.clear();
-    top.clear();
+    
     BigTop.clear();
 
     t = clock() - t;

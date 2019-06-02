@@ -19,7 +19,7 @@
   #include "fastjet/PseudoJet.hh"
   #include "HEPTopTagger.hh"
   #include "/home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.hh"
-//  #include "/home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.hh"
+//	  #include "/home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.hh"
   #include "particleproperty.h"
   
 
@@ -53,7 +53,7 @@
   int topjetreco_hep( vector<PseudoJet> jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *TaggedTop);
   
      
-  int DrawdelR( ParticleProperty p1, ParticleProperty p2, string foldername );
+  int DrawdelR( vector<ParticleProperty> particle, int mass_index, string foldername );
   int DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername );
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat);
   int DrawHistograms(vector<ParticleProperty> particle, int drawoption, int mass_index,  string foldername);
