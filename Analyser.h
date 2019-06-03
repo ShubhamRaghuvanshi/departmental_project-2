@@ -40,6 +40,8 @@ class Analyser{
     ParticleProperty TophepTagged, TopchiTagged, TopkinTagged;
     ParticleProperty TophepMatched,TopchiMatched, TopkinMatched; 
     ParticleProperty TophepMatch, TopchiMatch,TopkinMatch;
+    
+    ParticleProperty LeadingJet;
         
     ParticleProperty Top;
         
@@ -71,6 +73,8 @@ class Analyser{
       TopkinMatch.setnames("top_{parton}","");  
       TopchiMatch.setnames("top_{parton}","");    
       TophepMatch.setnames("top_{parton}","");  
+        
+      LeadingJet.setnames("LeadingJet","");  
         
     };
     ~Analyser(){};

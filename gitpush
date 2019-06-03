@@ -15,8 +15,8 @@ then
 fi  
      
 cd $project2folder
-cp Analyser.cc Analyser.h particleproperty.cc ./p2report/p2Report.tex ../main136.cc ../main137.cc "$filelocation"
-cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc zpttEventAnalysis.cc Makefile "$filelocation"
+cp Analyser.cc Analyser.h particleproperty.cc ./p2report/p2Report.tex ../main136.cc ../main137.cc ../main138.cc "$filelocation"
+cp particleproperty.h Func.cc Func.h pp2zp2tt2qqblv_EventAnalysis.cc zpttEventAnalysis.cc qcd20.cc Makefile "$filelocation"
 
 cd ~/Downloads
 cp gitpull gitpush "$filelocation"

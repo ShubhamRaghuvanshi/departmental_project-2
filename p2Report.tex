@@ -190,7 +190,7 @@ In order to have a comparision between the three algorithms, we require the fatj
 In order to compare the top reconstruction efficiencies of the algorithms we generated $5 \times 10^5$ events of the type  $Z^\prime \to t t \to \text{wb wb } \to q_1 \bar{q}_2\text{b }l \nu_l\text{b}$, to Leading Order(LO) using $\text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} for $M_{Z^\prime} = 500,1000,2000$ GeV. PYTHIA8.2 \cite{pythia} is used for further decays and hadronization  of these particles and for evolution of QCD showers. Final state of the signal contains 4 jets, one lepton and missing energy. We select events in which there are atleast three AK5(anti-kT with R=0.5) jets and one lepton each with $p_T > 20$ GeV and $|\eta| < 2.5$. The jets are groomed using SoftDrop\cite{softdrop} which removes soft componenent of the radiation. Top jets are tagged using kinematic mass cut, and HepTopTagger in the Top and W mass range $m_{top} \pm \Delta_{top}$, $m_{w} \pm \Delta_{w}$ respectively, and with $\chi^2$ minimization where $\chi_{min}^2 < 2$ is the tagging criteria. Fig \ref{topm} shows the invariant mass distributions of the tagged top jets. We can see that the tagging efficiency of HepTopTagger for higher $M_{Z^\prime}$ is higher while for the other two methods the opposite is true, due to the larger boost of the top quark.\\
 \linebreak
 
-The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{tagged}} - y_{top^{parton}} \right) ^2 +  \left( \phi_{top^{tagged}} - \phi_{top^{parton}} \right) ^2 }$ which is the angular separation between the tagged top jets and the corresponding parton level top gives a measure of precision of the reconstructed momentum of top tagged jets \footnote{Here by momemtum we mean 3 dimentional vector momentum $\vec{P}_{top}$.  }. For a top tagged jet to have reconstructed the parton level top we require it to have $\Delta R < 0.3$ with the corresponding parton level top. Fig \ref{delR} shows the distribution of $\Delta R$. The tagged top jets which also match with the corresponding parton level top are called reconstructed top jet. Fig \ref{toppt} shows the $p_T$ distribution for reconstructed top jets, the reconstruction of high $p_T$ tops is better for HepTopTagger while for low $p_T$ tops $\chi^2$ gives better reconstruction. The top reconstruction efficiency as a function of $p_T^{top}$ is shown in fig.\ref{recoeff_vs_pt}.       
+The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{tagged}} - y_{top^{parton}} \right) ^2 +  \left( \phi_{top^{tagged}} - \phi_{top^{parton}} \right) ^2 }$ which is the angular separation between the tagged top jets and the corresponding parton level top gives a measure of precision of the reconstructed momentum of top tagged jets \footnote{Here by momemtum we mean 3 dimentional vector momentum $\vec{P}_{top}$.  }. For a top tagged jet to have reconstructed the parton level top we require it to have $\Delta R < 0.3$ with the corresponding parton level top. Fig \ref{delR} shows the distribution of $\Delta R$. The tagged top jets which also match with the corresponding parton level top are called reconstructed top jet. Fig \ref{toppt} shows the $p_T$ distribution for reconstructed top jets. For moderately boosted top quarks $(pT \approx 500 GeV)$ , conventional top quark reconstruction methods, which exploit the decay chain topology, remain adequately efficient whereas the reconstruction of high $p_T$ tops is better for HepTopTagger .The top reconstruction efficiency as a function of $p_T^{top}$ is shown in fig.\ref{recoeff_vs_pt}.       
  
 
 \newpage 
@@ -237,15 +237,15 @@ The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{t
 \end{figure}   
 
 \newpage
-
-
-
-
-
-
-
-\newpage
 \subsection{QCD background}
+
+ 	
+
+ Without a mass cut, the QCD jetbackground swamps the hadronic top signal by orders ofmagnitude. The most basic tagging method after giving upconventional methods is to use the jet mass as a discrim-inator between the QCD background and the hadronic topsignal; the high-pTtop-jet mass distribution should peakaround the top mass, while the QCD jet mass distributionpeaks near zero
+
+ However, using a jet mass as a discrim-inator is more complicated for several reasons. Because ofradiation, QCD jets acquire a large tail in the mass distri-bution. The cross section for acquiring large jet mass, forexample, near the top mass, increases substantially withpTand cone size. Top jets also broaden due to radiation,hardening their jet mass distribution.3Furthermore, a finitejet reconstruction cone size will not always capture all thedaughters of the top quark decay chain, thus softening itsmass distribution. The net effect is a smearing of theexpected naive, broadened, Breit-Wigner distribution forthe top-jet mass distribution.
+ 
+ With the theoretical machinery discussed in the previoussection, we are able to make a prediction of the rate atwhich QCD jets will fake the mass signature of top jets. Wedefine the fractional fake rate as the fraction of jets with140 GeV mJ 210 GeV, for givenpTandR. 
 
 \newpage
 
@@ -337,6 +337,8 @@ with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the orde
 	\bibitem{pythia} Present program version: \href{http://home.thep.lu.se/~torbjorn/Pythia.html}{PYTHIA8.2}
 	
 	\bibitem{softdrop} \href{https://phab.hepforge.org/source/fastjetsvn/browse/contrib/contribs/RecursiveTools/tags/2.0.0-beta2/}{SoftDrop 2.0.0 }
+	
+	\bibitem{topjetLHC} \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.79.074012}{Top quark jets at the LHC}
 \end{thebibliography} 
 
 

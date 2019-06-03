@@ -205,10 +205,11 @@ cout<<"reading hadrons"<<endl;
       
       float match_dist = 0.3;
     
+    
       TFile f(filename.c_str(), "READ");    
       TTree *tree, *tree2;
       f.GetObject("hadrons", tree);
-      f.GetObject("partons", tree2);
+      
             
       TBranch  *bpx=0, *bpy=0, *bpz=0, *be=0, *btop=0;
       vector<double>  *px=0, *py=0, *pz=0, *e=0;
@@ -218,13 +219,16 @@ cout<<"reading hadrons"<<endl;
       tree->SetBranchAddress("py",&py,&bpy);
       tree->SetBranchAddress("pz",&pz,&bpz);
       tree->SetBranchAddress("e",&e ,&be);   
-      tree2->SetBranchAddress("parton[1]", &top, &btop);
-            
+
+      if(match){
+        tree2->SetBranchAddress("parton[1]", &top, &btop);
+        f.GetObject("partons", tree2);    
+        Long64_t tentry2  = tree2->LoadTree(0);
+        btop->GetEntry(tentry2);
+      }
+      
       Long64_t tentry  = tree->LoadTree(0);
       bpx->GetEntry(tentry);       bpy->GetEntry(tentry);       bpz->GetEntry(tentry);   be->GetEntry(tentry);
-
-      Long64_t tentry2  = tree2->LoadTree(0);
-      btop->GetEntry(tentry2);
 
       char name[100];
       sprintf(name, "nJets20");  
@@ -255,7 +259,7 @@ cout<<"reading hadrons"<<endl;
 
       vector<PseudoJet> particles, jets, fatjets, djets; 
       int nEvent = bpx->GetEntries()-1;
-      nEvent = 50000;
+     // nEvent = 10000;
           
           
       cout<<"TOTAL EVENTS IN FILE : "<<bpx->GetEntries()-1<<endl;
@@ -267,18 +271,19 @@ cout<<"reading hadrons"<<endl;
       }
                 
               
-      int nJet=0, nFatjet=0, nThreeJetEvent=0; 
+      int nJet=0, nFatjet=0, nThreeJetEvent=0, nFatJetEvent=0; 
 
+      cout<<"matching set to "<<match<<endl;
       for(int iEvent =0; iEvent < nEvent ; iEvent++){
 
         int iTagged_kin=0, iTagged_chi=0, iTagged_hep=0; 
 
-        bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent);  btop->GetEntry(iEvent);
+        bpx->GetEntry(iEvent);       bpy->GetEntry(iEvent);       bpz->GetEntry(iEvent);   be->GetEntry(iEvent); 
         
-       // cout<<"hadorns "<<px->size()<<endl;
-        
-        
-        Top.push_back_momenta(*top);
+        if(match){
+          btop->GetEntry(iEvent);        
+          Top.push_back_momenta(*top);
+        }
         
         if(px->size() != py->size() || px->size() != pz->size() || px->size() != e->size()  ) return -666;
       
@@ -294,22 +299,29 @@ cout<<"reading hadrons"<<endl;
        // jets = UseSoftDrop(jets, R);
                   
         jets    = sorted_by_pt(cs_jet.inclusive_jets(20)); 
-        for(int i=0; i< jets.size(); i++){        
-          if(abs ( jets[i].eta()  ) < 2.5 )
-            djets.push_back(jets[i]);
-       }
-        
-  
+
+        if(jets.size() > 0){
+          LeadingJet.push_back_momenta( TLorentzVector(jets[0].px(), jets[0].py(), jets[0].pz(),jets[0].e()  )  );
+          
+          for(int i=0; i< jets.size(); i++){        
+            if(abs ( jets[i].eta()  ) < 2.5 )
+              djets.push_back(jets[i]);
+          }
+       } 
+ // cout<<LeadingJet.prop[0].size()<<setw(20)<<jets.size()<<endl;
        if(djets.size() > 2){
+       
+
         nThreeJetEvent++;
         nJet+=djets.size();
         
         fatjets = sorted_by_pt(cs_hep.inclusive_jets(200));
-       
+//       cout<<"const : "<<fatjets.size()<<setw(20)<<TLorentzVector(djets[0].px(), djets[0].py(), djets[0].pz(), djets[0].e()  ).Pt()<<endl;
         njets20->Fill(djets.size() );
         if(fatjets.size() > 0){
           njets200->Fill(fatjets.size());  
-          nFatjet++;          
+          nFatjet+=fatjets.size();
+          nFatJetEvent++;          
         }
                          
         int lastsize_kin = TopkinTagged.prop[0].size();
@@ -319,6 +331,8 @@ cout<<"reading hadrons"<<endl;
         iTagged_kin =topjetreco_kin(djets, &Topkin, &Wkin, &Bkin, &TopkinTagged);
         iTagged_chi =topjetreco_chi(djets, &Topchi, &Wchi, &Bchi, &TopchiTagged);
         iTagged_hep =topjetreco_hep(fatjets, &Tophep, &Whep, &Bhep, &TophepTagged);
+
+cout<<setw(20)<<iTagged_kin<<setw(20)<<iTagged_hep<<setw(20)<<iTagged_chi<<setw(20)<<djets.size()<<endl;
           
         if(match){      
           iTagged_kin=0; iTagged_chi=0; iTagged_hep=0;  
@@ -356,7 +370,7 @@ cout<<"reading hadrons"<<endl;
          histTagged_kin->Fill(iTagged_kin);
         if(iTagged_chi != 0)    
          histTagged_chi->Fill(iTagged_chi);
-        if(iTagged_hep != 0)    
+        if(iTagged_hep != 0) 
          histTagged_hep->Fill(iTagged_hep);
                        
         particles.clear();
@@ -364,12 +378,12 @@ cout<<"reading hadrons"<<endl;
         fatjets.clear(); 
         djets.clear(); 
        } 
-        cout<<"Processing data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 	
+//cout<<"end of event : "<<iEvent<<endl;
+//        cout<<"Processing data......"<<100.0*float(iEvent+1)/float(nEvent+1)<<" % "<<"\r"; 	
       } //loop over all events 
       cout<<endl;
-
-      Top.make_properties();
-      
+        
+      LeadingJet.make_properties(); 
   
       Topkin.make_properties();
       Topchi.make_properties();
@@ -388,7 +402,8 @@ cout<<"reading hadrons"<<endl;
       Bhep.make_properties();
           
       if(match){
-      
+        Top.make_properties();  
+              
         TopkinMatched.make_properties();
         TopchiMatched.make_properties();
         TophepMatched.make_properties();
@@ -418,6 +433,7 @@ cout<<"reading hadrons"<<endl;
       canvas2->cd(2);
       histTagged_chi->Draw("hist");
       canvas2->cd(3);
+      cout<<setw(20)<<histTagged_hep->GetEntries()<<setw(20)<<histTagged_chi->GetEntries()<<setw(20)<<histTagged_kin->GetEntries()<<endl;
       histTagged_hep->Draw("hist");
 
 	    sprintf(name, "./%s/jets/nJets.png", FolderName().c_str());
@@ -429,11 +445,16 @@ cout<<"reading hadrons"<<endl;
 
       cout<<"Number of events analysed : "<<nEvent<<endl;
       cout<<"Number of three jet events : "<<nThreeJetEvent<<endl;
-      cout<<"Number of Input Jets : "<<nJet<<endl;
+      cout<<"Number of Input Jets : "<<nJet<<setw(20)<<nJet/3<<endl;
       cout<<"Number of Input fATJets : "<<nFatjet<<endl;	    
       cout<<"Number of Tagged top-jets :"<<endl;
-      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<float(TopkinTagged.prop[0].size())/nThreeJetEvent<<endl;	    
-	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<float(TopchiTagged.prop[0].size())/nThreeJetEvent<<endl;
+
+//      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<float(TopkinTagged.prop[0].size())/nThreeJetEvent<<endl;	    
+//	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<float(TopchiTagged.prop[0].size())/nThreeJetEvent<<endl;
+//      cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<float(TopchiTagged.prop[0].size())/nFatJetEvent<<endl;
+
+      cout<<"    kin : "<<TopkinTagged.prop[0].size()<<"   ,  recoeff_kin : "<<3.0*float(TopkinTagged.prop[0].size())/nJet<<endl;	    
+	    cout<<"    chi : "<<TopchiTagged.prop[0].size()<<"   ,  recoeff_chi : "<<3.0*float(TopchiTagged.prop[0].size())/nJet<<endl;
 	    cout<<"    hep : "<<TophepTagged.prop[0].size()<<"   ,  recoeff_hep : "<<float(TophepTagged.prop[0].size())/nFatjet<<endl;
 	    
 	    if(match){

@@ -1,4 +1,6 @@
 
+//QCD background
+
 #include <iostream>
 #include <vector>
 #include "Pythia8/Pythia.h"
@@ -20,11 +22,8 @@ int main() {
   TLorentzVector Pz, Pt, Ptb, Pwp, Pb, Pwm, Pbm, Pq, Pqb, Pl;
   vector<double> Px_hadrons, Py_hadrons, Pz_hadrons, E_hadrons;
  
- 
-  int zmi=2;
- // for(zmi=0; zmi<3; zmi++){ 
- 
-   TTree *tree = new TTree("partons","partons");  
+  
+  TTree *tree = new TTree("partons","partons");  
   TTree *tree1 = new TTree("hadrons","hadrons");  
   
   TBranch *b_t   = tree->Branch("parton[0]", &Pt); 
@@ -35,7 +34,7 @@ int main() {
   TBranch *b_bm  = tree->Branch("parton[5]", &Pbm);
   TBranch *b_q   = tree->Branch("parton[6]", &Pq);
   TBranch *b_qb  = tree->Branch("parton[7]", &Pqb);
-  TBranch *b_l  = tree->Branch("parton[8]", &Pl);
+ // TBranch *b_l  = tree->Branch("parton[8]", &Pl);
   
   
   TBranch *b_hadrons_px = tree1->Branch("px", &Px_hadrons);
@@ -55,9 +54,9 @@ int main() {
     pythia.readString(filename);
     pythia.init();
 
-    int nEvent=10, nFill=0, nToFill=0; 
+    int nEvent=10, nFillTop=0, nFillTopbar=0, nToFill=0; 
  
-    nEvent=10;
+    nEvent=50000;
  
     bool lepton20;  
     for (int iEvent = 0;iEvent<nEvent; ++iEvent) {  
@@ -66,9 +65,8 @@ int main() {
       if (!pythia.next())  { cout<<"Go away, no time to say hi."<<endl; continue;}    
 
       for(int i=0; i<pythia.event.size(); i++){
-        if(pythia.event[i].isFinal() && ( abs(pythia.event[i].id()) == 11 || abs(pythia.event[i].id()) == 13 ){
+        if( pythia.event[i].isFinal() && (abs(pythia.event[i].id()) == 11 || abs(pythia.event[i].id()) == 13) ){
           Pl.SetPxPyPzE(pythia.event[i].p().px(), pythia.event[i].p().py(), pythia.event[i].p().pz(), pythia.event[i].p().e() );
- //         b_l->Fill();
           if( Pl.Pt() > 20 && abs(Pl.Eta()) < 2.5 ) { lepton20 = true;  break;}
         }
       }
@@ -89,7 +87,7 @@ int main() {
           
           if( t.id() == top_id && wp.id() == w_id && b.id() == b_id && q.isQuark() && qb.isQuark()){
 
-            nFill++;
+            nFillTop++;
             Pt.SetPxPyPzE( t.p().px(), t.p().py(), t.p().pz(), t.p().e()   );
             Pwp.SetPxPyPzE( wp.p().px(), wp.p().py(), wp.p().pz(), wp.p().e()   );
             Pb.SetPxPyPzE( b.p().px(), b.p().py(), b.p().pz(), b.p().e()   );
@@ -117,7 +115,7 @@ int main() {
 
           
           if( tb.id() == -top_id && wm.id() == -w_id && bm.id() == -b_id){
-            nFill++;
+            nFillTopbar++;
             
             Ptb.SetPxPyPzE( tb.p().px(), tb.p().py(), tb.p().pz(), tb.p().e()   );
             Pwm.SetPxPyPzE( wm.p().px(), wm.p().py(), wm.p().pz(), wm.p().e()   );
@@ -151,19 +149,20 @@ int main() {
     cout<<endl;
     
     
-    sprintf(filename, "./pp2zp2tt2qqblv_%d.root", z_mass[zmi]);
+    sprintf(filename, "./HEPTopTagger2/pp2tt.root");
 
     cout<<"number of events : "<<nEvent<<endl;  
     cout<<"number of event with atleast one lepton with pT>20 GeV : "<<nToFill<<endl;
-    cout<<"number of events to write on disk : "<<nFill<<endl;
+    cout<<"number of tops to write on disk : "<<nFillTop<<endl;
+    cout<<"number of top bars to write on disk : "<<nFillTop<<endl;
 
     cout<<"Outputting sizes for check"<<endl;
     cout<<"***** top size : "<<b_t->GetEntries()<<endl;    
     cout<<"***** topbar size : "<<b_tb->GetEntries()<<endl;
-    cout<<"***** hadron size : "<<b_hadron_px->GetEntries()<<endl;
+    cout<<"***** hadron size : "<<b_hadrons_px->GetEntries()<<endl;
     
     cout<<"creating : " <<filename<<endl;
-    cout<<"filling : " <<nFill<<" events"<<endl<<endl;
+    cout<<"filling : " <<nFillTop<<" events"<<endl<<endl;
     TFile f(filename,"RECREATE");  
     tree->Fill();
     tree1->Fill();
@@ -173,34 +172,6 @@ int main() {
       
    	return 0;
 }
-
-
-
-
-/*
-     if( pythia.event[i].id() ==21 && !pythia.event[i].isQuark() && pythia.event[i].daughterList().size() >3 ){        
-
-        if(match_found(gluon_decayvector, pythia.event[i].daughterList()) == 0 ){ 
-          nGluon++; 
-          for(int k=pythia.event[i].daughter1()  ; k  <=pythia.event[i].daughter2() ; k++)
-           gluon_decayvector.push_back(k);
-                        
-           cout<<nGluon<<"  gluon jetsize : "<<setw(20)<<pythia.event[pythia.event[i].mother1()].name()<<setw(20)<<pythia.event[i].mother2()<<endl;            
-        }
-      }
-      
-      if( pythia.event[i].isQuark() && pythia.event[i].daughterList().size() > 3 ){        
-
-        if(  match_found(quark_decayvector, pythia.event[i].daughterList())==0  ){ 
-          nQuark++; 
-          //cout<<"new quark "<<pythia.event[i].name()<<setw(20)<<pythia.event[pythia.event[pythia.event[i].daughter1()].mother2()].name()<<endl;
-          for(int k=pythia.event[i].daughter1()  ; k  <=pythia.event[i].daughter2() ; k++)
-           quark_decayvector.push_back(k);             
-          cout<<nQuark<<"  quark jetsize : "<<setw(20)<<pythia.event[pythia.event[i].daughter1()].name()<<setw(20)<<pythia.event[i].daughter2()<<endl; 
-        }
-      }
-*/
-
 
 
 

@@ -301,10 +301,10 @@ using namespace fastjet;
           canvas = new TCanvas(canvasname, canvasname, 1600, 1000);               
           
           TH1F *hist;           
-          hist = particle[ipart].HistProp(iprop, 1); 
+          hist = particle[ipart].HistProp(iprop, -1); 
 
                   
-          FormatHist(hist, mass_index+1, 4, false);          
+          FormatHist(hist, 3 , 2, false);          
           
           canvas->cd();
 
