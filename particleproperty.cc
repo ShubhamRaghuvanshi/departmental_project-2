@@ -211,7 +211,7 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
         prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
         prop_low[3] = 0.0;       prop_high[3] = 2500.0;
      
-        prop_low[4] = m_top - delta_mtop -5.0;       prop_high[4] =  m_top + delta_mtop + 5.0;
+        prop_low[4] = m_top - delta_mtop -2.0;       prop_high[4] =  m_top + delta_mtop + 2.0;
         
         prop_low[5] = 0.0;       prop_high[5] = 800.0;
         prop_low[6] = -6.0;     prop_high[6] = 6.0;

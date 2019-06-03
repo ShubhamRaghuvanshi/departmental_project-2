@@ -255,7 +255,7 @@ cout<<"reading hadrons"<<endl;
 
       vector<PseudoJet> particles, jets, fatjets, djets; 
       int nEvent = bpx->GetEntries()-1;
-      nEvent = 20000;
+      nEvent = 50000;
           
           
       cout<<"TOTAL EVENTS IN FILE : "<<bpx->GetEntries()-1<<endl;

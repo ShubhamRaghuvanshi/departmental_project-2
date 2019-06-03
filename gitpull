@@ -25,6 +25,6 @@ mv "$projectname" ../
 
 cp Analyser.cc particleproperty.cc Func.cc $project2folder
 cp Analyser.h  particleproperty.h  Func.h pp2zp2tt2qqblv_EventAnalysis.cc $project2folder
-cp main136.cc $project2folder/../ 
+cp main136.cc main137.cc $project2folder/../ 
 cp p2Report.tex $project2folder/p2report
 

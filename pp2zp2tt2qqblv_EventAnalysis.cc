@@ -87,7 +87,7 @@
      vector<ParticleProperty> toprecokin, toprecochi, toprecohep, top	; 
      vector<ParticleProperty> topmatch; 
      
-     vector<ParticleProperty> BigTop;
+     vector<ParticleProperty> BigTop, BigTopTag;
      for(mass_index =0; mass_index<3; mass_index++){
 	   	   	   	   
        sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[mass_index] );
@@ -128,19 +128,43 @@
        
       for(int ipart= mass_index ; ipart<= mass_index + 3*3; ipart = ipart+3 ){             
         top.push_back(BigTop[ipart]);  
-      }
+      } 
       sprintf(foldername, "./%s/jets", analyser[mass_index].FolderName().c_str());     
       DrawHistograms(top, 2, mass_index, foldername);
       DrawdelR(topmatch, mass_index, foldername); 
       top.clear();
       topmatch.clear();       
     }
-        
+            
+    for(mass_index =0; mass_index<3; mass_index++){
+	   	   	   	          
+       toprecokin.push_back(analyser[mass_index].TopkinTagged);       
+       toprecochi.push_back(analyser[mass_index].TopchiTagged);
+       toprecohep.push_back(analyser[mass_index].TophepTagged);         
+       top.push_back(analyser[mass_index].Top);       
+    } 
+
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTopTag.push_back(toprecokin[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTopTag.push_back(toprecochi[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTopTag.push_back(toprecohep[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTopTag.push_back(top[mass_index]); 
+    
+    
+    sprintf(foldername, "./%s/jets", analyser[2].FolderName().c_str());     
+    DrawHistograms(BigTopTag, 1, 0, foldername); 
+
+
     toprecokin.clear();
     toprecochi.clear();
     toprecohep.clear();
+    top.clear();
     
     BigTop.clear();
+    BigTopTag.clear();
     t = clock() - t;
     cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;
     return 0;

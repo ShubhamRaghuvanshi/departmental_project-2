@@ -179,13 +179,14 @@ using namespace fastjet;
 
   int DrawdelR( vector<ParticleProperty> particle, int mass_index, string foldername ){
 
+
     TCanvas *canvas;  
     TLegend *legend;
     TH1F *hist;
     TLine *line;
     THStack *stack;         
 
-    string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1 TeV", "M_{Z'} = 2 TeV"};
+    string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1000 GeV", "M_{Z'} = 2000 GeV" };
     string algoentry[3] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT"};
 
     char canvasname[200],pngname[200];
@@ -201,6 +202,7 @@ using namespace fastjet;
     float x1=0.65, y1 = 0.7, x2=0.88, y2=0.88;  
     legend =  new TLegend(x1,y1,x2,y2);
     legend->SetBorderSize(0);
+    legend->SetTextSize(0.06); 
     stack  = new THStack("stack","");
     
     TLorentzVector v1,v2;        
@@ -279,8 +281,9 @@ using namespace fastjet;
               
     int xdiv, ydiv;
     float x1=0.65, y1 = 0.7, x2=0.88, y2=0.88;
-    string legentry[3] = {"M_{Z'} = 500 GeV","M_{Z'} = 1 TeV", "M_{Z'} = 2 TeV"};
+    string legentry[3] = {"M_{Z'}=500","M_{Z'}=1000", "M_{Z'}=2000"};
     string algoentry[4] = {"kinematic mass cut", "#chi^{2} minimization", "HepTT","Original Top Quark"};
+
 
     TCanvas *canvas;
     THStack *stack;
@@ -320,6 +323,7 @@ using namespace fastjet;
       else if(drawoption ==1 ) {
       
         int batchsize =3;
+        float recoeff;
       
         if(particle.size() == 2 ){
           xdiv = 2;
@@ -344,16 +348,17 @@ using namespace fastjet;
         sprintf(canvasname,"%s", particle[0].propXaxis[iprop].c_str());
         canvas = new TCanvas(canvasname, canvasname, 1600, 1000);
         canvas->Divide(xdiv, ydiv);
-        legend =  new TLegend(x1,y1,x2,y2);
+        
         TH1F *hist;                         
                 
         for(int iCanvas=0; iCanvas< xdiv*ydiv; iCanvas++ ){
           
           canvas->cd(iCanvas+1);
           stack  = new THStack("stack","");  
-          
+          legend =  new TLegend(x1 -0.08, y1 - 0.03 , x2, y2);
+          legend->SetTextSize(0.05); 
           for(int iBatch= batchsize-1; iBatch>=0; iBatch--){
-                      
+                     
             hist = particle[ batchsize*iCanvas + iBatch  ].HistProp(iprop, 3);
 
 // cout<<"gagagaga + "<<batchsize*iCanvas + iBatch<<setw(20)<<iCanvas<<setw(20)<<iBatch<<setw(20)<<hist->GetTitle()<<setw(20)<<hist->GetEntries()<<endl;         
@@ -362,9 +367,20 @@ using namespace fastjet;
             FormatHist(hist, iBatch+1, 2, true);
             stack->Add(hist);
   
-            if(iCanvas ==0 )
-            legend->AddEntry(hist, legentry[iBatch].c_str(), "l");                       
+//            if(iCanvas ==0 )
+          recoeff =  float( particle[batchsize*iCanvas + iBatch].prop[0].size()) /  float( particle[ (xdiv*ydiv-1)*batchsize + iBatch].prop[0].size()) ;
 
+          if(mass_index == 0)
+            sprintf(canvasname, "#epsilon_{tag}(%s)=%.2f " , legentry[iBatch].c_str(), recoeff  );            
+          else
+            sprintf(canvasname, "#epsilon_{reco}(%s)=%.2f" , legentry[iBatch].c_str(), recoeff  );            
+
+      
+          if(iCanvas == xdiv*ydiv -1 )
+            legend->AddEntry(hist, legentry[iBatch].c_str(), "l");
+          else       
+            legend->AddEntry(hist, canvasname, "l"); 
+            
             hist->Draw("e1");
            // hist->Draw("e1 same"); 
             //if(iBatch == batchsize-1){ 
@@ -372,14 +388,21 @@ using namespace fastjet;
               sprintf(pngname, "%s", algoentry[iCanvas].c_str() );
               stack->SetTitle(pngname);
               stack->Draw("hist nostack");
-//              cout<<stack->GetNhists()<<endl;
+              sprintf(pngname,"%s^{top}",particle[0].propXaxis[iprop].c_str());
+              stack->GetXaxis()->SetTitle(pngname);
+              sprintf(pngname,"%s", hist->GetYaxis()->GetTitle());
+              stack->GetYaxis()->SetTitle(pngname);              
               legend->SetBorderSize(0);
               legend->Draw("same");            
             }
          }  //batch          
         }  //canvas
 
-        sprintf(canvasname, "RecoParticles%lu_%s", particle.size(), particle[0].GetPropName(iprop).c_str());
+        if(mass_index == 0 )
+          sprintf(canvasname, "TagParticles%lu_%s", particle.size(), particle[0].GetPropName(iprop).c_str());
+        else
+          sprintf(canvasname, "RecoParticles%lu_%s", particle.size(), particle[0].GetPropName(iprop).c_str());
+
         sprintf(pngname,"./%s/%s.png", foldername.c_str(), canvasname );         
         canvas->SaveAs(pngname);      
         delete hist;    
@@ -415,7 +438,6 @@ using namespace fastjet;
           FormatHist(hist1, ipart+2, 3, false);
          // hist1->SetFillColor(ipart +2);
           stack->Add(hist1);
-
           legend->AddEntry(hist1, algoentry[ipart].c_str(), "l");
                    
           if(ipart == particle.size() -2){

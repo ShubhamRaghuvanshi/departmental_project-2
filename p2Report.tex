@@ -187,18 +187,64 @@ In order to have a comparision between the three algorithms, we require the fatj
 
 \subsection{Single top reconstruction}
 
-In order to compare the top reconstruction efficiencies of the algorithms we generated $5 \times 10^5$ events of the type  $Z^\prime \to t t \to \text{wb wb } \to q_1 \bar{q}_2\text{b }l \nu_l\text{b}$, to Leading Order(LO) using $\text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} for $M_{Z^\prime} = 500,1000,2000$ GeV. PYTHIA8.2 \cite{pythia} is used for further decays and hadronization  of these particles and for evolution of QCD showers. Final state of the signal contains 4 jets and one lepton and missing energy. We select events in which there are atleast three AK5(anti-kT with R=0.5) jets and one lepton with $p_T > 20$ GeV and $|\eta| < 2.5$ .    
+In order to compare the top reconstruction efficiencies of the algorithms we generated $5 \times 10^5$ events of the type  $Z^\prime \to t t \to \text{wb wb } \to q_1 \bar{q}_2\text{b }l \nu_l\text{b}$, to Leading Order(LO) using $\text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} for $M_{Z^\prime} = 500,1000,2000$ GeV. PYTHIA8.2 \cite{pythia} is used for further decays and hadronization  of these particles and for evolution of QCD showers. Final state of the signal contains 4 jets, one lepton and missing energy. We select events in which there are atleast three AK5(anti-kT with R=0.5) jets and one lepton each with $p_T > 20$ GeV and $|\eta| < 2.5$. The jets are groomed using SoftDrop\cite{softdrop} which removes soft componenent of the radiation. Top jets are tagged using kinematic mass cut, and HepTopTagger in the Top and W mass range $m_{top} \pm \Delta_{top}$, $m_{w} \pm \Delta_{w}$ respectively, and with $\chi^2$ minimization where $\chi_{min}^2 < 2$ is the tagging criteria. Fig \ref{topm} shows the invariant mass distributions of the tagged top jets. We can see that the tagging efficiency of HepTopTagger for higher $M_{Z^\prime}$ is higher while for the other two methods the opposite is true, due to the larger boost of the top quark.\\
+\linebreak
 
+The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{tagged}} - y_{top^{parton}} \right) ^2 +  \left( \phi_{top^{tagged}} - \phi_{top^{parton}} \right) ^2 }$ which is the angular separation between the tagged top jets and the corresponding parton level top gives a measure of precision of the reconstructed momentum of top tagged jets \footnote{Here by momemtum we mean 3 dimentional vector momentum $\vec{P}_{top}$.  }. For a top tagged jet to have reconstructed the parton level top we require it to have $\Delta R < 0.3$ with the corresponding parton level top. Fig \ref{delR} shows the distribution of $\Delta R$. The tagged top jets which also match with the corresponding parton level top are called reconstructed top jet. Fig \ref{toppt} shows the $p_T$ distribution for reconstructed top jets, the reconstruction of high $p_T$ tops is better for HepTopTagger while for low $p_T$ tops $\chi^2$ gives better reconstruction. The top reconstruction efficiency as a function of $p_T^{top}$ is shown in fig.\ref{recoeff_vs_pt}.       
+ 
+
+\newpage 
 
 \begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[scale=0.25]{../pp2zp2tt2qqblv_2000root/jets/RecoParticles12_pT.png} 
-		\caption{ The plots show the $p_T$ of the reconstructed top in the process $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ for three values of $Z^\prime$ mass 0.5, 1.0, 2.0 TeV respectively. Top right, top left, bottom left plots show reconstructed $p_T^{top}$ for the three algorithms viz kinematic mass cut, $\chi^2$ minimization, hepTT respectively. The bottom right plot shows the $p_T$ of the original top quarks from the $Z^\prime$ decay, these are Lorentzian lineshapes typical in 1 $\to$ 2 processes which peak around $\frac{M_{Z^\prime}}{2}.$ }
+		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/TagParticles12_M.png} 
+		\caption{ Invariant mass distribution of the tagged top jets in the process  $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ using kinematic mass cut(top left), $\chi^2$ minimization (top right), HepTopTagger (bottom left) and of the parton level top quark (bottom right). For $M_Z^\prime$ = 0.5 TeV(black), 1.0 TeV(red), 2.0 TeV(green)  respectively. }
+		\label{topm}
+		\centering
+	\end{centering} 		
+\end{figure}
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/RecoParticles12_pT.png} 
+		\caption{ $p_T$ distribution of the reconstructed tops viz tagged top jets which have also matched with it's parton level top, in the process  $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ using kinematic mass cut(top left), $\chi^2$ minimization (top right), HepTopTagger (bottom left) and of the parton level top quark (bottom right). For $M_Z^\prime$ = 0.5 TeV(black), 1.0 TeV(red), 2.0 TeV(green)  respectively. Reconstruction efficiency is defined as fraction of input top quarks that are reconstructed. }
 		\label{toppt}
 		\centering
 	\end{centering} 		
 \end{figure}   
+\newpage
 
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=8cm,height=3.5cm]{../pp2zp2tt2qqblv_500root/jets/delR.png} 
+		\includegraphics[width=8cm,height=3.5cm]{../pp2zp2tt2qqblv_1000root/jets/delR.png} 
+		\includegraphics[width=8cm,height=3.5cm]{../pp2zp2tt2qqblv_2000root/jets/delR.png}
+		\caption{ $\Delta R$ between the tagged top jets and the parton level top quark. For $M_Z^\prime = 500$GeV (top left), $M_Z^\prime = 1000$ GeV (top right), $M_Z^\prime = 2000$ GeV (bottom). Vertical black line in all the histograms denote the value $\Delta R = 0.3$. A top is termed 'reconstructed' if the tagged top jet has $\Delta R < 0.3$  with the corresponding parton level top i.e. left of the line.}
+		\label{delR}
+		\centering
+	\end{centering} 		
+\end{figure}   
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_500root/jets/Recoeff4_top_pT.png} 
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_1000root/jets/Recoeff4_top_pT.png} 
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_2000root/jets/Recoeff4_top_pT.png}
+		\caption{Top reconstruction efficency vs $p_T^{top}$. For $M_Z^\prime = 500$GeV (top left), $M_Z^\prime = 1000$ GeV (top right), $M_Z^\prime = 2000$ GeV (bottom).  }
+		\label{recoeff_vs_pt}
+		\centering
+	\end{centering} 		
+\end{figure}   
+
+\newpage
+
+
+
+
+
+
+
+\newpage
 \subsection{QCD background}
 
 \newpage
@@ -289,6 +335,8 @@ with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the orde
 	\bibitem{heptop} Tilman Plehn,1Michael Spannowsky,2Michihisa Takeuchi,1and Dirk Zerwas \href{https://arxiv.org/pdf/1006.2833.pdf}{Stop Reconstruction with Tagged Tops}, arXiv:1006.2833v2 [hep-ph] 31 Aug 2010
 	
 	\bibitem{pythia} Present program version: \href{http://home.thep.lu.se/~torbjorn/Pythia.html}{PYTHIA8.2}
+	
+	\bibitem{softdrop} \href{https://phab.hepforge.org/source/fastjetsvn/browse/contrib/contribs/RecursiveTools/tags/2.0.0-beta2/}{SoftDrop 2.0.0 }
 \end{thebibliography} 
 
 
