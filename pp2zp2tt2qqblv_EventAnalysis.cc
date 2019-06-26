@@ -84,64 +84,67 @@
 
 	
 	   int mass_index; 
-     vector<ParticleProperty> toprecokin, toprecochi, toprecohep, top	; 
-     vector<ParticleProperty> topmatch; 
+     vector<ParticleProperty> toprecokin, toprecochi, toprecohep, top, fattop	; 
+ //    vector<ParticleProperty> topmatch; 
      
      vector<ParticleProperty> BigTop, BigTopTag;
      for(mass_index =0; mass_index<3; mass_index++){
 	   	   	   	   
        sprintf(filename, "pp2zp2tt2qqblv_%d.root", z_mass[mass_index] );
        analyser[mass_index].SetFile(filename);
-
-	     analyser[mass_index].RecoJets(0.5, 1.0, true);
-        
-       toprecokin.push_back(analyser[mass_index].TopkinMatched);       
-       toprecochi.push_back(analyser[mass_index].TopchiMatched);
-       toprecohep.push_back(analyser[mass_index].TophepMatched);         
-       top.push_back(analyser[mass_index].Top);       
+	     analyser[mass_index].RecoJets(1.0, 1.5, true);
+	     
+//       toprecokin.push_back(analyser[mass_index].TopkinMatched);       
+//       toprecochi.push_back(analyser[mass_index].TopchiMatched);
+//       toprecohep.push_back(analyser[mass_index].TophepMatched);         
+//       top.push_back(analyser[mass_index].Top); 
+//       fattop.push_back(analyser[mass_index].FatTop);      
     } 
-     
+/*
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(fattop[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTop.push_back(top[mass_index]); 
+
     for(mass_index=0; mass_index<3; mass_index++) 
       BigTop.push_back(toprecokin[mass_index]); 
     for(mass_index=0; mass_index<3; mass_index++) 
       BigTop.push_back(toprecochi[mass_index]); 
     for(mass_index=0; mass_index<3; mass_index++) 
       BigTop.push_back(toprecohep[mass_index]); 
-    for(mass_index=0; mass_index<3; mass_index++) 
-      BigTop.push_back(top[mass_index]); 
-    
-    
+
+
     sprintf(foldername, "./%s/jets", analyser[2].FolderName().c_str());     
     DrawHistograms(BigTop, 1, -1, foldername); 
-    
     top.clear();
-    
-    for(mass_index=0; mass_index<3; mass_index++){
-
-       topmatch.push_back(analyser[mass_index].TopkinMatch);
-       topmatch.push_back(analyser[mass_index].TopkinTagged);
-       topmatch.push_back(analyser[mass_index].TopchiMatch);
-       topmatch.push_back(analyser[mass_index].TopchiTagged);
-       topmatch.push_back(analyser[mass_index].TophepMatch);
-       topmatch.push_back(analyser[mass_index].TophepTagged);
+    fattop.clear();
+    toprecokin.clear();
+    toprecochi.clear();
+    toprecohep.clear();  
+    BigTop.clear();    
+  */
  
+    for(mass_index=0; mass_index<3; mass_index++){
        
-      for(int ipart= mass_index ; ipart<= mass_index + 3*3; ipart = ipart+3 ){             
-        top.push_back(BigTop[ipart]);  
-      } 
+      top.push_back( analyser[mass_index].TopkinMatch);
+      top.push_back( analyser[mass_index].TopchiMatch);
+      top.push_back( analyser[mass_index].TophepMatch);
+      top.push_back( analyser[mass_index].Top);
+      top.push_back( analyser[mass_index].FatTop);
+        
       sprintf(foldername, "./%s/jets", analyser[mass_index].FolderName().c_str());     
       DrawHistograms(top, 2, mass_index, foldername);
-      DrawdelR(topmatch, mass_index, foldername); 
       top.clear();
-      topmatch.clear();       
     }
-            
+    
+ /*           
     for(mass_index =0; mass_index<3; mass_index++){
 	   	   	   	          
-       toprecokin.push_back(analyser[mass_index].TopkinTagged);       
-       toprecochi.push_back(analyser[mass_index].TopchiTagged);
-       toprecohep.push_back(analyser[mass_index].TophepTagged);         
-       top.push_back(analyser[mass_index].Top);       
+       toprecokin.push_back(analyser[mass_index].Topkin);       
+       toprecochi.push_back(analyser[mass_index].Topchi);
+       toprecohep.push_back(analyser[mass_index].Tophep);         
+       top.push_back(analyser[mass_index].Top);
+       fattop.push_back(analyser[mass_index].FatTop);       
     } 
 
     for(mass_index=0; mass_index<3; mass_index++) 
@@ -152,10 +155,12 @@
       BigTopTag.push_back(toprecohep[mass_index]); 
     for(mass_index=0; mass_index<3; mass_index++) 
       BigTopTag.push_back(top[mass_index]); 
+    for(mass_index=0; mass_index<3; mass_index++) 
+      BigTopTag.push_back(fattop[mass_index]); 
     
-    
+    cout<<"big top tag : "<<BigTopTag[0].prop[0].size()<<endl;
     sprintf(foldername, "./%s/jets", analyser[2].FolderName().c_str());     
-    DrawHistograms(BigTopTag, 1, 0, foldername); 
+   // DrawHistograms(BigTopTag, 1, 0, foldername); 
 
 
     toprecokin.clear();
@@ -165,6 +170,8 @@
     
     BigTop.clear();
     BigTopTag.clear();
+*/
+
     t = clock() - t;
     cout<<"Time of execution (seconds ): "<<t/float(CLOCKS_PER_SEC)<<endl;
     return 0;

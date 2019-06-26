@@ -34,26 +34,30 @@
   //only the rlative weights matter, keep them to be the decay widths. 
   const double Gamma_w = 2.0;
   const double Gamma_top = 1.5;
+  const double Gamma_zp = 80.0;
 
-  const double C = 5.0;
+  const double C = 10.0;
 
   const double sigma_w = C * Gamma_w;
   const double sigma_top = C * Gamma_top;
+  const double sigma_zp = C * Gamma_zp;
 
   const double delta_mw = C * Gamma_w;
-  const double delta_mtop = C * Gamma_w;
-
+  const double delta_mtop = C * Gamma_top;
+  const double delta_mzp = 2.0 * Gamma_zp;
 // for softdrop algorithm
 
-
+  double delR( PseudoJet v1, PseudoJet v2 );
   double delR( TLorentzVector v1, TLorentzVector v2 );
   
-  int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TaggedTop );
-  int topjetreco_chi( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B,ParticleProperty *TaggedTop );										
-  int topjetreco_hep( vector<PseudoJet> jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *TaggedTop);
+  int topjetreco_kin( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TopTagged);
+  int topjetreco_chi( vector<PseudoJet> jets, ParticleProperty *T, ParticleProperty *W, ParticleProperty *B, ParticleProperty *TopTagged);										
+  int topjetreco_hep( vector<PseudoJet> *jets, ParticleProperty *Tjet, ParticleProperty *Wjet, ParticleProperty *Bjet, ParticleProperty *TopTagged);
   
      
   int DrawdelR( vector<ParticleProperty> particle, int mass_index, string foldername );
+  
+  
   int DrawdelRvspT(ParticleProperty top, ParticleProperty w, ParticleProperty b, string foldername );
   void FormatHist(TH1F *hist, int linecolor, int linewidth, bool stat);
   int DrawHistograms(vector<ParticleProperty> particle, int drawoption, int mass_index,  string foldername);
@@ -62,6 +66,7 @@
   void Draw1v2( ParticleProperty p1, ParticleProperty p2, int iprop1 , int iprop2 ,string foldername);
   void Drawone( ParticleProperty p, int iprop , string foldername);
   vector<PseudoJet> UseSoftDrop(vector<PseudoJet> jets, double R);
+  
   //vector<PseudoJet> RemoveGluonJets(vector<PseudoJet> jets);
   
 #endif

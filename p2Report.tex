@@ -7,15 +7,19 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{hyperref}
-
-
+\usepackage{array}
 \usepackage[margin=.6in,footskip=0.25in]{geometry}
+\DeclareUnicodeCharacter{2212}{-} 
+\DeclareUnicodeCharacter{0301}{-}
+\DeclareUnicodeCharacter{0308}{-}
+\DeclareUnicodeCharacter{2032}{-}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 
 
-\title{\textbf { Study of production of leptophobic $Z^\prime$ boson in assosiation with top pair in pp collisions at 14 TeV.} }
+\title{\textbf { Study of production of $Z^\prime$ boson in the process $ pp \to Z^\prime t \bar{t} \to t \bar{t} t \bar{t} $ with top jet reconstruction techniques.  } }
  
  
-\author{Shubham P. Raghuvanshi\\Department of High Energy Physics, TIFR, Mumbai.}
+\author{Submitted by: Shubham P. Raghuvanshi \\ Guided by : Prof. Monoranjan Guchait \\ Department of High Energy Physics, TIFR, Mumbai.}
 
 % Start the document
 \begin{document}		% Necessary line: starts the document
@@ -24,15 +28,12 @@
 \newpage
 \tableofcontents
 \newpage
-\thispagestyle{empty}
-\listoffigures
-\newpage
 \section{Introduction}
 
 
-The hypothetical $Z^\prime$ boson is required by many extensions of the Standard Model \cite{paul,zpdg}, simplest of these models are U(1) extension of SM which require an additional massive vector boson which couples to standard model fermions. It is electrically-neutral, color singlet spin 1 particle. The mass of $Z^\prime$ in principle depends upon it's coupling to various SM and BSM particles, which are model dependant. Therefore apart from discovering $Z^\prime$ is also to be identified with the correct model.
+The hypothetical $Z^\prime$ boson is required by many extensions of electorweak symmetry breaking of the Standard Model \cite{paul,zpdg}, simplest of these models are U(1) extension of SM which require an additional massive vector boson which couples to standard model fermions. It is electrically-neutral, color singlet spin 1 particle. The mass of $Z^\prime$ in principle depends upon it's coupling to various SM and BSM particles, which are model dependant. Some of these model predict the existance of top-philic $Z^\prime$ which only couples to top quarks \cite{tpz}, while in some other models $Z^\prime$ is leptophobic which interacts with SM quarks. Top quark having mass close to electroweak symmetry breaking scale has strongest coupling to heavy particles beyond standard model and as the luminosity increases at LHC we expect top quarks to be produced in huge numbers giving opportunity to probe new physics.          
 
-In this work we analyse events in which $Z^\prime$ is produced in pp collision at $\sqrt{s} = 14$ TeV in assosiation with top anti-top pair \ref{fynnmann}. We chose B-L model \cite{bl} for this study since it is one of the simplest U(1) extensions of the SM. However the methods used for analysis are fairly general. Using MSTW2008lo68cl\_nf3 \cite{pdfsets} parton distribution functions(PDF), with $M_{Z^\prime} = 1$ TeV and $M_t = 172$ GeV, $ \text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} provides the cross section for this process to be $ \sigma_{B-L}( p p \to Z^\prime t \bar{t}) = 0.000183 \pm 1.3905 \times 10^{-6}$(stat) pb. In this analysis we will be interested mainly in the $Z^\prime \to t \bar{t}$ decay channel, the final state therefore contains 4 top quarks with the BL cross section of $ \sigma_{B-L}(pp \to Z^\prime t \bar{t} \to t \bar{t}t \bar{t}) = 9.877 \times 10^{-8} \pm  1.5 \times 10^{-10}$ pb. The most dominant background for this is 4 top QCD background with the SM cross section of $\sigma_{SM}(pp \to t \bar{t}t \bar{t}) = 0.01182 \pm 3.19 \times 10^{-5}$ pb. 
+In this work we study jet reconstruction techiques to reconstruct top quarks and use them to analyse events in which $Z^\prime$ is produced in pp collision at $\sqrt{s} = 14$ TeV in assosiation with top anti-top pair \ref{fynnmann}. We chose B-L model \cite{bl} for this study since it is one of the simplest U(1) extensions of the SM. However the methods used for analysis are fairly general. Using MSTW2008lo68cl\_nf3 \cite{pdfsets} parton distribution functions(PDF), with $M_{Z^\prime} = 1$ TeV and $M_t = 172$ GeV, $ \text{MADGRAPH}_5$aMC@NLO \cite{mad1,mad2} provides the cross section for this process to be $ \sigma_{B-L}( p p \to Z^\prime t \bar{t}) = 0.00612 \pm 3.1 \times 10^{-6}$(stat) pb. In this analysis we will be interested mainly in the $Z^\prime \to t \bar{t}$ decay channel, the final state therefore contains 4 top quarks. Table \ref{csxtable} lists cross sections for some of the relavant processes in pp collisions at $\sqrt{s}= 14$ TeV. For the $Z^\prime$ processes cross sections for B-L model is shown. The whole source code for this work as well as some relavant figures can be found at the Github repository of the project \href{https://github.com/ShubhamRaghuvanshi/departmental_project-2}{here}.
 
 	\begin{figure}[h] 	 		
 		\begin{centering}	
@@ -46,22 +47,53 @@ In this work we analyse events in which $Z^\prime$ is produced in pp collision a
 		\end{centering}
 	\end{figure}   
 
+
+
+\begin{table}[h!]
+	\caption{cross sections for some of the relavant processes in pp collisions at $\sqrt{s}= 14$ TeV. Here $M_Z^\prime = 1000$ GeV.	  }
+	\centering
+	\begin{tabular}{ |p{5cm}|p{5cm}| }
+		\hline
+		Process 	& cross sections in pb\\
+		\hline
+		$pp \to t \bar{t} $ & $597.9$\\
+		\hline
+		$pp \to t \bar{t} t \bar{t} $ & $0.001182 $ \\
+		\hline
+		$pp \to t \bar{t} \to 2 $ top jets & $265.74 $ \\
+		\hline
+		$pp \to t \bar{t} t \bar{t} \to 4 $ top jets& $ 2.3 \times 10^{-4} $ \\
+		\hline
+		$pp \to Z^\prime $ & $ 1.401  $ \\
+		\hline
+		$pp \to  Z^\prime \to t \bar{t} $ & $ 0.00612 $ \\
+		\hline
+		$pp  \to Z^\prime t \bar{t} $ & $ 0.0091 $ \\
+		\hline
+		$pp  \to Z^\prime t \bar{t} \to t \bar{t}t \bar{t}$ & $ 0.000364 $ \\
+		\hline
+		$pp  \to Z^\prime t \bar{t} \to t \bar{t} t \bar{t} \to 4$ top jets & $  7.19 \times 10^{-5}  $ \\
+		\hline		
+	\end{tabular}
+	\label{csxtable}
+\end{table}
+
+
 \newpage 
 
 \section{ $Z^\prime$ phenomenonology and current mass constraints }
 
 
- $Z^\prime$ boson is predicted in many extensions of the Standard Model (SM). Each with different coupling to the SM fermions. In general generation-dependant couplings of $Z^\prime$ to the SM fermions is given by 
+ $Z^\prime$ boson is predicted in many extensions of the Standard Model (SM). Each with different coupling to the SM fermions. In general generation-dependant couplings of $Z^\prime$ to the SM fermions can be written as
  
  \begin{equation}
 	 Z_\mu^\prime \left[ \sum_{i=1,j=1}^{i=3,j=3} \left(g_f^L \right)_{ij} \bar{f}_L^i \gamma^\mu f_L^j + \left(g_f^R \right)_{ij} \bar{f}_R^i \gamma^\mu f_R^j	  \right]
  \end{equation} 
  
- where the indices i and j run over all three generations and f = (u, d, e, $\nu$). The coefficients $\left(g_f^L \right)_{ij}$ and $\left(g_f^R \right)_{ij}$ are real dimentionless parameters, and analogous to the weak hypercharge of elecro-weak interations the gauge charges $z_{fi}^L$, $z_{fi}^R$ determine all the couplings and mass and decay width of $Z^\prime$ \cite{zphysics,zpheno2}. 
-    
+ where the indices i and j run over all three generations and f = (u, d, e, $\nu$). The coefficients $\left(g_f^L \right)_{ij}$ and $\left(g_f^R \right)_{ij}$ are real dimentionless parameters, and analogous to the weak hypercharge of elecro-weak interations the gauge charges $z_{fi}^L$, $z_{fi}^R$ determine all the couplings and mass and decay width of $Z^\prime$ \cite{zphysics,zpheno2}. Some of these models we discuss here in brief.
     
  \begin{itemize}
- 	\item Simple U(1) extensions of the standard model, also known as Sequential Standard Model(SSM) \cite{zpheno1}, which assumes $Z^\prime$ couplings to SM fermions to be the same as $Z^0$ but with a polemass of the order of TeV. These theories have the conserved gauge charges (as in column 1) proportional to the baryon number minus $x$ times the lepton number $(B - x L)$, and are in general known as $U(1)_{B-xL}$ extensions of the standard model \cite{zpdg}.
+ 	\item Simple U(1) extensions of the standard model, also known as Sequential Standard Model(SSM) \cite{zpheno1}, which assumes $Z^\prime$ couplings to SM fermions to be the same as $Z^0$ but with a polemass of the order of few TeV. These theories have the conserved gauge charges (as in column 1) proportional to the baryon number minus $x$ times the lepton number $(B - x L)$, and are in general known as $U(1)_{B-xL}$ extensions of the standard model \cite{zpdg}.
  	
  	\begin{figure}[h]
  		\begin{centering}	
@@ -72,24 +104,19 @@ In this work we analyse events in which $Z^\prime$ is produced in pp collision a
  		\end{centering} 		
  	\end{figure}   
  	   
- 	$Z^\prime$ is leptophobic for $x=0$, i.e. it only decays to quarks and the interactions preserve baryon number, for $x>>1$ it is quark-phobic. The latter possibilitiy is being ruled out by various collider physics experiments. The case where $x=1$ is particularly important, it gives $U(1)_{B-L}$,  the only anomaly-free global symmetry of the Standard Model, easily promoted to a local symmetry by introducing three right-handed neutrinos, which automatically make neutrinos massive. $B-L$ symmetry remains the only unbroken symmetry of the SM so far \cite{bl}.   	  
+ 	$Z^\prime$ is leptophobic for $x=0$, i.e. it only decays to quarks and the interactions preserve baryon number, for $x>>1$ it is quark-phobic. The latter possibilitiy is being ruled out by various collider physics experiments. The case where $x=1$ is particularly important, it gives $U(1)_{B-L}$,  the only anomaly-free global symmetry of the Standard Model, easily promoted to a local symmetry by introducing three right-handed neutrinos, which automatically make neutrinos massive. $B-L$ symmetry remains the only symmetry of the SM which is not observed to be broken \cite{bl}.   	  
  	   
 	\item The second column shows charges for $U(1)_{10+x5}$, these symmetry groups are part of $E_6$ Grand Unified Theories(GUT) \cite{zpheno4}. This set leads to $	Z - Z^\prime$ mass mixing close to electroweak scale. Under the third set,$U(1)_{d−xu}$, the weak-doublet quarks are neutral, and the ratio of $u_R$ and $d_R$ charges is $−x$.  For $x= 1$ this is the “right-handed” group $U(1)_R$. 	
  \end{itemize} 
-   
-   The existance of this $U(1)^\prime$ symmetry will have profound implications of for particle physics and cosmology. The most important implications include an extended Higgs sector, extended neutralino sector, and solution to the $\mu$ problem in supersymmetry, exotic fermions needed for anomaly cancellation, possible flavor changing neutral current effects, neutrino mass, possible $Z^\prime$ mediation of supersymmetry breaking, and cosmological implications for cold dark matter and electroweak baryogenesis \cite{paul}.     
-   
-\newpage  
 
-	In general $Z^\prime$ couples to all the SM and some of the BSM particles, however the current analysis at LHC are motivated by pure SM contribution in which $Z^\prime$, couples to all the SM fermions, namely the minimal U(1) extensions of the SM. Along these lines, the ATLAS and CMS collaborations have searched for $Z^\prime$ bosons by investigating dilepton and dijet final state in detail. By using dilepton data at 13 TeV, the ATLAS collaboration \cite{atlas} set the mass exclusion limits $M_{Z^\prime}>4.5$ TeV(SSM) and $M_{Z^\prime}′>3.8-4.1 $ TeV (GUT-inspired models), whereas CMS obtained $M_{Z^\prime}>4.0 $ TeV(SSM) and $M_{Z^\prime}>3.5$ TeV (GUT-inspired models) \cite{cms}.  For dijets,  the limits are much milder and read $M_{Z^\prime} > 2.1-2.9$ TeV (ATLAS) \cite{atlasjet} and $M_{Z^\prime} >2.7$ TeV (CMS) \cite{cmsjet}.
-	
-	The U(1) supersymmetric models however by including supersymmetric decay modes lowers the branching ratios into SM final states and impact the $Z^\prime$ mass limits by $200-300$ GeV \cite{zsusy}. 
+The current analysis at LHC are motivated by pure SM contribution in which $Z^\prime$, couples to all the SM fermions, namely the minimal U(1) extensions of the SM. Along these lines, the ATLAS and CMS collaborations have searched for $Z^\prime$ bosons by investigating dilepton and dijet final states with 13 TeV data. The ATLAS collaboration \cite{atlas} set the mass exclusion limits $M_{Z^\prime}>4.5$ TeV(SSM) and $M_{Z^\prime}′>3.8-4.1 $ TeV (GUT-inspired models), whereas CMS obtained $M_{Z^\prime}>4.0 $ TeV(SSM) and $M_{Z^\prime}>3.5$ TeV (GUT-inspired models) \cite{cms}.  For dijets,  the limits are much milder and read $M_{Z^\prime} > 2.1-2.9$ TeV (ATLAS) \cite{atlasjet} and $M_{Z^\prime} >2.7$ TeV (CMS) \cite{cmsjet}. The U(1) supersymmetric models however by including supersymmetric decay modes lowers the branching ratios into SM final states and impact the $Z^\prime$ mass limits by $200-300$ GeV \cite{zsusy}. 
+   
 
 \newpage
 
 \section{Top quark reconstruction}
 
-The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state from the hadronization of the quarks. If the parent top is at rest then these three jets are well separated from each other in $(y,\phi)$ plane and can in general be identified as thee distinct quark jets in an event. On the other hand is the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear along the direction of the parent top, and consenquently instead of having three well separated jets in final state we may get only one  fatjet. Substructure of this fatjet gives information of the corresponding decay. \ref{boost}.     
+The phenomenology of top quark is driven by it's large mass, which also gives it very short lifetime $\sim 10^{-24}$s and makes it the only quark that decays semi-weakly into W boson and b quark. The brancing ratio for the top decay $t \to W b $ is close to unity, and for this analysis we assume it to be unity. The signature of top quarks which decay hadrnoically i.e. for which the decay $t \to W b $ is followed by $W \to q \bar{q}$ where $q = (u, d, s, c)$, is in general three quark-like jets in the final state from the hadronization of the quarks. If the parent top is at rest then these three jets are well separated from each other in $(y,\phi)$ plane and can in general be identified as thee distinct quark jets in an event. On the other hand if the parent top is boosted i.e. has high $p_T$ then the three quark jets will tend to be collinear along the direction of the parent top, and consenquently instead of having three well separated jets in final state we may get only one  fatjet. Substructure of this fatjet gives information of the corresponding decay. \ref{boost}.     
 
  	\begin{figure}[h]
  		\begin{centering}	
@@ -100,7 +127,7 @@ The phenomenology of top quark is driven by it's large mass, which also gives it
  		\end{centering} 		
  	\end{figure}   
 
-To quantify things lets consider the angular separations between partons in the process $ t \to w b \to q \bar{q} b$ as a function of the $p_T^{top}$ fig:\ref{rwbt}. The angular separation in rapidity-azimuth $(y, \phi)$ plane $\left(  \Delta R = \sqrt{\Delta y^2 + \Delta \phi^2} \right)$ between the decay products  in a two-body depends on the mass and boost of the decaying particle and in the high $p_T$ approximation it is given by .
+To quantify things lets consider the angular separations between partons in the process $ t \to w b \to q \bar{q} b$ as a function of the $p_T^{top}$ fig:\ref{rwbt}. The angular separation in rapidity-azimuth $(y, \phi)$ plane $\left(  \Delta R = \sqrt{\Delta y^2 + \Delta \phi^2} \right)$ between the decay products in a two-body decay depends on the mass and boost of the decaying particle and in the high $p_T$ approximation it is given by .
 
 \begin{equation}
  \Delta R \approx \frac{2m}{p_T}
@@ -148,7 +175,7 @@ The top tagging algorithms that are aimed at reconstructing low $p_T$ top work o
 The $\chi^2$ minimization procceds by identifying the triplet (ijk) from the list of reconstructed jets which gives the minimum value of the quantity  
 
 	\begin{equation}
-		\chi_{ijk}^2 = \frac{ \left(m_{ij} - m_{w}^{PDG} \right)^2 }{ \sigma_w^2}	+  \frac{ \left(m_{ijk} - m_{top}^{PDG} \right)^2 }{ \sigma_{top}^2}
+		\chi_{ijk}^2 = \frac{ \left(m_{ij} - m_{w} \right)^2 }{ \sigma_w^2}	+  \frac{ \left(m_{ijk} - m_{top} \right)^2 }{ \sigma_{top}^2}
 		\label{chisq}
 	\end{equation}
 
@@ -156,7 +183,7 @@ where $\sigma_w$ and $\sigma_{top}$ are related to the decay widths of w and top
 
 \subsubsection{Tagging of boosted tops}
 
-Top tagging algorithms for boosted tops make use of the fact that the decay products of top have large fraction on their momenta along the direction of the original top quark and analyse the top decay from geometrically large objects called fatjets. The siz e of this fatjet should be large enough to contain all three decay products of top. Fig \ref{topjetsize} shows the size of the fatjet which can contain the top mass for a given top $p_T$. It's clear that for tagging high $p_T$ tops we should chooose smaller fatjet size. Many algorithms are available for tagging of boosted tops such as mass drop tagger, Jon Hopkins tagger etc. , details about these algorithms can be found here \cite{toptaggin}. For our analysis we use HepTopTagger(Heidelberg-Eugene-Paris) with C/A fatjets of radius $R_{\text{fat}}=1$.   
+Top tagging algorithms for boosted tops make use of the fact that the decay products of top have large fraction on their momenta along the direction of the original top quark and analyse the top decay from geometrically large objects called fatjets. The siz e of this fatjet should be large enough to contain all three decay products of top. Fig \ref{topjetsize} shows the size of the fatjet which can contain the top mass for a given top $p_T$. It's clear that for tagging high $p_T$ tops we should chooose smaller fatjet size. Many algorithms are available for tagging of boosted tops such as mass drop tagger, Jon Hopkins tagger etc. , details about these algorithms can be found here \cite{toptaggin}. For our analysis we use HepTopTagger(Heidelberg-Eugene-Paris) \cite{heptop} with C/A fatjets of radius $R_{\text{fat}}=1$.   
 
 \begin{figure}[h]
 	\begin{centering}	
@@ -197,7 +224,7 @@ The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{t
 
 \begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/TagParticles12_M.png} 
+		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/TagParticles15_M.png} 
 		\caption{ Invariant mass distribution of the tagged top jets in the process  $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ using kinematic mass cut(top left), $\chi^2$ minimization (top right), HepTopTagger (bottom left) and of the parton level top quark (bottom right). For $M_Z^\prime$ = 0.5 TeV(black), 1.0 TeV(red), 2.0 TeV(green)  respectively. }
 		\label{topm}
 		\centering
@@ -206,7 +233,7 @@ The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{t
 
 \begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/RecoParticles12_pT.png} 
+		\includegraphics[width=20cm,height=7cm]{../pp2zp2tt2qqblv_2000root/jets/RecoParticles15_pT.png} 
 		\caption{ $p_T$ distribution of the reconstructed tops viz tagged top jets which have also matched with it's parton level top, in the process  $Z^\prime \to t \bar{t} \to qqbl\nu_{l}b$ using kinematic mass cut(top left), $\chi^2$ minimization (top right), HepTopTagger (bottom left) and of the parton level top quark (bottom right). For $M_Z^\prime$ = 0.5 TeV(black), 1.0 TeV(red), 2.0 TeV(green)  respectively. Reconstruction efficiency is defined as fraction of input top quarks that are reconstructed. }
 		\label{toppt}
 		\centering
@@ -227,9 +254,9 @@ The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{t
 
 \begin{figure}[h]
 	\begin{centering}	
-		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_500root/jets/Recoeff4_top_pT.png} 
-		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_1000root/jets/Recoeff4_top_pT.png} 
-		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_2000root/jets/Recoeff4_top_pT.png}
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_500root/jets/Recoeff5_Fattop_pT.png} 
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_1000root/jets/Recoeff5_Fattop_pT.png} 
+		\includegraphics[width=8.5cm,height=4cm]{../pp2zp2tt2qqblv_2000root/jets/Recoeff5_Fattop_pT.png}
 		\caption{Top reconstruction efficency vs $p_T^{top}$. For $M_Z^\prime = 500$GeV (top left), $M_Z^\prime = 1000$ GeV (top right), $M_Z^\prime = 2000$ GeV (bottom).  }
 		\label{recoeff_vs_pt}
 		\centering
@@ -237,49 +264,199 @@ The quantity $\Delta R( top^{tagged}, top^{parton} ) =  \sqrt{ \left(  y_{top^{t
 \end{figure}   
 
 \newpage
-\subsection{QCD background}
+\subsection{QCD multijet background}
 
- 	
+Having analysed the top recontruction efficiency for all three methods we now calculate their mistagging rate with respect to QCD multijet background \footnote{In this context multijet stands for $> 2$ inclusive jets}. QCD multijet processes have inclusive large cross section of about 300 mb in pp collisions at $\sqrt{s} = 14$ TeV \cite{pythia} and it clouds all the physics searches in hadronic channels. These multijet events contain light and energetic jets in the final state due to hadronization of quark and gluon from the QCD quark-quark, quark-gluon and gluon-gluon interaction processes like $gg \to gg$, $gg \to q\bar{q}$, $qg \to qg$, $qq \to qq$, $q \bar{q} \to gg$. The background from light quark jets to boosted top decays can be removed completely by putting a mass contraint on the reconstructed jets. These light quark jets can however fake the 3 pronged decay topology of low $p_T$ top decay. The gluon jets on the other hand can infiltrate the top mass window and be mistagged as boosted top fatjet, and the cross section for acquiring mass in top mass window increases with increase in R and $p_T$ of the jet. Figure \ref{jetprop} shows the QCD jet multiplicity and the invariant mass distribution of C/A jets with R=1. We define the fractional fake rate (or mistag rate if you will) as the fraction of input jets which are top tagged in the mass range $m_{top} \pm \Delta_{top}$, where $\Delta_{top} = 5 \times \Gamma_{top} = 7.5$ GeV . 
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=8.5cm,height=4cm]{../QCD20root/jets/QCDjet_M.png} 
+		\includegraphics[width=8.5cm,height=4cm]{../QCD20root/jets/nJets.png} 
+		\caption{ Invariant mass and multiplicity distributions for C/A jets with R=1 in 500000 QCD events. The peak at lower masses is due to light quark jets to LO whereas the long tail of the distribution are gluon jets which penetrate to about 700 GeV and hence contaminate top mass window. Note that the histogram is drawn for the whole range of jet mass that we got in the simulation.   }
+		\label{jetprop}
+		\centering
+	\end{centering} 		
+\end{figure} 
 
- Without a mass cut, the QCD jetbackground swamps the hadronic top signal by orders ofmagnitude. The most basic tagging method after giving upconventional methods is to use the jet mass as a discrim-inator between the QCD background and the hadronic topsignal; the high-pTtop-jet mass distribution should peakaround the top mass, while the QCD jet mass distributionpeaks near zero
+A relative comparision among the top tagging algorithms and their perfomance to QCD multijet background is summarized in Table.\ref{toprecotable}, where we have shown the number of events surviving each selection criteria for top signal as well as for QCD background. We didn't put any $p_T^{lepton}$ cut in QCD background in order to get maximum statistics. For low $p_T$ top quark reconstruction $\chi^2$ minimization works better among the two and we will use this method in the following sections to reconstruct low $p_T$ top quarks.       	
+  
 
- However, using a jet mass as a discrim-inator is more complicated for several reasons. Because ofradiation, QCD jets acquire a large tail in the mass distri-bution. The cross section for acquiring large jet mass, forexample, near the top mass, increases substantially withpTand cone size. Top jets also broaden due to radiation,hardening their jet mass distribution.3Furthermore, a finitejet reconstruction cone size will not always capture all thedaughters of the top quark decay chain, thus softening itsmass distribution. The net effect is a smearing of theexpected naive, broadened, Breit-Wigner distribution forthe top-jet mass distribution.
- 
- With the theoretical machinery discussed in the previoussection, we are able to make a prediction of the rate atwhich QCD jets will fake the mass signature of top jets. Wedefine the fractional fake rate as the fraction of jets with140 GeV mJ 210 GeV, for givenpTandR. 
+\begin{table}[h!]
+	\caption{ Cut flow for $Z^\prime \to t \bar{t} \to qqb l\nu_lb$ events for $M_{Z^\prime}$ = (500, 1000, 2000) GeV and for QCD multijet background.   }
+	\centering
+\begin{tabular}{ |p{5cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}| }
+	\hline
+	\textbf{Selection cut}&\multicolumn{3}{|c|}{ $ \mathbf{Z^\prime \to t \bar{t}} $   } & \textbf{QCD} \\
+	\hline
+	&  $\mathbf{M_Z^\prime}$\textbf{=500 GeV}  & $\mathbf{M_Z^\prime}$\textbf{=1 TeV}&$\mathbf{M_Z^\prime}$\textbf{=2 TeV} & \\
+	\hline
+	  Number of events generated   & 500000 & 500000 & 500000 & 500000 \\
+	\hline
+	Atleast one lepton with        $p_T^{lepton} > 20$ GeV & 388148 & 431552 & 463515 & - \\
+	\hline
+	Atleast three AK5 jets with        $p_T^{jet} > 20$ GeV & 341632 & 400695 & 419343 & 401554 \\
+	\hline
+	Atleast one CA10 fatjet with        $p_T^{jet} > 200$ GeV & 51411 & 343875 & 448661 & 495149 \\
+	\hline
+	Tagged top jets       & 94030, & 91106, & 44387, & 20542, \\
+	(kinematic mass cut)  & $\epsilon_{tag}^{kin} = 0.275$ & $\epsilon_{tag}^{kin} = 0.227$ & $\epsilon_{tag}^{kin} = 0.105$ & $\epsilon_{mistag}^{kin} = 0.034$  \\
+	\hline
+	Tagged top jets       & 127441, & 120344, & 62288, & 39120, \\
+	( $\chi^2$ minimization )  & $\epsilon_{tag}^{\chi^2} = 0.373$ & $\epsilon_{tag}^{\chi^2} = 0.3$ & $\epsilon_{tag}^{\chi^2} = 0.148$ & $\epsilon_{mistag}^{\chi^2} = 0.065$ \\
+	\hline
+	Tagged top jets       & 668, & 23532, & 48974, & 707, \\
+	(HEPTopTagger)  & $\epsilon_{tag}^{hepTT} = 0.012$ & $\epsilon_{tag}^{hepTT} = 0.068$ & $\epsilon_{tag}^{hepTT} = 0.109$ & $\epsilon_{mistag}^{hepTT} = 0.0007$ \\
+	\hline
+	Matched top jets        & 45549, & 53084, & 14497, & - \\
+	(kinematic mass cut)  & $\epsilon_{tag}^{kin} = 0.133$ & $\epsilon_{tag}^{kin} = 0.132$ & $\epsilon_{tag}^{kin} = 0.027$ &  \\
+	\hline
+	Matched top jets       & 55034, & 64099, & 14338, & - \\
+	( $\chi^2$ minimization )  & $\epsilon_{tag}^{\chi^2} = 0.0161$ & $\epsilon_{tag}^{\chi^2} = 0.159$ & $\epsilon_{tag}^{\chi^2} = 0.034$ &  \\
+	\hline
+	Matched top jets       & 616, & 22815, & 45489, & - \\
+	(HEPTopTagger)  & $\epsilon_{tag}^{hepTT} = 0.012$ & $\epsilon_{tag}^{hepTT} = 0.066$ & $\epsilon_{tag}^{hepTT} = 0.101$ &  \\
+	\hline
+\end{tabular}
+	\label{toprecotable}
+\end{table}
+  
+\newpage
+
+\section{Signal Event Selection}
+So far we have discussed varius top reconstruction methods and tools, compared their tagging and mistagging rate for different phase space regimes. In this section we will use these methods to reconstruct the line shape of $Z^\prime$ boson in it's all hadronic top decays. For this purpose we generate events in which $Z^\prime$ boson  produced in assosiation with a top pair which itself susequently decays to top anti top pair, i.e. events of the type $ pp \to Z^\prime t \bar{t} \to t \bar{t}t \bar{t}$ \footnote{ We could in principle do the reconstruction in the processes of the type $pp \to zp \to t \bar{t}$, but the 2 top QCD background has a very large cross section of about 598 pb.} . Assuming top decay to W and b to have 100\% branching ratio, the hadronic decay of top has a branching ratio of about 2/3 while for leptonic decay the branching fraction is about 1/3. Therefore in order to get maximum statistics we do the analysis where all 4 final state top decay hadronically. For this study we choose $M_Z^\prime = 1000$ GeV, therefore out of the 4 top quarks the two which come from $Z^\prime$ decay will be in general more boosted $( \sim \frac{ M_Z^\prime}{2}  )$as compared to other two quarks which mainly come from quark or gluon interaction vertex. Fig. \ref{ttttpt} shows the $p_T$ distribution of all 4 top quarks in the final state, the tops from $Z^\prime$ are indeed boosted more and the distribution pf $p_T$ tends to peak around 400 GeV. Note in the fig \ref{recoeff_vs_pt} the reconstruction effciencies of $\chi^2$ and HEPTopTagger cross also cross around $p_T^{top} \approx 400$ GeV and beyond this value HEPTopTagger performes better. Therefore we use HEPTopTagger in it's default settings to reconstruct two hardest top fatjets in the final state of the event, and for the other two top quarks we do a $\chi^2$ minimization (with tagging criteria being $\chi^2_{min}<2$) to reconstruct them from the remainder of the jets. Note that the decay width of $Z^\prime$ is about 80 GeV in the B-L model that we are working with therefore in order to tag $Z^\prime$ the invaiant mass of the two hardest top tagged jets should lie the mass window $(600,1400)$ GeV. 
+
+\newpage
+The analysis strategy for reconstructing the events is as follows:
+
+\begin{itemize}
+	\item Cluster C/A fatjets with $p_T > 300$ GeV and R=1. Perform top tagging on these fatjets with HEPTopTagger if there are more than one fatjet in the event, otherwise reject the event. 
+	\item If in an event there are more than two tagged top jets then calculate their invariant mass $M_{j1,j2}$. Keep the event if this value lies in the $Z^\prime$ mass range $(600,1400)$ GeV and remove the two tagged top jets from the jet list.  
+	\item Recluser the remaining jets with anti-kT clustering with R= 0.5. Perform top tagging on these AK5 jets using $\chi^2$ minimization.
+	\item We select the Events in which all 4 tops are tagged along with $Z^\prime$ in their respective mass ranges. Signal acceptance is defined to be the fraction of total number input events which are accepted.       	
+\end{itemize}
+
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=16cm,height=8cm]{../pp2zptt2hhhhroot/partons/RecoParticles4_pT.png} 
+		\caption{ $p_T$ distribution of the top final state top quarks in the events $p p \to Z^\prime t \bar{t} \to  t \bar{t}  t \bar{t} $. The upper two histograms labelled Top($Z^\prime$) and Topbar($Z^\prime$) are distributions of the tops from the $Z^\prime$ decay.}
+		\label{ttttpt}
+		\centering
+	\end{centering} 		
+\end{figure} 
 
 \newpage
 
-\section{Event Selection}
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=16cm,height=8cm]{../pp2zptt2hhhhroot/jets/RecoParticles4_pT.png} 
+		\caption{ $p_T$ distribution of the tagged top jets.  Upper two plots are of the tops which are tagged by HepTopTagger, these also happen to be the $p_T$ distrubtion of leading and subleading jet just with a scale factor.  }
+		\label{ttttpt_reco}
+		\centering
+	\end{centering} 		
+\end{figure} 
+
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=16cm,height=8cm]{../pp2zptt2hhhhroot/jets/RecoParticles4_M.png} 
+		\caption{ Invariant mass distribution of the tagged top jets.  Upper two plots are of the tops which are tagged by HepTopTagger. Note that HEPTopTagger actually reconstructs top mass to be somewhat less than the actual value.}
+		\label{ttttm_reco}
+		\centering
+	\end{centering} 		
+\end{figure} 
 \newpage
-\section{4 Top QCD background}
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=10cm,height=6cm]{../pp2zptt2hhhhroot/jets/Zphep_M.png} 
+		\caption{ Distribution of the reconstructed mass of $Z^\prime$ in signal events.} 
+		\centering
+	\end{centering} 		
+\end{figure} 
+
+
+\section{QCD 4 Top background}
+
+The 4 top background from QCD at LHC has a total cross section of about 2 fb to leading order \footnote{And about 12fb to NLO , but we only only generated events to leading order accuracy.} and is the most dominant source of SM background $O (\alpha_s^4) $ when it comes to study BSM physics in 4 top channels, with a production threshold of $E > 4m_t \sim 700$ GeV, these processes contribute about 90\% to the total background. The second most dominant background is from production of Higgs in assosiation with top quark pair $O ( \alpha_s^2 y_t^2 )$ contributing the rest 10\% . This also goes to show why one would want to study assosiated production of $Z^\prime$ with top pairs instead of simply analysing events of the type $pp \to Z^\prime \to t \bar{t}$. This process has two top QCD background with a cross section of about 300pb \cite{topcsx} which is five orders of magnitude more than 4 top QCD cross section.  The cross section of $Z^\prime t \bar{t}$ events in pp collisions at $\sqrt{s} = 14$ TeV is $0.18$ fb \footnote{All the cross sections are calculated in MADGRAPH@NLO, unless otherwise cited.}. Fig \ref{top4pt} shows the $p_T$ distribution of the 4 hardest jets in 4 top events. \cite{topjetLHC}. Background levels are suppressed by a factor of about 500 using all the criteria for signals.   
+
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=6cm,height=6cm]{./fourtopbkg.png} 
+		\caption{ Underlying event topologies to LO for 4 top production in standard model. }
+		\label{topbkg}
+		\centering
+	\end{centering} 		
+\end{figure} 
+
 \newpage
-\section{Results}
+\begin{figure}[h]
+	\begin{centering}	
+		\includegraphics[width=8cm,height=6cm]{./leadpt.png} 
+		\caption{ $p_T$ distribution for 4 leading jets in $pp \to t \bar{t} t \bar{t}  \to 4 $ top jets + X} \cite{top4}. 
+		\label{top4pt}
+		\centering
+	\end{centering} 		
+\end{figure} 
+  
+\section{Results and conclusion}
+
+In this work we analysed in some details top quark reconstruction techniques for hadronically decaying top quakrs, both for low boosted tops as well as tops with high $p_T$. We used jet substructure techniques for reconstructing highly boosted top quarks . We compared their reconstruction efficiencies as well as their mistagging rate with respect to QCD background and found jet substructure method to perform better for top with high boost. We then apply these techniques to recontruct line shape of hypothetical $Z^\prime$ boson in the events $pp \to Z^\prime t \bar{t} \to t \bar{t} $ and study the corresponding 4 top QCD background. The following table shows the results of the selection cuts applied on signal and background. Total number of events generated for signal and background are $5 \times 10^5$, and $2 \times 10^5$ respectively. In order to have good statistics we generate only events where all the final state top quarks decay hadronically. Signal to background ratio for is found to have a value of 0.051 .     
+
+
+\begin{table}[h!]
+	\caption{ Selection cut flow for signal and QCD background events. }
+	\centering
+	\begin{tabular}{ |c|c|c| }
+		\hline
+	\textbf{Selection cut}	& $ \mathbf{Z^\prime t \bar{t} \to 4 }$ top jets & \textbf{QCD 4 top events}\\
+		\hline
+ Number of events generated  & $5 \times 10^5$  &	$2 \times 10^5$\\
+   \hline
+	Atleast two CA10 fatjets with $p_T^{jet} > 300$ GeV & 459328 & 128471 \\
+	\hline 
+	Atleast two top Tagged fatjets with HEPTopTagger & 22362 & 1655\\
+	\hline
+	 $ |M_Z^\prime - m_{j1, j2}| < 400$ GeV & 19533 & 687\\
+	 \hline
+	 Atleast two top tagged jets from the list of remaining jets  & 18179& 640 \\
+	 with $\chi^2$ minimization  &&\\	
+	\hline 
+   Number of selected events & 18179 & 640\\	
+    \hline 
+	Acceptence & 3.6\% & 0.3\% \\ 	
+	\hline
+	\end{tabular}
+	\label{zptt}
+\end{table}
+  
+Finally we scale the singal and background levels for different luminosities and calculate the signal purity and the significance for integrated luminosity of 100 $fb^{-1}$ and 3000 $fb^{-1}$. Table \ref{final} shows the results. The discovery potential for luminosities 100 $fb^{-1}$ and 3000 $fb^{-1}$ has a significance of 3.08 and 16.86 respectively.   
+
+\begin{table}[h!]
+	\caption{ Singal purity and significance for different luminosities. For $M_Z^\prime = 1000$ GeV. }
+	\centering
+	\begin{tabular}{ |c|c|c| }
+		\hline
+			& $\mathcal{L}_I = 100$ $fb^{-1}$ & $\mathcal{L}_I = 3000$ $fb^{-1}$\\
+		\hline
+		Expected signal events & 7.19 & 215.7 \\
+		\hline
+		Expected background events & 23 & 690 \\
+		\hline 
+		 Singal purity $ \left( \frac{s}{s+b} \right)$	&  0.97  & 0.97 \\
+		\hline
+		 Significance  $ \left( \frac{s}{\sqrt{b}} \right) $&  3.08 & 16.86\\
+		 \hline		 
+	\end{tabular}
+	\label{final}
+\end{table}
+
+
 \newpage
-\section{Conclusion}
-\newpage
-\section{Aknowledgement}	 
+\section{Aknowledgement}
+I would like to thank everyone who helped me succesfully complete the work, and helpled me with various technical and non-technical issues. Specially my seniors Arvind, Soham bhattacharya, Nairit sur, Suman chattargee. My batch mates Mintu kumar, Arnab bhattacharya. Finally I would like to express my utmost gratitude for my guide for this project Prof. Monoranjan Guchait for giving me the opportunity to work and for the motivation.          
+	 
 	\newpage 
 
-   Top jets are Jet reconstruction techniques are used in order to reconstruct the properties of the top     
 
-We also look at dominant background for this process, which is QCD.  Current LHC energy $\sqrt{s} = 14$ is assumed. 
-
-
-Out of which one top anti-top quark pair( which came from $Z^\prime$ decay ) is expected to be boosted more than the other  
-
-
- 
-expected to be greater than 209 GeV .
-
-
-  All currentZ′analyses at the LHC are however guided by non-supersymmetric considerations in whichtheZ′boson only decays into SM particles  
-
-Z′bosons with couplings to quarks maybe produced at hadron colliders in the s-channel and would show up as resonances in the invariant mass distribution of the decay product
- 
-
-with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the order of TeV).     
-
-\newpage
 \begin{thebibliography}{}
 	\bibitem{paul} Langacker P., \href{https://arxiv.org/abs/0801.1345v3}{The Physics of Heavy $Z^\prime$ Gauge Bosons}, arXiv:0801.1345, 7-16
 	
@@ -309,37 +486,51 @@ with  the  same  couplings  as  the  SMZ0but a much higher polemass (on the orde
 	
 	\bibitem{zsusy} Gennaro Corcella, \href{https://arxiv.org/pdf/1307.1040.pdf}{Searching for supersymmetry in $Z^\prime$ decays}, arXiv:1307.1040v2, 5 Jul 2013
 	
-	\bibitem{pdfsets} \href{https://lhapdf.hepforge.org/pdfsets}{LHAPDF 6.2.3}
+	\bibitem{pdfsets} PDF sets \href{https://lhapdf.hepforge.org/pdfsets}{LHAPDF 6.2.3}, https://lhapdf.hepforge.org/pdfsets
 	
-	\bibitem{blref1} \href{https://arxiv.org/abs/1811.11452}{arXiv:1811.11452}
+	\bibitem{blref1} LHC Constraints on a B−L Gauge Model using Contur, S. Amrith, J. M. Butterworth, F. F. Deppisch, W. Liu, A. Varma, D. Yallup \href{https://arxiv.org/abs/1811.11452}{arXiv:1811.11452}
 	
-	\bibitem{blref2} \href{https://arxiv.org/abs/1804.04075}{arXiv:1804.04075}
+	\bibitem{blref2} Long-lived Heavy Neutrinos from Higgs Decays, Frank F. Deppisch, Wei Liu, Manimala Mitra, \href{https://arxiv.org/abs/1804.04075}{arXiv:1804.04075}
 	
-	\bibitem{blref3} \href{https://arxiv.org/abs/0812.4313}{Phenomenology of the minimal B-L extension of the Standard model: Z' and neutrinos}, arXiv:0812.4313
+	\bibitem{blref3} Lorenzo Basso, Alexander Belyaev, Stefano Moretti, Claire H. Shepherd-Themistocleous, \href{https://arxiv.org/abs/0812.4313}{Phenomenology of the minimal B-L extension of the Standard model: Z' and neutrinos}, arXiv:0812.4313
 	
-	\bibitem{mad1} \href{https://arxiv.org/abs/1405.0301}{arXiv:1405.0301}
+	\bibitem{mad1} The automated computation of tree-level and next-to-leading order differential cross sections, and their matching to parton shower simulations, J. Alwall, R. Frederix, S. Frixione, V. Hirschi, F. Maltoni, O. Mattelaer, H.-S. Shao, T. Stelzer, P. Torrielli, M. Zaro, \href{https://arxiv.org/abs/1405.0301}{arXiv:1405.0301}
 	
-	\bibitem{mad2}
+	\bibitem{mad2}Matching NLO QCD computations and parton shower simulations, S. Frixione, B.R. Webber,
 	\href{https://arxiv.org/abs/hep-ph/0204244}{arXiv:hep-ph/0204244}
 	
-	\bibitem{pdg-top} \href{http://pdg.lbl.gov/2019/tables/rpp2019-sum-quarks.pdf}{Quarks data in PDG 2019}
+	\bibitem{pdg-top} M. Tanabashiet al.(Particle Data Group), Phys. Rev. D98, 030001 (2018) and 2019 update \href{http://pdg.lbl.gov/2019/tables/rpp2019-sum-quarks.pdf}{Quarks data in PDG 2019}
 	
-	\bibitem{pdg-w} \href{http://pdg.lbl.gov/2019/listings/rpp2019-list-w-boson.pdf}{W boson data in PDG 2019}
+	\bibitem{pdg-w} M. Tanabashiet al.(Particle Data Group), Phys. Rev. D98, 030001 (2018) and 2019 update,  \href{http://pdg.lbl.gov/2019/listings/rpp2019-list-w-boson.pdf}{W boson data in PDG 2019}
 	
 	\bibitem{jet-topography} G. P. Salam, Towards Jetography \href{https://arxiv.org/abs/0906.1833}{arXiv:0906.1833v2}
 	
-	\bibitem{anti-kt} Matteo Cacciari, Gavin P. Salam, Gregory Soyez, \href{https://arxiv.org/abs/0802.1189}{The anti-k_t jet clustering algorithm} 
+	\bibitem{anti-kt} Matteo Cacciari, Gavin P. Salam, Gregory Soyez, \href{https://arxiv.org/abs/0802.1189}{The anti-k_t jet clustering algorithm}  	arXiv:0802.1189
 	
-	\bibitem{toptaggin} Tilman  Plehn1and, Michael Spannowsky \href{https://arxiv.org/pdf/1112.4441.pdf}{Top Tagging}
+	\bibitem{toptaggin} Tilman  Plehn1and, Michael Spannowsky \href{https://arxiv.org/pdf/1112.4441.pdf}{Top Tagging} , arXiv:1112.4441v1  [hep-ph]  19 Dec 2011
 	
 	\bibitem{heptop} Tilman Plehn,1Michael Spannowsky,2Michihisa Takeuchi,1and Dirk Zerwas \href{https://arxiv.org/pdf/1006.2833.pdf}{Stop Reconstruction with Tagged Tops}, arXiv:1006.2833v2 [hep-ph] 31 Aug 2010
 	
-	\bibitem{pythia} Present program version: \href{http://home.thep.lu.se/~torbjorn/Pythia.html}{PYTHIA8.2}
+	\bibitem{pythia} Present program version: \href{http://home.thep.lu.se/~torbjorn/Pythia.html}{PYTHIA8.2}, T. Sjöstrand, S. Mrenna and P. Skands, JHEP05 (2006) 026, Comput. Phys. Comm. 178 (2008) 852. 
 	
-	\bibitem{softdrop} \href{https://phab.hepforge.org/source/fastjetsvn/browse/contrib/contribs/RecursiveTools/tags/2.0.0-beta2/}{SoftDrop 2.0.0 }
+	\bibitem{softdrop} Andrew J. Larkoski, Simone Marzani, Gregory Soyez, Jesse Thaler,  \href{https://phab.hepforge.org/source/fastjetsvn/browse/contrib/contribs/RecursiveTools/tags/2.0.0-beta2/}{SoftDrop 2.0.0 },  	arXiv:1402.2657 
 	
-	\bibitem{topjetLHC} \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.79.074012}{Top quark jets at the LHC}
+	\bibitem{topjetLHC} PHYSICAL REVIEW D79,074012 (2009), Leandro G. Almeida,1Seung J. Lee,1,2Gilad Perez,1,2Ilmo Sung,1and Joseph Virzi, \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.79.074012}{Top quark jets at the LHC}
+	
+	\bibitem{topcsx} \href{https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SingleTopRefXsec}{ATLAS-CMS recommended predictions for single-top cross sections using the Hathor v2.1 program } , SingleTopRefXsec (2017-09-19, CarlosEscobar)
+	
+	\bibitem{top4} Ezequiel Alvarez, Darius A. Faroughy, Jernej F. Kamenik, Roberto Morales, Alejandro Szynkman \href{https://www.sciencedirect.com/journal/nuclear-physics-b/vol/915/suppl/C}{Four tops for LHC}. Nuclear Physics B
+	Volume 915, February 2017, Pages 19-43
+	
+	\bibitem{tpz} Patrick J. Fox, Ian Low, Yue Zhang, Top-philic $Z^\prime $forces at the LHC\href{https://link.springer.com/content/pdf/10.1007%2FJHEP03%282018%29074.pdf}{arXiv:1801.03505}
+		
 \end{thebibliography} 
+
+\newpage
+\thispagestyle{empty}
+\listoffigures
+\newpage
+\listoftables
 
 
 \end{document}

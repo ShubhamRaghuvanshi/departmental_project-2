@@ -42,8 +42,8 @@ int main() {
 
   int nEvent=10;
  
-  nEvent=10000;
- 
+  nEvent=1000000;
+ cout<<"generating : "<<nEvent<<endl;
   for (int iEvent = 0;iEvent<nEvent; ++iEvent) {
   
     if (!pythia.next())  { cout<<"Go away, no time to say hi."<<endl; continue;}   

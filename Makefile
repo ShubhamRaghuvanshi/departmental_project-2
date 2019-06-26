@@ -5,6 +5,8 @@ MYSOURCES3=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc Analyser.h pa
 
 MYSOURCES4=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc Analyser.h particleproperty.h Func.h /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.cc /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.cc qcd20.cc 
 
+MYSOURCES5=HEPTopTagger.cc Analyser.cc particleproperty.cc Func.cc Analyser.h particleproperty.h Func.h /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/SoftDrop.cc /home/ehep/Downloads/products/fjcontrib-1.041/RecursiveTools/RecursiveSymmetryCutBase.cc pp2zptt.cc 
+
 OBJECTS=$(SOURCES:.cc=.o)
 CC = g++ 
 
@@ -40,6 +42,10 @@ pp2zp2tt2qqblv_EventAnalysis: $(MYSOURCES3)
 	
 qcd20: $(MYSOURCES4)
 	$(CC) $(CXXFLAGS) $(MYSOURCES4) $(CXXLIBS)  -o $@	
+
+pp2zptt: $(MYSOURCES5)
+	$(CC) $(CXXFLAGS) $(MYSOURCES5) $(CXXLIBS)  -o $@	
+
 
 .cc.o:
 	$(CC) $(CXXFLAGS) $(INCLUDES) -c $<

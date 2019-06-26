@@ -41,14 +41,21 @@ class Analyser{
     ParticleProperty TophepMatched,TopchiMatched, TopkinMatched; 
     ParticleProperty TophepMatch, TopchiMatch,TopkinMatch;
     
-    ParticleProperty LeadingJet;
+    ParticleProperty LeadingJet, top1, top2, top3, top4;
         
-    ParticleProperty Top;
+    ParticleProperty Top, FatTop;
+
         
     Analyser(){
       
       Zphep.setnames("Zphep","");
       Top.setnames("top","");
+      FatTop.setnames("Fattop","");
+      
+      top1.setnames("top1_{hepTT}", "");
+      top2.setnames("top2_{hepTT}", "");
+      top3.setnames("top1_{#chi^{2}}", "");
+      top4.setnames("top2_{#chi^{2} }", "");
       
       Topkin.setnames("Topkin","");
       Wkin.setnames("Wkin","");
@@ -87,7 +94,9 @@ class Analyser{
    // int RecoJetsztt( );
     int ReadHadrons(ParticleProperty *p );
     int RecoJets(float R, float fatR, bool match);
-    int givehadrons(int iEvent, vector<TLorentzVector> *particles) ;
+    int Reco4Tops(float R, float fatR);
+    int AKJets(float R, vector<ParticleProperty> *QCDjets);
+    
     string FolderName();
 };  //analyser class
 

@@ -50,7 +50,7 @@ class ParticleProperty{
 
     int push_back_momenta(vector<double> px, vector<double> py, vector<double> pz, vector<double> e);
         
-    void add_momenta(ParticleProperty p1, ParticleProperty p2);    
+    int add_momenta(ParticleProperty p1, ParticleProperty p2);    
     void make_properties();
     void clear_properties();
     void push_property(int iprop, float val);

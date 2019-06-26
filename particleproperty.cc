@@ -59,6 +59,23 @@ void ParticleProperty::push_back_momenta(double px, double py, double pz, double
                 
 }
     
+int ParticleProperty::add_momenta(ParticleProperty p1, ParticleProperty p2){
+ 
+  if(p1.prop[0].size() != p2.prop[0].size()){
+    cout<<"unequal sizes : "<<p1.prop[0].size()<<setw(20)<<p2.prop[0].size()<<endl;
+    return -333;
+  }
+  for(int i=0; i<p1.prop[0].size(); i++){
+    prop[0].push_back(p1.prop[0][i] + p2.prop[0][i]); 
+    prop[1].push_back(p1.prop[1][i] + p2.prop[1][i]);
+    prop[2].push_back(p1.prop[2][i] + p2.prop[2][i]); 
+    prop[3].push_back(p1.prop[3][i] + p2.prop[3][i]);
+  
+  }
+  make_properties();
+  return 0;
+}    
+    
 void ParticleProperty::clear_properties(){
 
   for(int iprop=0; iprop<n_prop; iprop++ )
@@ -174,7 +191,7 @@ TH1F* ParticleProperty::HistProp(int iprop, int particle_id){
     prop_low[iprop] = temp_low;
     prop_high[iprop] = temp_high;
     
-cout<<setw(20)<<propXaxis[iprop]<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<setw(20)<<prop[0].size()<<endl;
+//cout<<setw(20)<<propXaxis[iprop]<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high[iprop]<<setw(20)<<prop[0].size()<<endl;
     
   if(particle_id == 0 ){
 
@@ -196,9 +213,10 @@ cout<<setw(20)<<propXaxis[iprop]<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high
         prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
         prop_low[3] = 0.0;       prop_high[3] = 2500.0;
      
-        prop_low[4] = m_top - delta_mtop -5.0;       prop_high[4] =  m_top + delta_mtop + 5.0;
+       // prop_low[4] = m_top - delta_mtop -5.0;       prop_high[4] =  m_top + delta_mtop + 5.0;
         
-        prop_low[5] = 0.0;       prop_high[5] = 600.0;
+        prop_low[4] = 0;         prop_high[4] = 300.0; 
+        prop_low[5] = 200.0;       prop_high[5] = 850.0;
         prop_low[6] = -6.0;     prop_high[6] = 6.0;
         prop_low[7] = -6.0;     prop_high[7] = 6.0;
         prop_low[8] = -6.0;      prop_high[8] = 6.0;
@@ -236,8 +254,24 @@ cout<<setw(20)<<propXaxis[iprop]<<setw(20)<<prop_low[iprop]<<setw(20)<<prop_high
   }
 
 
+  if(particle_id == 4 ){
+
+        prop_low[0] = -2000.0;   prop_high[0] = 2000.0;
+        prop_low[1] = -2000.0;   prop_high[1] = 2000.0;
+        prop_low[2] = -2500.0;   prop_high[2] = 2500.0;
+        prop_low[3] = 0.0;       prop_high[3] = 2500.0;
+     
+        prop_low[4] = 100;       prop_high[4] =  500;
+        prop_low[5] = 0.0;       prop_high[5] = 1300.0;
+        prop_low[6] = -6.0;     prop_high[6] = 6.0;
+        prop_low[7] = -6.0;     prop_high[7] = 6.0;
+        prop_low[8] = -6.0;      prop_high[8] = 6.0;
+        prop_low[9] = 0.0;       prop_high[9] = 6.0;         
+  }
+
+
   
-  int prop_bin[n_prop]  =  {100,  100,  100, 100, 100, 100 , 100, 100, 50, 50, 50 };
+  int prop_bin[n_prop]  =  {100,  100,  100, 100, 100, 50 , 100, 100, 50, 50, 50 };
 
   char name[100];
   sprintf(name,"%s_%s%s",particle_name.c_str(), property[iprop].c_str(), particle_surname.c_str());  
