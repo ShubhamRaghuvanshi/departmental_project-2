@@ -4,3 +4,4 @@ generate the corresponding standard model QCD background. FatJet and SoftJet are
 Top quarks are tagged using HepTopTagger, and ROOT-CERN is used for data analysis.
 
 The code can be run simply using the makefile.
+The Detailed report for the project is provided in the pdf file. 
